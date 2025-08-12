@@ -26,7 +26,7 @@ export type ProductType = {
   color: string;
   size: string;
   images: string[];
-  discount?: string;
+  discount?: number;
   currentPrice: number;
   punctuation: PunctuationType;
   reviews: ReviewType[];
