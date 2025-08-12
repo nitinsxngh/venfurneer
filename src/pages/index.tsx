@@ -112,7 +112,7 @@ const IndexPage = ({ products }: IndexPageType) => {
               <div className="data-item__content">
                 <h4>30-Day Return</h4>
                 <p>
-                  If you're not satisfied with your fragrance, return it within
+                  If you&apos;re not satisfied with your fragrance, return it within
                   30 days for a full refund.
                 </p>
               </div>

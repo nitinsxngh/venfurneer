@@ -67,7 +67,7 @@ const Product = ({ product, products }: ProductPageType) => {
             <div className="product-not-found">
               <h1>Product Not Found</h1>
               <p>
-                The product you're looking for doesn't exist or has been
+                The product you&apos;re looking for doesn&apos;t exist or has been
                 removed.
               </p>
               <a href="/products" className="btn btn--primary">

@@ -243,7 +243,7 @@ const CategoryForm = ({ category, onSubmit, onCancel }: CategoryFormProps) => {
               </span>
             </label>
             <small className="category-form__help">
-              Inactive categories won't be visible to customers
+              Inactive categories won&apos;t be visible to customers
             </small>
           </div>
         </div>
