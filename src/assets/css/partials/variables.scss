@@ -1,0 +1,83 @@
+:root {
+  // VENFURNER Brand Colors - Premium Veneer Theme
+  --color-primary: #8B4513; // Rich Saddle Brown - main brand color
+  --color-primary-light: #A0522D; // Sienna - lighter variant
+  --color-primary-dark: #654321; // Dark Brown - darker variant
+
+  --color-secondary: #D2691E; // Chocolate - accent color
+  --color-secondary-light: #DEB887; // Burlywood - light accent
+  --color-secondary-dark: #B8860B; // Dark Goldenrod - dark accent
+
+  --color-accent: #F4A460; // Sandy Brown - highlight color
+  --color-accent-light: #F5DEB3; // Wheat - very light accent
+  --color-accent-dark: #CD853F; // Peru - dark highlight
+
+  --color-gold: #DAA520; // Goldenrod - premium gold
+  --color-gold-light: #F0E68C; // Khaki - light gold
+  --color-gold-dark: #B8860B; // Dark Goldenrod
+
+  // Neutral Colors
+  --color-black: #2F2F2F; // Deep Charcoal
+  --color-text: #5D5D5D; // Warm Gray
+  --color-text-light: #8A8A8A; // Light Gray
+  --color-white: #FFFFFF;
+  --color-gray: #E8E8E8; // Light Gray
+  --color-gray-dark: #B8B8B8; // Medium Gray
+
+  // Status Colors
+  --color-success: #228B22; // Forest Green
+  --color-error: #DC143C; // Crimson
+  --color-warning: #FF8C00; // Dark Orange
+  --color-info: #4682B4; // Steel Blue
+
+  // Background Colors
+  --color-bg-primary: #FAFAFA; // Off White
+  --color-bg-secondary: #F5F5F5; // Light Gray
+  --color-bg-accent: #FFF8DC; // Cornsilk
+}
+
+@mixin inputPlaceholder() {
+  $selector: '';
+  $prefixes: (
+    moz: "::-moz",
+    webkit: "::-webkit",
+    ie: ":-ms"
+  );
+
+@each $prop, $value in $prefixes {
+  @if $prop !="moz" {
+    $selector: #{$value}-input-placeholder;
+  }
+
+  @else {
+    $selector: #{$value}-placeholder;
+  }
+
+  @if & {
+    &#{$selector} {
+      @content;
+    }
+  }
+
+  @else {
+    #{$selector} {
+      @content;
+    }
+  }
+}
+
+&::placeholder {
+  @content;
+}
+}
+
+
+@keyframes skeleton {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
