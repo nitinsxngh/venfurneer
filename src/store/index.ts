@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   user: userReducer,
 });
 
-let store: ReturnType<typeof configureStore>;
+let store: any;
 
 const makeStore = ({ isServer }: { isServer: boolean }) => {
   if (isServer) {
