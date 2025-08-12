@@ -10,9 +10,9 @@ const Footer = () => {
               <Logo /> <span>VENFURNEER</span>
             </h6>
             <p>
-              VENFURNEER offers premium perfumes, fragrance oils, and luxury scents
-              for discerning customers. Discover our exclusive collection of fine fragrances
-              that define elegance and sophistication.
+              VENFURNEER offers premium perfumes, fragrance oils, and luxury
+              scents for discerning customers. Discover our exclusive collection
+              of fine fragrances that define elegance and sophistication.
             </p>
             <ul className="site-footer__social-networks">
               <li>

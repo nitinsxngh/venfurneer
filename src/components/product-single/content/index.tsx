@@ -7,9 +7,7 @@ import { addProduct } from "@/store/reducers/cart";
 import { toggleFavProduct } from "@/store/reducers/user";
 import type { ProductStoreType, ProductType } from "@/types";
 
-import productsColors from "../../../utils/data/products-colors";
 import productsSizes from "../../../utils/data/products-sizes";
-import CheckboxColor from "../../products-filter/form-builder/checkbox-color";
 
 type ProductContent = {
   product: ProductType & { _id?: string };
@@ -18,12 +16,7 @@ type ProductContent = {
 const Content = ({ product }: ProductContent) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState<number>(1);
-  const [color, setColor] = useState<string>("");
   const [itemSize, setItemSize] = useState<string>("");
-
-  const onColorSet = (e: string) => setColor(e);
-  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setItemSize(e.target.value);
 
   const { favProducts } = useSelector((state: RootState) => state.user);
   const isFavourite = some(
@@ -52,7 +45,7 @@ const Content = ({ product }: ProductContent) => {
       thumb: product.images ? product.images[0] : "",
       price: product.currentPrice,
       count,
-      color,
+      color: "",
       size: itemSize,
     };
 
@@ -64,16 +57,18 @@ const Content = ({ product }: ProductContent) => {
     dispatch(addProduct(productStore));
 
     // Show success feedback
-    const button = document.querySelector('.btn--add-to-cart') as HTMLButtonElement;
+    const button = document.querySelector(
+      ".btn--add-to-cart",
+    ) as HTMLButtonElement;
     if (button) {
       const originalText = button.textContent;
-      button.textContent = 'Added to Cart!';
-      button.style.background = '#28a745';
+      button.textContent = "Added to Cart!";
+      button.style.background = "#28a745";
       button.disabled = true;
 
       setTimeout(() => {
         button.textContent = originalText;
-        button.style.background = '';
+        button.style.background = "";
         button.disabled = false;
       }, 2000);
     }
@@ -93,12 +88,18 @@ const Content = ({ product }: ProductContent) => {
       </div>
 
       <div className="product-content__pricing">
-        <h3 className="product__price">₹{product.currentPrice.toLocaleString()}</h3>
+        <h3 className="product__price">
+          ₹{product.currentPrice.toLocaleString()}
+        </h3>
         <p className="product__tax">Tax included</p>
         {product.discount && Number(product.discount) > 0 && (
           <div className="product__discount-info">
-            <span className="product__original-price">₹{product.price.toLocaleString()}</span>
-            <span className="product__discount-badge">{product.discount}% OFF</span>
+            <span className="product__original-price">
+              ₹{product.price.toLocaleString()}
+            </span>
+            <span className="product__discount-badge">
+              {product.discount}% OFF
+            </span>
           </div>
         )}
       </div>
@@ -112,7 +113,7 @@ const Content = ({ product }: ProductContent) => {
                 key={type.id}
                 type="button"
                 onClick={() => setItemSize(type.label)}
-                className={`size-option ${itemSize === type.label ? 'size-option--active' : ''}`}
+                className={`size-option ${itemSize === type.label ? "size-option--active" : ""}`}
               >
                 {type.label}
               </button>
@@ -146,10 +147,12 @@ const Content = ({ product }: ProductContent) => {
         <button
           type="button"
           onClick={() => addToCart()}
-          className={`btn btn--add-to-cart ${productsSizes.length > 0 && !itemSize ? 'btn--disabled' : ''}`}
+          className={`btn btn--add-to-cart ${productsSizes.length > 0 && !itemSize ? "btn--disabled" : ""}`}
           disabled={productsSizes.length > 0 && !itemSize}
         >
-          {productsSizes.length > 0 && !itemSize ? 'Select Size First' : 'Add to cart'}
+          {productsSizes.length > 0 && !itemSize
+            ? "Select Size First"
+            : "Add to cart"}
         </button>
       </div>
     </section>

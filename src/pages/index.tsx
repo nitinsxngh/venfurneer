@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import Footer from "@/components/footer";
 import PageIntro from "@/components/page-intro";
 import ProductsFeatured from "@/components/products-featured";
@@ -88,7 +89,8 @@ const IndexPage = ({ products }: IndexPageType) => {
               <div className="data-item__content">
                 <h4>Free Shipping</h4>
                 <p>
-                  All purchases over ₹5,000 are eligible for free shipping across India.
+                  All purchases over ₹5,000 are eligible for free shipping
+                  across India.
                 </p>
               </div>
             </li>
@@ -98,7 +100,8 @@ const IndexPage = ({ products }: IndexPageType) => {
               <div className="data-item__content">
                 <h4>Secure Payments</h4>
                 <p>
-                  All payments are processed securely with multiple payment options available.
+                  All payments are processed securely with multiple payment
+                  options available.
                 </p>
               </div>
             </li>
@@ -108,7 +111,8 @@ const IndexPage = ({ products }: IndexPageType) => {
               <div className="data-item__content">
                 <h4>30-Day Return</h4>
                 <p>
-                  If you're not satisfied with your fragrance, return it within 30 days for a full refund.
+                  If you're not satisfied with your fragrance, return it within
+                  30 days for a full refund.
                 </p>
               </div>
             </li>
@@ -118,7 +122,8 @@ const IndexPage = ({ products }: IndexPageType) => {
               <div className="data-item__content">
                 <h4>Premium Fragrances</h4>
                 <p>
-                  Each perfume is crafted with the finest natural ingredients and authentic fragrances.
+                  Each perfume is crafted with the finest natural ingredients
+                  and authentic fragrances.
                 </p>
               </div>
             </li>

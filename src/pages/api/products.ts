@@ -1,8 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectDB from "../../utils/mongodb";
-import Product from "../../models/Product";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import Product from "../../models/Product";
+import connectDB from "../../utils/mongodb";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -13,12 +17,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const products = await Product.find({}).sort({ createdAt: -1 });
 
     // Transform MongoDB _id to id for frontend compatibility
-    const transformedProducts = products.map(product => {
+    const transformedProducts = products.map((product) => {
       const productObj = product.toObject();
       return {
         ...productObj,
         id: productObj._id.toString(),
-        _id: undefined
+        _id: undefined,
       };
     });
 

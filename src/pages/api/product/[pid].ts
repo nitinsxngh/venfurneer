@@ -1,8 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import connectDB from "../../../utils/mongodb";
-import Product from "../../../models/Product";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+import Product from "../../../models/Product";
+import connectDB from "../../../utils/mongodb";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -10,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { pid } = req.query;
 
   // Validate pid parameter
-  if (!pid || typeof pid !== 'string' || pid === 'undefined') {
+  if (!pid || typeof pid !== "string" || pid === "undefined") {
     return res.status(400).json({ error: "Invalid product ID" });
   }
 
@@ -28,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const transformedProduct = {
       ...productObj,
       id: productObj._id.toString(),
-      _id: undefined
+      _id: undefined,
     };
 
     res.status(200).json(transformedProduct);

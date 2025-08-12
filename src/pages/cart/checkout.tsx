@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import CheckoutItems from "@/components/checkout/items";
 import CheckoutStatus from "@/components/checkout-status";
 import type { RootState } from "@/store";
+import type { ProductStoreType } from "@/types";
 
 import Layout from "../../layouts/Main";
 
@@ -12,7 +13,7 @@ const CheckoutPage = () => {
     const { cartItems } = state.cart;
     let totalPrice = 0;
     if (cartItems.length > 0) {
-      cartItems.map((item) => (totalPrice += item.price * item.count));
+      cartItems.map((item: ProductStoreType) => (totalPrice += item.price * item.count));
     }
 
     return totalPrice;

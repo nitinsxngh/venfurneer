@@ -1,39 +1,43 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const categorySchema = new mongoose.Schema({
+const categorySchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
     },
     description: {
-        type: String,
-        trim: true
+      type: String,
+      trim: true,
     },
     slug: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
     },
     isActive: {
-        type: Boolean,
-        default: true
+      type: Boolean,
+      default: true,
     },
     image: {
-        type: String
+      type: String,
     },
     sortOrder: {
-        type: Number,
-        default: 0
-    }
-}, {
-    timestamps: true
-});
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 // Create indexes
-categorySchema.index({ name: 'text', description: 'text' });
+categorySchema.index({ name: "text", description: "text" });
 categorySchema.index({ isActive: 1 });
 
-export default mongoose.models.Category || mongoose.model('Category', categorySchema); 
+export default mongoose.models.Category ||
+  mongoose.model("Category", categorySchema);

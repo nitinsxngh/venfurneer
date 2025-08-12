@@ -19,16 +19,16 @@ const ProductsContent = ({ products }: ProductsContentType) => {
     } else {
       const fetchProducts = async () => {
         try {
-          const response = await fetch('/api/products');
+          const response = await fetch("/api/products");
           if (!response.ok) {
-            throw new Error('Failed to fetch products');
+            throw new Error("Failed to fetch products");
           }
           const fetchedProducts = await response.json();
-          console.log('Products fetched:', fetchedProducts);
+          console.log("Products fetched:", fetchedProducts);
           setData(fetchedProducts);
         } catch (err) {
-          console.error('Error fetching products:', err);
-          setError(err instanceof Error ? err.message : 'Unknown error');
+          console.error("Error fetching products:", err);
+          setError(err instanceof Error ? err.message : "Unknown error");
         } finally {
           setLoading(false);
         }
@@ -50,8 +50,8 @@ const ProductsContent = ({ products }: ProductsContentType) => {
             <ProductItem
               id={item._id || item.id}
               name={item.name}
-              price={item.price?.toString() || '0'}
-              color={item.colors?.[0] || '#8B4513'}
+              price={item.price?.toString() || "0"}
+              color={item.colors?.[0] || "#8B4513"}
               currentPrice={item.currentPrice}
               discount={item.discount}
               key={item._id || item.id}
@@ -61,9 +61,7 @@ const ProductsContent = ({ products }: ProductsContentType) => {
         </section>
       )}
 
-      {!loading && data.length === 0 && (
-        <div>No products found</div>
-      )}
+      {!loading && data.length === 0 && <div>No products found</div>}
     </>
   );
 };

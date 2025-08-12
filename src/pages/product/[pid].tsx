@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
     const [productRes, productsRes] = await Promise.all([
       fetch(`${server}/api/product/${pid}`),
-      fetch(`${server}/api/products`)
+      fetch(`${server}/api/products`),
     ]);
 
     if (!productRes.ok) {
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
     const [product, products] = await Promise.all([
       productRes.json(),
-      productsRes.json()
+      productsRes.json(),
     ]);
 
     return {
@@ -66,7 +66,10 @@ const Product = ({ product, products }: ProductPageType) => {
           <div className="container">
             <div className="product-not-found">
               <h1>Product Not Found</h1>
-              <p>The product you're looking for doesn't exist or has been removed.</p>
+              <p>
+                The product you're looking for doesn't exist or has been
+                removed.
+              </p>
               <a href="/products" className="btn btn--primary">
                 Back to Products
               </a>
@@ -88,8 +91,6 @@ const Product = ({ product, products }: ProductPageType) => {
             <Gallery images={product.images} />
             <Content product={product} />
           </div>
-
-
         </div>
       </section>
 

@@ -41,14 +41,14 @@ const makeStore = ({ isServer }: { isServer: boolean }) => {
         getDefaultMiddleware({
           serializableCheck: {
             ignoredActions: [
-              'persist/PERSIST',
-              'persist/REHYDRATE',
-              'persist/REGISTER',
-              'persist/PAUSE',
-              'persist/PURGE',
-              'persist/FLUSH'
+              "persist/PERSIST",
+              "persist/REHYDRATE",
+              "persist/REGISTER",
+              "persist/PAUSE",
+              "persist/PURGE",
+              "persist/FLUSH",
             ],
-            ignoredPaths: ['__persistor']
+            ignoredPaths: ["__persistor"],
           },
         }),
     }); // Creating the store again
