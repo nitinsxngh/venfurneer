@@ -38,7 +38,7 @@ export type ProductTypeList = {
   price: string;
   color: string;
   images: string[];
-  discount?: string;
+  discount?: number;
   currentPrice?: number;
 };
 
