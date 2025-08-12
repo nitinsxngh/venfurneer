@@ -27,9 +27,9 @@ export default async function handler(
           productData.category = new mongoose.Types.ObjectId(
             productData.category,
           );
-              } catch {
-        return res.status(400).json({ error: "Invalid category ID format" });
-      }
+        } catch {
+          return res.status(400).json({ error: "Invalid category ID format" });
+        }
       }
 
       const updatedProduct = await Product.findByIdAndUpdate(id, productData, {
@@ -50,8 +50,7 @@ export default async function handler(
       };
 
       res.status(200).json(transformedProduct);
-    } catch (error) {
-      console.error("Error updating product:", error);
+    } catch {
       res.status(500).json({ error: "Failed to update product" });
     }
   } else if (req.method === "PATCH") {
