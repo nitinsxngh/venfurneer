@@ -53,7 +53,7 @@ const ProductsContent = ({ products }: ProductsContentType) => {
               id={item._id || item.id}
               name={item.name}
               price={item.price?.toString() || "0"}
-              color={item.colors?.[0] || "#8B4513"}
+              color={item.color || "#8B4513"}
               currentPrice={item.currentPrice}
               discount={item.discount}
               key={item._id || item.id}
