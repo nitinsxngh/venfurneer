@@ -17,7 +17,6 @@ type ToggleFavType = {
 };
 
 interface UserSliceTypes {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any;
   favProducts: string[];
 }

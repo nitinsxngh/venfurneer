@@ -1,4 +1,5 @@
 import type { GetServerSideProps } from "next";
+import Link from "next/link";
 
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
@@ -70,9 +71,9 @@ const Product = ({ product, products }: ProductPageType) => {
                 The product you&apos;re looking for doesn&apos;t exist or has been
                 removed.
               </p>
-              <a href="/products" className="btn btn--primary">
+              <Link href="/products" className="btn btn--primary">
                 Back to Products
-              </a>
+              </Link>
             </div>
           </div>
         </section>
