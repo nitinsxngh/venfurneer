@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import type { ProductType } from "@/types";
+
 import ProductsCarousel from "./carousel";
 
 type ProductsFeaturedType = {

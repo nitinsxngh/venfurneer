@@ -1,10 +1,10 @@
 import type { GetServerSideProps } from "next";
 
-import type { ProductType } from "@/types";
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
 import ProductsContent from "@/components/products-content";
 import ProductsFilter from "@/components/products-filter";
+import type { ProductType } from "@/types";
 
 import Layout from "../layouts/Main";
 import { server } from "../utils/server";

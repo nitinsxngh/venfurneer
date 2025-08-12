@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import type { ProductType } from "@/types";
+
 import ProductItem from "../../product-item";
 import ProductsLoading from "./loading";
 
