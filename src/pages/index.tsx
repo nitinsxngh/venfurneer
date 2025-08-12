@@ -6,8 +6,8 @@ import ProductsFeatured from "@/components/products-featured";
 import Subscribe from "@/components/subscribe";
 
 import Layout from "../layouts/Main";
-import { server } from "../utils/server";
 import type { ProductType } from "../types";
+import { server } from "../utils/server";
 
 type IndexPageType = {
   products?: ProductType[];

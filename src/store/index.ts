@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   user: userReducer,
 });
 
-let store: ReturnType<typeof configureStore>;
+let store: any;
 
 const makeStore = ({ isServer }: { isServer: boolean }) => {
   if (isServer) {
@@ -65,7 +65,7 @@ const makeStore = ({ isServer }: { isServer: boolean }) => {
 export const wrapper = createWrapper(makeStore, { debug: true });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UserSliceTypes}
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ReturnType<typeof makeStore>["dispatch"];
