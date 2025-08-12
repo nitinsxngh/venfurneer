@@ -7,9 +7,10 @@ import Subscribe from "@/components/subscribe";
 
 import Layout from "../layouts/Main";
 import { server } from "../utils/server";
+import type { ProductType } from "../types";
 
 type IndexPageType = {
-  products?: any[];
+  products?: ProductType[];
 };
 
 export const getServerSideProps = async () => {

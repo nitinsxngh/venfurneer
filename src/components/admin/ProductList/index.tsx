@@ -51,12 +51,13 @@ const ProductList = ({
         return a.name.localeCompare(b.name);
       case "price":
         return Number(a.currentPrice) - Number(b.currentPrice);
-      case "category":
+      case "category": {
         const categoryA =
           typeof a.category === "string" ? a.category : a.category.name;
         const categoryB =
           typeof b.category === "string" ? b.category : b.category.name;
         return categoryA.localeCompare(categoryB);
+      }
       default:
         return 0;
     }
