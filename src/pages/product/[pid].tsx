@@ -13,7 +13,7 @@ import { server } from "../../utils/server";
 
 type ProductPageType = {
   product: ProductType;
-  products?: any[];
+  products?: ProductType[];
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {

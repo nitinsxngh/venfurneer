@@ -1,5 +1,6 @@
 import type { GetServerSideProps } from "next";
 
+import type { ProductType } from "@/types";
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
 import ProductsContent from "@/components/products-content";
@@ -9,7 +10,7 @@ import Layout from "../layouts/Main";
 import { server } from "../utils/server";
 
 type ProductsPageType = {
-  products: any[];
+  products: ProductType[];
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {

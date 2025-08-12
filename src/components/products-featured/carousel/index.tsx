@@ -2,10 +2,11 @@
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import type { ProductType } from "@/types";
 import ProductItem from "../../product-item";
 
 type ProductsCarouselType = {
-  products?: any[];
+  products?: ProductType[];
 };
 
 const ProductsCarousel = ({ products }: ProductsCarouselType) => {

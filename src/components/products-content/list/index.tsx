@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 
+import type { ProductType } from "@/types";
 import ProductItem from "../../product-item";
 import ProductsLoading from "./loading";
 
 type ProductsContentType = {
-  products?: any[];
+  products?: ProductType[];
 };
 
 const ProductsContent = ({ products }: ProductsContentType) => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<ProductType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,7 +47,7 @@ const ProductsContent = ({ products }: ProductsContentType) => {
 
       {!loading && data.length > 0 && (
         <section className="products-list">
-          {data.map((item: any) => (
+          {data.map((item: ProductType) => (
             <ProductItem
               id={item._id || item.id}
               name={item.name}

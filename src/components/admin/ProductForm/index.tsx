@@ -165,7 +165,7 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
     }
   };
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | number) => {
     console.log(`Updating ${field} to:`, value); // Debug log
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {

@@ -1,9 +1,10 @@
 import { useState } from "react";
 
+import type { ProductType } from "@/types";
 import List from "./list";
 
 type ProductsContentType = {
-  products?: any[];
+  products?: ProductType[];
 };
 
 const ProductsContent = ({ products }: ProductsContentType) => {
