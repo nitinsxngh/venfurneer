@@ -49,8 +49,7 @@ export default async function handler(
       });
 
       res.status(200).json(transformedProducts);
-    } catch (error) {
-      console.error("Error fetching products:", error);
+    } catch {
       res.status(500).json({ error: "Failed to fetch products" });
     }
   } else if (req.method === "POST") {
@@ -63,7 +62,7 @@ export default async function handler(
           productData.category = new mongoose.Types.ObjectId(
             productData.category,
           );
-        } catch (error) {
+        } catch {
           return res.status(400).json({ error: "Invalid category ID format" });
         }
       }
@@ -96,8 +95,7 @@ export default async function handler(
       };
 
       res.status(201).json(transformedProduct);
-    } catch (error) {
-      console.error("Error creating product:", error);
+    } catch {
       res.status(500).json({ error: "Failed to create product" });
     }
   } else {

@@ -13,7 +13,9 @@ const ShoppingCart = () => {
   const priceTotal = () => {
     let totalPrice = 0;
     if (cartItems.length > 0) {
-      cartItems.map((item: ProductStoreType) => (totalPrice += item.price * item.count));
+      cartItems.map(
+        (item: ProductStoreType) => (totalPrice += item.price * item.count),
+      );
     }
 
     return totalPrice;
