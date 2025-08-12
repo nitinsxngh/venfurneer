@@ -8,10 +8,15 @@ import { postData } from "../utils/services";
 type LoginMail = {
   email: string;
   password: string;
+  keepSigned?: boolean;
 };
 
 const LoginPage = () => {
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginMail>();
 
   const onSubmit = async (data: LoginMail) => {
     await postData(`${server}/api/login`, {
@@ -45,21 +50,20 @@ const LoginPage = () => {
                   className="form__input"
                   placeholder="email"
                   type="text"
-                  name="email"
-                  ref={register({
+                  {...register("email", {
                     required: true,
                     pattern:
                       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                   })}
                 />
 
-                {errors.email && errors.email.type === "required" && (
+                {errors.email?.type === "required" && (
                   <p className="message message--error">
                     This field is required
                   </p>
                 )}
 
-                {errors.email && errors.email.type === "pattern" && (
+                {errors.email?.type === "pattern" && (
                   <p className="message message--error">
                     Please write a valid email
                   </p>
@@ -71,10 +75,9 @@ const LoginPage = () => {
                   className="form__input"
                   type="password"
                   placeholder="Password"
-                  name="password"
-                  ref={register({ required: true })}
+                  {...register("password", { required: true })}
                 />
-                {errors.password && errors.password.type === "required" && (
+                {errors.password?.type === "required" && (
                   <p className="message message--error">
                     This field is required
                   </p>
@@ -89,9 +92,8 @@ const LoginPage = () => {
                   >
                     <input
                       type="checkbox"
-                      name="keepSigned"
                       id="check-signed-in"
-                      ref={register({ required: false })}
+                      {...register("keepSigned", { required: false })}
                     />
                     <span className="checkbox__check" />
                     <p>Keep me signed in</p>
