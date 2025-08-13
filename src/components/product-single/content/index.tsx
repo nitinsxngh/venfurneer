@@ -1,5 +1,5 @@
 import { some } from "lodash";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import type { RootState } from "@/store";
@@ -7,22 +7,48 @@ import { addProduct } from "@/store/reducers/cart";
 import { toggleFavProduct } from "@/store/reducers/user";
 import type { ProductStoreType, ProductType } from "@/types";
 
-import productsSizes from "../../../utils/data/products-sizes";
-
 type ProductContent = {
   product: ProductType & { _id?: string };
+};
+
+type CategoryType = {
+  id: string;
+  name: string;
+  slug: string;
 };
 
 const Content = ({ product }: ProductContent) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState<number>(1);
   const [itemSize, setItemSize] = useState<string>("");
+  const [itemColor, setItemColor] = useState<string>("");
+  const [category, setCategory] = useState<CategoryType | null>(null);
 
   const { favProducts } = useSelector((state: RootState) => state.user);
   const isFavourite = some(
     favProducts,
     (productId) => productId === product.id,
   );
+
+  // Fetch category information if product has a category
+  useEffect(() => {
+    const fetchCategory = async () => {
+      if (product.category && typeof product.category === 'string') {
+        try {
+          const res = await fetch('/api/admin/categories');
+          const categories = await res.json();
+          const foundCategory = categories.find((cat: CategoryType) => cat.id === product.category);
+          if (foundCategory) {
+            setCategory(foundCategory);
+          }
+        } catch (error) {
+          console.error('Error fetching category:', error);
+        }
+      }
+    };
+
+    fetchCategory();
+  }, [product.category]);
 
   const toggleFav = () => {
     dispatch(
@@ -34,8 +60,14 @@ const Content = ({ product }: ProductContent) => {
 
   const addToCart = () => {
     // Check if size is required but not selected
-    if (productsSizes.length > 0 && !itemSize) {
+    if (product.sizes && product.sizes.length > 0 && !itemSize) {
       alert("Please select a size before adding to cart");
+      return;
+    }
+
+    // Check if color is required but not selected
+    if (product.colors && product.colors.length > 0 && !itemColor) {
+      alert("Please select a color before adding to cart");
       return;
     }
 
@@ -45,7 +77,7 @@ const Content = ({ product }: ProductContent) => {
       thumb: product.images ? product.images[0] : "",
       price: product.currentPrice,
       count,
-      color: "",
+      color: itemColor,
       size: itemSize,
     };
 
@@ -87,6 +119,13 @@ const Content = ({ product }: ProductContent) => {
         </button>
       </div>
 
+      {/* Category Information */}
+      {category && (
+        <div className="product-content__category">
+          <span className="product__category">Category: {category.name}</span>
+        </div>
+      )}
+
       <div className="product-content__pricing">
         <h3 className="product__price">
           ₹{product.currentPrice.toLocaleString()}
@@ -105,22 +144,47 @@ const Content = ({ product }: ProductContent) => {
       </div>
 
       <div className="product-content__options">
-        <div className="product-option">
-          <h5>Size:</h5>
-          <div className="size-options">
-            {productsSizes.map((type) => (
-              <button
-                key={type.id}
-                type="button"
-                onClick={() => setItemSize(type.label)}
-                className={`size-option ${itemSize === type.label ? "size-option--active" : ""}`}
-              >
-                {type.label}
-              </button>
-            ))}
+        {/* Size Selection */}
+        {product.sizes && product.sizes.length > 0 && (
+          <div className="product-option">
+            <h5>Size:</h5>
+            <div className="size-options">
+              {product.sizes.map((size, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setItemSize(size)}
+                  className={`size-option ${itemSize === size ? "size-option--active" : ""}`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
+        {/* Color Selection */}
+        {product.colors && product.colors.length > 0 && (
+          <div className="product-option">
+            <h5>Color:</h5>
+            <div className="color-options">
+              {product.colors.map((color, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setItemColor(color)}
+                  className={`color-option ${itemColor === color ? "color-option--active" : ""}`}
+                  style={{ backgroundColor: color }}
+                  title={color}
+                >
+                  {itemColor === color && <i className="icon-check" />}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Quantity Selection */}
         <div className="product-option">
           <h5>Quantity:</h5>
           <div className="quantity-controls">
@@ -147,11 +211,19 @@ const Content = ({ product }: ProductContent) => {
         <button
           type="button"
           onClick={() => addToCart()}
-          className={`btn btn--add-to-cart ${productsSizes.length > 0 && !itemSize ? "btn--disabled" : ""}`}
-          disabled={productsSizes.length > 0 && !itemSize}
+          className={`btn btn--add-to-cart ${((product.sizes && product.sizes.length > 0 && !itemSize) ||
+            (product.colors && product.colors.length > 0 && !itemColor))
+            ? "btn--disabled"
+            : ""
+            }`}
+          disabled={
+            (product.sizes && product.sizes.length > 0 && !itemSize) ||
+            (product.colors && product.colors.length > 0 && !itemColor)
+          }
         >
-          {productsSizes.length > 0 && !itemSize
-            ? "Select Size First"
+          {((product.sizes && product.sizes.length > 0 && !itemSize) ||
+            (product.colors && product.colors.length > 0 && !itemColor))
+            ? "Select Options First"
             : "Add to cart"}
         </button>
       </div>

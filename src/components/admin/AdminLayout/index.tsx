@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getAdminUser, logout } from "../../../utils/auth";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -9,7 +10,17 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children, title }: AdminLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [adminUser, setAdminUser] = useState<any>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const user = getAdminUser();
+    setAdminUser(user);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   const navigation = [
     {
@@ -259,8 +270,34 @@ const AdminLayout = ({ children, title }: AdminLayoutProps) => {
               </svg>
             </button>
             <div className="admin-top-header__user">
-              <div className="admin-top-header__user-avatar">
-                <span>AD</span>
+              <div className="admin-top-header__user-dropdown">
+                <button className="admin-top-header__user-avatar">
+                  <span>{adminUser?.email?.charAt(0).toUpperCase() || "A"}</span>
+                </button>
+                <div className="admin-top-header__user-dropdown-content">
+                  <div className="admin-top-header__user-info">
+                    <span className="admin-top-header__user-email">{adminUser?.email}</span>
+                    <span className="admin-top-header__user-role">{adminUser?.role}</span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="admin-top-header__logout-btn"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                      <polyline points="16,17 21,12 16,7"></polyline>
+                      <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Sign out
+                  </button>
+                </div>
               </div>
             </div>
           </div>

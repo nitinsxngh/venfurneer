@@ -6,16 +6,17 @@ import List from "./list";
 
 type ProductsContentType = {
   products?: ProductType[];
+  loading?: boolean;
 };
 
-const ProductsContent = ({ products }: ProductsContentType) => {
+const ProductsContent = ({ products = [], loading = false }: ProductsContentType) => {
   const [orderProductsOpen, setOrderProductsOpen] = useState(false);
 
   return (
     <section className="products-content">
       <div className="products-content__intro">
         <h2>
-          Premium Perfumes <span>(6)</span>
+          Premium Perfumes <span>({products.length})</span>
         </h2>
         <button
           type="button"
@@ -31,7 +32,7 @@ const ProductsContent = ({ products }: ProductsContentType) => {
             <h4>Show products: </h4>
             <div className="select-wrapper">
               <select>
-                <option>Popular</option>
+                <option>All</option>
               </select>
             </div>
           </div>
@@ -39,14 +40,21 @@ const ProductsContent = ({ products }: ProductsContentType) => {
             <h4>Sort by: </h4>
             <div className="select-wrapper">
               <select>
-                <option>Popular</option>
+                <option>Latest</option>
               </select>
             </div>
           </div>
         </form>
       </div>
 
-      <List products={products} />
+      {loading ? (
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading products...</p>
+        </div>
+      ) : (
+        <List products={products} />
+      )}
     </section>
   );
 };

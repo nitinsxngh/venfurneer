@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import AdminLayout from "../../components/admin/AdminLayout";
+import ProtectedRoute from "../../components/admin/ProtectedRoute";
 import CategoryForm from "../../components/admin/CategoryForm";
 import CategoryList from "../../components/admin/CategoryList";
 
@@ -100,65 +101,67 @@ const AdminCategories = () => {
   };
 
   return (
-    <AdminLayout title="Category Management">
-      <div className="admin-page">
-        {/* Page Header */}
-        <div className="admin-page__header">
-          <div className="admin-page__header-content">
-            <div className="admin-page__header-left">
-              <h1>Category Management</h1>
-              <p>
-                Organize your products with categories to improve customer
-                experience
-              </p>
-            </div>
-            <div className="admin-page__header-right">
-              <button
-                className="btn btn--primary btn--large"
-                onClick={() => setShowForm(true)}
-              >
-                <span className="btn__icon">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </span>
-                Add New Category
-              </button>
+    <ProtectedRoute>
+      <AdminLayout title="Category Management">
+        <div className="admin-page">
+          {/* Page Header */}
+          <div className="admin-page__header">
+            <div className="admin-page__header-content">
+              <div className="admin-page__header-left">
+                <h1>Category Management</h1>
+                <p>
+                  Organize your products with categories to improve customer
+                  experience
+                </p>
+              </div>
+              <div className="admin-page__header-right">
+                <button
+                  className="btn btn--primary btn--large"
+                  onClick={() => setShowForm(true)}
+                >
+                  <span className="btn__icon">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </span>
+                  Add New Category
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Page Content */}
-        <div className="admin-page__content">
-          {showForm ? (
-            <div className="admin-page__form-container">
-              <CategoryForm
-                category={editingCategory}
-                onSubmit={handleFormSubmit}
-                onCancel={handleCancel}
-              />
-            </div>
-          ) : (
-            <div className="admin-page__list-container">
-              <CategoryList
-                categories={categories}
-                loading={loading}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
-            </div>
-          )}
+          {/* Page Content */}
+          <div className="admin-page__content">
+            {showForm ? (
+              <div className="admin-page__form-container">
+                <CategoryForm
+                  category={editingCategory}
+                  onSubmit={handleFormSubmit}
+                  onCancel={handleCancel}
+                />
+              </div>
+            ) : (
+              <div className="admin-page__list-container">
+                <CategoryList
+                  categories={categories}
+                  loading={loading}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </AdminLayout>
+      </AdminLayout>
+    </ProtectedRoute>
   );
 };
 

@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 
 import Layout from "../layouts/Main";
-import { server } from "../utils/server";
 import { postData } from "../utils/services";
 
 type LoginMail = {
@@ -11,7 +10,7 @@ type LoginMail = {
   keepSigned?: boolean;
 };
 
-const LoginPage = () => {
+const Login = () => {
   const {
     register,
     handleSubmit,
@@ -19,7 +18,7 @@ const LoginPage = () => {
   } = useForm<LoginMail>();
 
   const onSubmit = async (data: LoginMail) => {
-    await postData(`${server}/api/login`, {
+    await postData(`/api/login`, {
       email: data.email,
       password: data.password,
     });
@@ -135,4 +134,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

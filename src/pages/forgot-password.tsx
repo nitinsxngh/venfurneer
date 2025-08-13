@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 
 import Layout from "../layouts/Main";
-import { server } from "../utils/server";
 import { postData } from "../utils/services";
 
 type ForgotMail = {
@@ -18,7 +17,7 @@ const ForgotPassword = () => {
   } = useForm<ForgotMail>();
 
   const onSubmit = async (data: ForgotMail) => {
-    await postData(`${server}/api/login`, {
+    await postData(`/api/login`, {
       email: data.email,
     });
   };

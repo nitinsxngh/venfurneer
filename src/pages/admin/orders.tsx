@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import AdminLayout from "../../components/admin/AdminLayout";
+import ProtectedRoute from "../../components/admin/ProtectedRoute";
 import OrderList from "../../components/admin/OrderList";
 
 interface OrderItem {
@@ -115,45 +116,47 @@ const AdminOrders = () => {
   };
 
   return (
-    <AdminLayout title="Order Management">
-      <div className="admin-page">
-        {/* Page Header */}
-        <div className="admin-page__header">
-          <div className="admin-page__header-content">
-            <div className="admin-page__header-left">
-              <h1>Order Management</h1>
-              <p>Track and manage customer orders, shipping, and payments</p>
-            </div>
-            <div className="admin-page__header-right">
-              <div className="admin-page__stats">
-                <div className="admin-page__stat">
-                  <span className="admin-page__stat-label">Total Orders</span>
-                  <span className="admin-page__stat-value">
-                    {orders.length}
-                  </span>
-                </div>
-                <div className="admin-page__stat">
-                  <span className="admin-page__stat-label">Pending</span>
-                  <span className="admin-page__stat-value admin-page__stat-value--warning">
-                    {orders.filter((o) => o.status === "pending").length}
-                  </span>
+    <ProtectedRoute>
+      <AdminLayout title="Order Management">
+        <div className="admin-page">
+          {/* Page Header */}
+          <div className="admin-page__header">
+            <div className="admin-page__header-content">
+              <div className="admin-page__header-left">
+                <h1>Order Management</h1>
+                <p>Track and manage customer orders, shipping, and payments</p>
+              </div>
+              <div className="admin-page__header-right">
+                <div className="admin-page__stats">
+                  <div className="admin-page__stat">
+                    <span className="admin-page__stat-label">Total Orders</span>
+                    <span className="admin-page__stat-value">
+                      {orders.length}
+                    </span>
+                  </div>
+                  <div className="admin-page__stat">
+                    <span className="admin-page__stat-label">Pending</span>
+                    <span className="admin-page__stat-value admin-page__stat-value--warning">
+                      {orders.filter((o) => o.status === "pending").length}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Page Content */}
-        <div className="admin-page__content">
-          <OrderList
-            orders={orders}
-            loading={loading}
-            onStatusUpdate={handleStatusUpdate}
-            onPaymentStatusUpdate={handlePaymentStatusUpdate}
-          />
+          {/* Page Content */}
+          <div className="admin-page__content">
+            <OrderList
+              orders={orders}
+              loading={loading}
+              onStatusUpdate={handleStatusUpdate}
+              onPaymentStatusUpdate={handlePaymentStatusUpdate}
+            />
+          </div>
         </div>
-      </div>
-    </AdminLayout>
+      </AdminLayout>
+    </ProtectedRoute>
   );
 };
 

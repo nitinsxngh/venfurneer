@@ -4,7 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import type { RootState } from "@/store";
 import { toggleFavProduct } from "@/store/reducers/user";
-import type { ProductTypeList } from "@/types";
+
+interface ProductItemProps {
+  id: string;
+  name: string;
+  price: number;
+  currentPrice: number;
+  discount?: number;
+  images: string[];
+}
 
 const ProductItem = ({
   discount,
@@ -13,7 +21,7 @@ const ProductItem = ({
   name,
   price,
   currentPrice,
-}: ProductTypeList & { discount?: number }) => {
+}: ProductItemProps) => {
   const dispatch = useDispatch();
   const { favProducts } = useSelector((state: RootState) => state.user);
 
@@ -25,6 +33,11 @@ const ProductItem = ({
         id,
       }),
     );
+  };
+
+  // Convert price from cents to dollars for display
+  const formatPrice = (priceInCents: number) => {
+    return (priceInCents / 100).toFixed(2);
   };
 
   return (
@@ -40,17 +53,17 @@ const ProductItem = ({
 
         <Link href={`/product/${id}`}>
           <img src={images ? images[0] : ""} alt="product" />
-          {discount && <span className="product__discount">{discount}%</span>}
+          {discount && discount > 0 && <span className="product__discount">{discount}%</span>}
         </Link>
       </div>
       <div className="product__description">
         <h3>{name}</h3>
         <div
-          className={`product__price ${discount ? "product__price--discount" : ""}`}
+          className={`product__price ${discount && discount > 0 ? "product__price--discount" : ""}`}
         >
-          <h4>₹{currentPrice}</h4>
+          <h4>₹{formatPrice(currentPrice)}</h4>
 
-          {discount && <span>₹{price}</span>}
+          {discount && discount > 0 && <span>₹{formatPrice(price)}</span>}
         </div>
       </div>
     </div>

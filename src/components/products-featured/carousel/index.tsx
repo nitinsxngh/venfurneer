@@ -46,12 +46,11 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
         className="swiper-wrapper"
       >
         {products.map((item) => (
-          <SwiperSlide key={item._id || item.id}>
+          <SwiperSlide key={item.id}>
             <ProductItem
-              id={item._id || item.id}
+              id={item.id}
               name={item.name}
-              price={item.price?.toString() || "0"}
-              color={item.color || "#8B4513"}
+              price={item.currentPrice}
               discount={item.discount}
               currentPrice={item.currentPrice}
               images={item.images || []}

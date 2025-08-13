@@ -1,4 +1,5 @@
 import type { GetServerSideProps } from "next";
+import { useState } from "react";
 
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
@@ -7,43 +8,96 @@ import ProductsFilter from "@/components/products-filter";
 import type { ProductType } from "@/types";
 
 import Layout from "../layouts/Main";
-import { server } from "../utils/server";
 
 type ProductsPageType = {
-  products: ProductType[];
+  initialProducts: ProductType[];
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+type FilterState = {
+  categories: string[];
+  sizes: string[];
+  colors: string[];
+  priceRange: [number, number];
+};
+
+const Products = ({ initialProducts }: ProductsPageType) => {
+  const [products, setProducts] = useState<ProductType[]>(initialProducts);
+  const [loading, setLoading] = useState(false);
+
+  const handleFiltersChange = async (newFilters: FilterState) => {
+    setLoading(true);
+
+    try {
+      const queryParams = new URLSearchParams();
+
+      if (newFilters.categories.length > 0) {
+        newFilters.categories.forEach(cat => queryParams.append('category', cat));
+      }
+
+      if (newFilters.sizes.length > 0) {
+        newFilters.sizes.forEach(size => queryParams.append('sizes', size));
+      }
+
+      if (newFilters.colors.length > 0) {
+        newFilters.colors.forEach(color => queryParams.append('colors', color));
+      }
+
+      if (newFilters.priceRange[0] > 0 || newFilters.priceRange[1] < 10000) {
+        queryParams.append('minPrice', newFilters.priceRange[0].toString());
+        queryParams.append('maxPrice', newFilters.priceRange[1].toString());
+      }
+
+      console.log('Filter parameters:', newFilters);
+      console.log('Query string:', queryParams.toString());
+
+      const res = await fetch(`/api/products/filtered?${queryParams.toString()}`);
+      const filteredProducts = await res.json();
+      console.log('Filtered products response:', filteredProducts);
+      setProducts(filteredProducts);
+    } catch (error) {
+      console.error('Error fetching filtered products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Layout>
+      <Breadcrumb />
+      <section className="products-page">
+        <div className="container">
+          <ProductsFilter onFiltersChange={handleFiltersChange} />
+          <ProductsContent products={products} loading={loading} />
+        </div>
+      </section>
+      <Footer />
+    </Layout>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
-    const res = await fetch(`${server}/api/products`);
+    // Use relative URL instead of absolute URL to avoid CORS and domain issues
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers.host;
+    const baseUrl = `${protocol}://${host}`;
+
+    const res = await fetch(`${baseUrl}/api/products`);
     const products = await res.json();
 
     return {
       props: {
-        products,
+        initialProducts: products,
       },
     };
   } catch (error) {
     console.error("Error fetching products:", error);
     return {
       props: {
-        products: [],
+        initialProducts: [],
       },
     };
   }
 };
-
-const Products = ({ products }: ProductsPageType) => (
-  <Layout>
-    <Breadcrumb />
-    <section className="products-page">
-      <div className="container">
-        <ProductsFilter />
-        <ProductsContent products={products} />
-      </div>
-    </section>
-    <Footer />
-  </Layout>
-);
 
 export default Products;

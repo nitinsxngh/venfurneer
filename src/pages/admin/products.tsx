@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import AdminLayout from "../../components/admin/AdminLayout";
+import ProtectedRoute from "../../components/admin/ProtectedRoute";
 import ProductForm from "../../components/admin/ProductForm";
 import ProductList from "../../components/admin/ProductList";
 
@@ -161,63 +162,65 @@ const AdminProducts = () => {
   };
 
   return (
-    <AdminLayout title="Product Management">
-      <div className="admin-page">
-        {/* Page Header */}
-        <div className="admin-page__header">
-          <div className="admin-page__header-content">
-            <div className="admin-page__header-left">
-              <h1>Product Management</h1>
-              <p>Manage your perfume products, inventory, and pricing</p>
-            </div>
-            <div className="admin-page__header-right">
-              <button
-                className="btn btn--primary btn--large"
-                onClick={() => setShowForm(true)}
-              >
-                <span className="btn__icon">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </span>
-                Add New Product
-              </button>
+    <ProtectedRoute>
+      <AdminLayout title="Product Management">
+        <div className="admin-page">
+          {/* Page Header */}
+          <div className="admin-page__header">
+            <div className="admin-page__header-content">
+              <div className="admin-page__header-left">
+                <h1>Product Management</h1>
+                <p>Manage your perfume products, inventory, and pricing</p>
+              </div>
+              <div className="admin-page__header-right">
+                <button
+                  className="btn btn--primary btn--large"
+                  onClick={() => setShowForm(true)}
+                >
+                  <span className="btn__icon">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </span>
+                  Add New Product
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Page Content */}
-        <div className="admin-page__content">
-          {showForm ? (
-            <div className="admin-page__form-container">
-              <ProductForm
-                product={editingProduct}
-                onSubmit={handleFormSubmit}
-                onCancel={handleCancel}
-              />
-            </div>
-          ) : (
-            <div className="admin-page__list-container">
-              <ProductList
-                products={products}
-                loading={loading}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                onUpdateStock={handleUpdateStock}
-              />
-            </div>
-          )}
+          {/* Page Content */}
+          <div className="admin-page__content">
+            {showForm ? (
+              <div className="admin-page__form-container">
+                <ProductForm
+                  product={editingProduct}
+                  onSubmit={handleFormSubmit}
+                  onCancel={handleCancel}
+                />
+              </div>
+            ) : (
+              <div className="admin-page__list-container">
+                <ProductList
+                  products={products}
+                  loading={loading}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onUpdateStock={handleUpdateStock}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </AdminLayout>
+      </AdminLayout>
+    </ProtectedRoute>
   );
 };
 

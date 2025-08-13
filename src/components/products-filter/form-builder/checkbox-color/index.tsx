@@ -3,7 +3,8 @@ type CheckboxColorType = {
   name: string;
   color: string;
   valueName: string;
-  onChange?: (value: string) => void;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
 };
 
 const CheckboxColor = ({
@@ -12,11 +13,11 @@ const CheckboxColor = ({
   type = "checkbox",
   onChange,
   valueName,
+  checked = false,
 }: CheckboxColorType) => {
   const onSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const dataName = e.target.getAttribute("data-name");
-    if (onChange && dataName) {
-      onChange(dataName);
+    if (onChange) {
+      onChange(e.target.checked);
     }
   };
 
@@ -24,6 +25,7 @@ const CheckboxColor = ({
     <label htmlFor={`${color}-${name}`} className="checkbox-color">
       <input
         onChange={onSelect}
+        checked={checked}
         value={color}
         data-name={valueName}
         name={name}

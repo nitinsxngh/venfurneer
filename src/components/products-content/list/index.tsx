@@ -50,20 +50,24 @@ const ProductsContent = ({ products }: ProductsContentType) => {
         <section className="products-list">
           {data.map((item: ProductType) => (
             <ProductItem
-              id={item._id || item.id}
+              id={item.id}
               name={item.name}
-              price={item.price?.toString() || "0"}
-              color={item.color || "#8B4513"}
+              price={item.currentPrice}
               currentPrice={item.currentPrice}
               discount={item.discount}
-              key={item._id || item.id}
+              key={item.id}
               images={item.images || []}
             />
           ))}
         </section>
       )}
 
-      {!loading && data.length === 0 && <div>No products found</div>}
+      {!loading && data.length === 0 && (
+        <div className="no-products-found">
+          <h3>No products found</h3>
+          <p>Try adjusting your filters or browse all products.</p>
+        </div>
+      )}
     </>
   );
 };

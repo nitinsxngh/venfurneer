@@ -3,27 +3,31 @@ import Link from "next/link";
 
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
-import Content from "@/components/product-single/content";
 import Gallery from "@/components/product-single/gallery";
+import Content from "@/components/product-single/content";
 import ProductsFeatured from "@/components/products-featured";
 // types
 import type { ProductType } from "@/types";
 
 import Layout from "../../layouts/Main";
-import { server } from "../../utils/server";
 
 type ProductPageType = {
   product: ProductType;
   products?: ProductType[];
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
   const { pid } = query;
 
   try {
+    // Use relative URL instead of absolute URL to avoid CORS and domain issues
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers.host;
+    const baseUrl = `${protocol}://${host}`;
+
     const [productRes, productsRes] = await Promise.all([
-      fetch(`${server}/api/product/${pid}`),
-      fetch(`${server}/api/products`),
+      fetch(`${baseUrl}/api/product/${pid}`),
+      fetch(`${baseUrl}/api/products`),
     ]);
 
     if (!productRes.ok) {

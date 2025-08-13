@@ -35,9 +35,9 @@ const ShoppingCart = () => {
               <tbody>
                 <tr>
                   <th style={{ textAlign: "left" }}>Product</th>
-                  <th>Fragrance</th>
-                  <th>Volume</th>
-                  <th>Amount</th>
+                  <th>Color</th>
+                  <th>Size</th>
+                  <th>Quantity</th>
                   <th>Price</th>
                   <th />
                 </tr>

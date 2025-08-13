@@ -2,17 +2,19 @@ type CheckboxType = {
   type?: string;
   label: string;
   name: string;
-  onChange?: () => void;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
 };
 
-const Checkbox = ({ type = "", label, name, onChange }: CheckboxType) => (
+const Checkbox = ({ type = "", label, name, checked = false, onChange }: CheckboxType) => (
   <label
     htmlFor={`${label}-${name}`}
     className={`checkbox ${type ? `checkbox--${type}` : ""}`}
   >
     <input
       name={name}
-      onChange={onChange}
+      checked={checked}
+      onChange={(e) => onChange?.(e.target.checked)}
       type="checkbox"
       id={`${label}-${name}`}
     />

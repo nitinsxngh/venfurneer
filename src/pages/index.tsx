@@ -1,3 +1,4 @@
+import type { GetServerSideProps } from "next";
 import Link from "next/link";
 
 import Footer from "@/components/footer";
@@ -7,15 +8,19 @@ import Subscribe from "@/components/subscribe";
 
 import Layout from "../layouts/Main";
 import type { ProductType } from "../types";
-import { server } from "../utils/server";
 
 type IndexPageType = {
   products?: ProductType[];
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   try {
-    const res = await fetch(`${server}/api/products`);
+    // Use relative URL instead of absolute URL to avoid CORS and domain issues
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers.host;
+    const baseUrl = `${protocol}://${host}`;
+
+    const res = await fetch(`${baseUrl}/api/products`);
     const products = await res.json();
 
     return {

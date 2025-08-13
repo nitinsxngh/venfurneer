@@ -20,26 +20,29 @@ export type ProductType = {
   id: string;
   _id?: string;
   name: string;
-  thumb: string;
-  price: string;
-  count: number;
-  color: string;
-  size: string;
-  images: string[];
-  discount?: number;
+  price: number;
   currentPrice: number;
+  discount: number;
+  category: string;
+  images: string[];
+  sizes: string[];
+  colors: string[];
+  quantityAvailable: number;
   punctuation: PunctuationType;
   reviews: ReviewType[];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ProductTypeList = {
   id: string;
   name: string;
-  price: string;
-  color: string;
+  price: number;
+  currentPrice: number;
   images: string[];
   discount?: number;
-  currentPrice?: number;
+  sizes: string[];
+  colors: string[];
 };
 
 export type ProductStoreType = {
