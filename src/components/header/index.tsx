@@ -6,7 +6,7 @@ import useOnClickOutside from "use-onclickoutside";
 
 import type { RootState } from "@/store";
 
-import Logo from "../../assets/icons/logo";
+
 
 type HeaderType = {
   isErrorPage?: boolean;
@@ -61,8 +61,13 @@ const Header = ({ isErrorPage }: HeaderType) => {
       <div className="container">
         <Link href="/">
           <h1 className="site-logo">
-            <Logo />
-            VENFURNER
+            <div className="site-logo__graphic">
+              <img 
+                src="/logo-venfurneer.png" 
+                alt="VENFURNER Logo" 
+                className="site-logo__image"
+              />
+            </div>
           </h1>
         </Link>
         <nav
