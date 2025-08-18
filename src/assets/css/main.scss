@@ -380,6 +380,14 @@ h5 {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
   transition: all .3s ease;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  // Ensure text is always visible
+  color: #FFF;
+  
+  // Smooth transition for scroll effects
+  &.site-header--fixed {
+    transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   @include breakpoint(phone) {
     height: 60px;
@@ -410,7 +418,7 @@ h5 {
     font-weight: 700;
     font-size: 18px;
     letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3), 0 1px 2px rgba(0, 0, 0, 0.5);
     
     @include breakpoint(phone) {
       font-size: 20px;
@@ -520,42 +528,46 @@ h5 {
         display: inline-block;
         font-size: 13px;
         transition: color 0.3s ease;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         
         &:hover {
           color: var(--color-secondary);
+          text-shadow: 0 1px 3px rgba(212, 175, 55, 0.4);
         }
       }
     }
   }
 
   &.site-header--fixed {
-    border-bottom: 1px solid #E5E5E5;
-    background-color: #FFF;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(45, 45, 45, 0.95) 50%, rgba(26, 26, 26, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 
     .btn-hamburger {
 
       &:before,
       &:after,
       span {
-        background-color: #000;
+        background-color: var(--color-secondary);
       }
     }
 
     a,
     i {
-      color: #000;
+      color: #FFF;
     }
 
     button {
-      color: #000;
+      color: #FFF;
 
       i {
-        color: #000;
+        color: #FFF;
       }
     }
 
     .site-logo {
-      color: #000;
+      color: var(--color-secondary);
     }
   }
 
