@@ -17,10 +17,18 @@ const PageIntro = () => {
       {isClient && (
         <Swiper navigation effect="fade" className="swiper-wrapper">
           <SwiperSlide>
-            <div
-              className="page-intro__slide"
-              style={{ backgroundImage: "url('/images/slide-1.png')" }}
-            >
+            <div className="page-intro__slide page-intro__slide--video">
+              <video
+                className="page-intro__video"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/images/slide-1.png"
+              >
+                <source src="/hero.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
               <div className="container">
                 <div className="page-intro__slide__content">
                   <h2>Sale of the summer collection</h2>
@@ -34,10 +42,18 @@ const PageIntro = () => {
           </SwiperSlide>
 
           <SwiperSlide>
-            <div
-              className="page-intro__slide"
-              style={{ backgroundImage: "url('/images/slide-2.png')" }}
-            >
+            <div className="page-intro__slide page-intro__slide--video">
+              <video
+                className="page-intro__video"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/images/slide-2.png"
+              >
+                <source src="/hero.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
               <div className="container">
                 <div className="page-intro__slide__content">
                   <h2>Make your house into a home</h2>
