@@ -6,6 +6,12 @@ import useOnClickOutside from "use-onclickoutside";
 
 import type { RootState } from "@/store";
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 
 
 type HeaderType = {
@@ -22,6 +28,8 @@ const Header = ({ isErrorPage }: HeaderType) => {
   );
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const navRef = useRef(null);
   const searchRef = useRef(null);
 
@@ -44,6 +52,25 @@ const Header = ({ isErrorPage }: HeaderType) => {
     };
   }, []);
 
+  // Fetch categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories');
+        if (response.ok) {
+          const data = await response.json();
+          setCategories(data);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const closeMenu = () => {
     setMenuOpen(false);
   };
@@ -62,9 +89,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
         <Link href="/">
           <h1 className="site-logo">
             <div className="site-logo__graphic">
-              <img 
-                src="/logo-venfurneer.png" 
-                alt="VENFURNER Logo" 
+              <img
+                src="/logo-venfurneer.png"
+                alt="VENFURNER Logo"
                 className="site-logo__image"
               />
             </div>
@@ -74,9 +101,20 @@ const Header = ({ isErrorPage }: HeaderType) => {
           ref={navRef}
           className={`site-nav ${menuOpen ? "site-nav--open" : ""}`}
         >
-          <Link href="/products">Perfumes</Link>
-          <a href="#">Collections</a>
-          <a href="#">Gift Sets</a>
+          {!loading && (
+            <>
+              {categories.slice(0, 5).map((category) => (
+                <Link key={category.id} href={`/products?category=${category.slug}`}>
+                  {category.name}
+                </Link>
+              ))}
+              {categories.length > 5 && (
+                <Link href="/products" className="site-nav__view-all">
+                  View All
+                </Link>
+              )}
+            </>
+          )}
           <button className="site-nav__btn">
             <p>Account</p>
           </button>

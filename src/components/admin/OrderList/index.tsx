@@ -190,7 +190,6 @@ const OrderList = ({
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Date</th>
-                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -290,18 +289,7 @@ const OrderList = ({
                       </small>
                     </div>
                   </td>
-                  <td>
-                    <div className="admin-table__actions">
-                      <button
-                        onClick={() =>
-                          window.open(`/admin/orders/${order.id}`, "_blank")
-                        }
-                        className="btn btn--small btn--secondary"
-                      >
-                        View
-                      </button>
-                    </div>
-                  </td>
+
                 </tr>
               ))}
             </tbody>

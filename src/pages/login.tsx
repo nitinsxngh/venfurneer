@@ -36,11 +36,10 @@ const Login = () => {
           </div>
 
           <div className="form-block">
-            <h2 className="form-block__title">Log in</h2>
+            <h2 className="form-block__title">Welcome Back</h2>
             <p className="form-block__description">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-              ever since the 1500s
+              Sign in to your VenFurner account to access your personalized fragrance collection,
+              track orders, and enjoy exclusive member benefits. Discover luxury perfumes tailored just for you.
             </p>
 
             <form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -106,15 +105,7 @@ const Login = () => {
                 </Link>
               </div>
 
-              <div className="form__btns">
-                <button type="button" className="btn-social fb-btn">
-                  <i className="icon-facebook" />
-                  Facebook
-                </button>
-                <button type="button" className="btn-social google-btn">
-                  <img src="/images/icons/gmail.svg" alt="gmail" /> Gmail
-                </button>
-              </div>
+
 
               <button
                 type="submit"

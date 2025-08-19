@@ -35,9 +35,9 @@ const ProductItem = ({
     );
   };
 
-  // Convert price from cents to dollars for display
-  const formatPrice = (priceInCents: number) => {
-    return (priceInCents / 100).toFixed(2);
+  // Format price for INR display
+  const formatPrice = (price: number) => {
+    return price.toLocaleString('en-IN');
   };
 
   return (
@@ -62,8 +62,9 @@ const ProductItem = ({
           className={`product__price ${discount && discount > 0 ? "product__price--discount" : ""}`}
         >
           <h4>₹{formatPrice(currentPrice)}</h4>
-
-          {discount && discount > 0 && <span>₹{formatPrice(price)}</span>}
+          {discount && discount > 0 && (
+            <span className="original-price">₹{formatPrice(price)}</span>
+          )}
         </div>
       </div>
     </div>

@@ -57,11 +57,25 @@ const AdminOrders = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
+      console.log('Admin Orders: Fetching orders from API...');
+
       const response = await fetch("/api/admin/orders");
+      console.log('Admin Orders: API response status:', response.status);
+
       const data = await response.json();
-      setOrders(data);
+      console.log('Admin Orders: API response data:', data);
+
+      // Ensure data is an array, if not, set empty array
+      if (Array.isArray(data)) {
+        console.log('Admin Orders: Setting orders array with', data.length, 'orders');
+        setOrders(data);
+      } else {
+        console.error("API returned non-array data:", data);
+        setOrders([]);
+      }
     } catch (error) {
       console.error("Error fetching orders:", error);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -131,13 +145,13 @@ const AdminOrders = () => {
                   <div className="admin-page__stat">
                     <span className="admin-page__stat-label">Total Orders</span>
                     <span className="admin-page__stat-value">
-                      {orders.length}
+                      {Array.isArray(orders) ? orders.length : 0}
                     </span>
                   </div>
                   <div className="admin-page__stat">
                     <span className="admin-page__stat-label">Pending</span>
                     <span className="admin-page__stat-value admin-page__stat-value--warning">
-                      {orders.filter((o) => o.status === "pending").length}
+                      {Array.isArray(orders) ? orders.filter((o) => o.status === "pending").length : 0}
                     </span>
                   </div>
                 </div>
@@ -147,12 +161,26 @@ const AdminOrders = () => {
 
           {/* Page Content */}
           <div className="admin-page__content">
-            <OrderList
-              orders={orders}
-              loading={loading}
-              onStatusUpdate={handleStatusUpdate}
-              onPaymentStatusUpdate={handlePaymentStatusUpdate}
-            />
+            {!loading && Array.isArray(orders) && orders.length === 0 ? (
+              <div className="admin-page__empty-state">
+                <div className="admin-page__empty-icon">📦</div>
+                <h3>No Orders Found</h3>
+                <p>There are currently no orders in the system. Orders will appear here once customers start placing them.</p>
+                <button
+                  className="btn btn--rounded btn--yellow"
+                  onClick={fetchOrders}
+                >
+                  Refresh Orders
+                </button>
+              </div>
+            ) : (
+              <OrderList
+                orders={Array.isArray(orders) ? orders : []}
+                loading={loading}
+                onStatusUpdate={handleStatusUpdate}
+                onPaymentStatusUpdate={handlePaymentStatusUpdate}
+              />
+            )}
           </div>
         </div>
       </AdminLayout>

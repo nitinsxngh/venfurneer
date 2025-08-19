@@ -30,9 +30,10 @@ type FilterState = {
 
 interface ProductsFilterProps {
   onFiltersChange: (filters: FilterState) => void;
+  initialCategory?: string | null;
 }
 
-const ProductsFilter = ({ onFiltersChange }: ProductsFilterProps) => {
+const ProductsFilter = ({ onFiltersChange, initialCategory }: ProductsFilterProps) => {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(null);
   const [filters, setFilters] = useState<FilterState>({
@@ -59,6 +60,22 @@ const ProductsFilter = ({ onFiltersChange }: ProductsFilterProps) => {
 
     fetchFilterOptions();
   }, []);
+
+  // Handle initial category from URL
+  useEffect(() => {
+    if (initialCategory && filterOptions) {
+      // Find the category by slug
+      const category = filterOptions.categories.find(cat => cat.slug === initialCategory);
+      if (category) {
+        const newFilters = {
+          ...filters,
+          categories: [category.id]
+        };
+        setFilters(newFilters);
+        onFiltersChange(newFilters);
+      }
+    }
+  }, [initialCategory, filterOptions]);
 
   const handleFilterChange = (filterType: keyof FilterState, value: any) => {
     const newFilters = { ...filters, [filterType]: value };

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import Order from "../../../models/Order";
+import Product from "../../../models/Product";
 import connectDB from "../../../utils/mongodb";
 
 export default async function handler(
@@ -16,7 +17,14 @@ export default async function handler(
 
     const orders = await Order.find({})
       .sort({ createdAt: -1 })
-      .populate("items.product", "name images");
+      .populate({
+        path: "items.product",
+        select: "name images",
+        model: Product
+      });
+
+    console.log('Admin Orders API: Found orders:', orders.length);
+    console.log('Admin Orders API: Orders data:', JSON.stringify(orders, null, 2));
 
     // Transform MongoDB _id to id for frontend compatibility
     const transformedOrders = orders.map((order) => {
@@ -28,6 +36,7 @@ export default async function handler(
       };
     });
 
+    console.log('Admin Orders API: Transformed orders:', transformedOrders.length);
     res.status(200).json(transformedOrders);
   } catch (error) {
     console.error("Error fetching orders:", error);

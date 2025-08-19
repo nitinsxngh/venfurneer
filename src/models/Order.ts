@@ -107,13 +107,25 @@ orderSchema.index({ "customer.email": 1 });
 orderSchema.index({ status: 1 });
 orderSchema.index({ createdAt: -1 });
 
-// Generate order number before saving
+// Generate order number before saving only if not provided
 orderSchema.pre("save", async function (next) {
-  if (this.isNew) {
-    const count = await mongoose.model("Order").countDocuments();
-    this.orderNumber = `VEN-${Date.now()}-${count + 1}`;
+  if (this.isNew && !this.orderNumber) {
+    try {
+      if (mongoose.connection.db) {
+        const count = await mongoose.connection.db.collection("orders").countDocuments();
+        this.orderNumber = `VEN-${Date.now()}-${count + 1}`;
+      } else {
+        this.orderNumber = `VEN-${Date.now()}-1`;
+      }
+    } catch (error) {
+      // Fallback if collection doesn't exist yet
+      this.orderNumber = `VEN-${Date.now()}-1`;
+    }
   }
   next();
 });
 
-export default mongoose.models.Order || mongoose.model("Order", orderSchema);
+// Ensure the model is registered
+const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
+
+export default Order;

@@ -15,12 +15,12 @@ const RegisterPage = () => (
 
         <div className="form-block">
           <h2 className="form-block__title">
-            Create an account and discover the benefits
+            Join VenFurner Family
           </h2>
           <p className="form-block__description">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-            ever since the 1500s
+            Create your account to unlock exclusive access to premium fragrances,
+            personalized recommendations, early access to new collections, and member-only discounts.
+            Start your fragrance journey today.
           </p>
 
           <form className="form">
@@ -65,7 +65,7 @@ const RegisterPage = () => (
                   />
                   <span className="checkbox__check" />
                   <p>
-                    I agree to the Google Terms of Service and Privacy Policy
+                    I agree to the VenFurner Terms of Service and Privacy Policy
                   </p>
                 </label>
               </div>
@@ -75,7 +75,7 @@ const RegisterPage = () => (
               type="button"
               className="btn btn--rounded btn--yellow btn-submit"
             >
-              Sign up
+              Create Account
             </button>
 
             <p className="form__signup-link">

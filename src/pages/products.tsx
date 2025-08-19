@@ -1,5 +1,6 @@
 import type { GetServerSideProps } from "next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
@@ -21,8 +22,17 @@ type FilterState = {
 };
 
 const Products = ({ initialProducts }: ProductsPageType) => {
+  const router = useRouter();
   const [products, setProducts] = useState<ProductType[]>(initialProducts);
   const [loading, setLoading] = useState(false);
+  const [initialCategory, setInitialCategory] = useState<string | null>(null);
+
+  // Handle initial category from URL
+  useEffect(() => {
+    if (router.query.category && typeof router.query.category === 'string') {
+      setInitialCategory(router.query.category);
+    }
+  }, [router.query.category]);
 
   const handleFiltersChange = async (newFilters: FilterState) => {
     setLoading(true);
@@ -66,7 +76,7 @@ const Products = ({ initialProducts }: ProductsPageType) => {
       <Breadcrumb />
       <section className="products-page">
         <div className="container">
-          <ProductsFilter onFiltersChange={handleFiltersChange} />
+          <ProductsFilter onFiltersChange={handleFiltersChange} initialCategory={initialCategory} />
           <ProductsContent products={products} loading={loading} />
         </div>
       </section>
