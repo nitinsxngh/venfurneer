@@ -61,20 +61,7 @@ const LuxuryDiffuser = () => {
                                 <p className="category-description">
                                     Transform your living space with our intelligent home scenting solutions. Create the perfect atmosphere for relaxation, focus, or entertainment with customizable fragrances that adapt to your lifestyle and preferences.
                                 </p>
-                                <div className="category-features">
-                                    <div className="feature">
-                                        <i className="icon-home"></i>
-                                        <span>Smart Home Integration</span>
-                                    </div>
-                                    <div className="feature">
-                                        <i className="icon-settings"></i>
-                                        <span>Customizable Scents</span>
-                                    </div>
-                                    <div className="feature">
-                                        <i className="icon-clock"></i>
-                                        <span>Schedule Control</span>
-                                    </div>
-                                </div>
+
                                 <Link href="/products?category=home" className="category-cta">
                                     <span>Explore Home Solutions</span>
                                 </Link>
@@ -97,20 +84,7 @@ const LuxuryDiffuser = () => {
                                 <p className="category-description">
                                     Elevate your business environment with professional scenting solutions. From retail spaces to corporate offices, our interactive kiosks and commercial diffusers create memorable brand experiences and enhance customer satisfaction.
                                 </p>
-                                <div className="category-features">
-                                    <div className="feature">
-                                        <i className="icon-briefcase"></i>
-                                        <span>Commercial Grade</span>
-                                    </div>
-                                    <div className="feature">
-                                        <i className="icon-chart"></i>
-                                        <span>Performance Analytics</span>
-                                    </div>
-                                    <div className="feature">
-                                        <i className="icon-users"></i>
-                                        <span>Multi-Zone Control</span>
-                                    </div>
-                                </div>
+
                                 <Link href="/products?category=business" className="category-cta">
                                     <span>Explore Business Solutions</span>
                                 </Link>
