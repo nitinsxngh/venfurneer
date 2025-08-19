@@ -765,7 +765,7 @@ h5 {
     z-index: 99;
     display: none;
     position: absolute;
-    padding: 36px 30px 30px 30px;
+    padding: 20px 25px 20px 25px;
 
     @include breakpoint(phone) {
       display: block;
@@ -806,20 +806,20 @@ h5 {
         }
 
         i {
-          margin-right: 27px;
-          height: 39px;
-          width: 39px;
-          font-size: 13px;
+          margin-right: 20px;
+          height: 32px;
+          width: 32px;
+          font-size: 12px;
           flex-shrink: 0;
           display: flex;
-          border-radius: 10px;
+          border-radius: 8px;
           color: var(--color-primary);
           background: var(--color-accent-light);
           justify-content: center;
           align-items: center;
 
           @include breakpoint(phone) {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
           }
 
           @include breakpoint(tablet-lg) {
@@ -829,13 +829,13 @@ h5 {
 
         .data-item__content {
           h4 {
-            font-size: 14px;
-            margin-bottom: 7px;
+            font-size: 13px;
+            margin-bottom: 5px;
           }
 
           p {
-            font-size: 12px;
-            line-height: 135%;
+            font-size: 11px;
+            line-height: 130%;
           }
         }
       }
@@ -941,10 +941,10 @@ h5 {
 }
 
 .featured {
-  padding: 35px 0 62px 0;
+  padding: 25px 0 45px 0;
 
   @include breakpoint(phone) {
-    padding: 70px 0 92px 0;
+    padding: 50px 0 65px 0;
   }
 
   .container {
@@ -992,19 +992,19 @@ h5 {
   }
 
   .featured-item {
-    height: 200px;
+    height: 160px;
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 21px 22px;
+    padding: 18px 20px;
     position: relative;
 
     @include breakpoint(phone) {
-      height: 375px;
-      padding: 55px 46px;
-      margin-bottom: 10px;
+      height: 300px;
+      padding: 40px 35px;
+      margin-bottom: 8px;
     }
 
     @include breakpoint(tablet-lg) {
@@ -1508,7 +1508,7 @@ h5 {
 
   li {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 35px;
 
     @include breakpoint(phone) {
       width: 22%;
@@ -1517,23 +1517,23 @@ h5 {
     }
 
     i {
-      height: 70px;
-      width: 70px;
-      font-size: 20px;
+      height: 55px;
+      width: 55px;
+      font-size: 18px;
       flex-shrink: 0;
       display: flex;
       color: #000;
       background: #F6F6F6;
-      border-radius: 10px;
+      border-radius: 8px;
       transition: all .3s ease;
       justify-content: center;
       align-items: center;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
       margin-left: auto;
       margin-right: auto;
 
       @include breakpoint(phone) {
-        margin-bottom: 43px;
+        margin-bottom: 30px;
         margin-left: 0;
         margin-right: 0;
       }
@@ -1541,12 +1541,13 @@ h5 {
 
     .data-item__content {
       h4 {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        font-size: 15px;
       }
 
       p {
-        font-size: 13px;
-        line-height: 150%;
+        font-size: 12px;
+        line-height: 140%;
       }
     }
 
