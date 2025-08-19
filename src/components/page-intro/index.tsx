@@ -5,10 +5,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const PageIntro = () => {
   const [isClient, setIsClient] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+  };
 
   SwiperCore.use([EffectFade, Navigation]);
 
@@ -17,14 +22,14 @@ const PageIntro = () => {
       {isClient && (
         <Swiper navigation effect="fade" className="swiper-wrapper">
           <SwiperSlide>
-            <div className="page-intro__slide page-intro__slide--video">
+            <div className={`page-intro__slide page-intro__slide--video ${videoLoaded ? 'video-loaded' : 'video-loading'}`}>
               <video
                 className="page-intro__video"
                 autoPlay
                 muted
                 loop
                 playsInline
-                poster="/images/slide-1.png"
+                onLoadedData={handleVideoLoad}
               >
                 <source src="/hero.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -42,14 +47,14 @@ const PageIntro = () => {
           </SwiperSlide>
 
           <SwiperSlide>
-            <div className="page-intro__slide page-intro__slide--video">
+            <div className={`page-intro__slide page-intro__slide--video ${videoLoaded ? 'video-loaded' : 'video-loading'}`}>
               <video
                 className="page-intro__video"
                 autoPlay
                 muted
                 loop
                 playsInline
-                poster="/images/slide-2.png"
+                onLoadedData={handleVideoLoad}
               >
                 <source src="/hero.mp4" type="video/mp4" />
                 Your browser does not support the video tag.

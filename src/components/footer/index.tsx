@@ -1,4 +1,4 @@
-import Logo from "../../assets/icons/logo";
+// Logo import removed - using image instead
 
 const Footer = () => {
   return (
@@ -7,7 +7,12 @@ const Footer = () => {
         <div className="site-footer__top">
           <div className="site-footer__description">
             <h6>
-              <Logo /> <span>VENFURNEER</span>
+              <img
+                src="/logo-venfurneer.png"
+                alt="VENFURNEER Logo"
+                className="footer-logo"
+              />
+              <span>VENFURNEER</span>
             </h6>
             <p>
               VENFURNEER offers premium perfumes, fragrance oils, and luxury
@@ -86,7 +91,7 @@ const Footer = () => {
                 <a href="mailto:info@venfurneer.com">info@venfurneer.com</a>
               </li>
               <li>
-                <a href="tel:+919630083631">Hotline: +91 96300 83631</a>
+                <a href="tel:+919630083631">Contact: +91 96300 83631</a>
               </li>
             </ul>
           </div>

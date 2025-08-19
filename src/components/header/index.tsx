@@ -115,9 +115,11 @@ const Header = ({ isErrorPage }: HeaderType) => {
               )}
             </>
           )}
+          {/* Account button disabled
           <button className="site-nav__btn">
             <p>Account</p>
           </button>
+          */}
         </nav>
 
         <div className="site-header__actions">
@@ -149,11 +151,13 @@ const Header = ({ isErrorPage }: HeaderType) => {
               )}
             </button>
           </Link>
+          {/* Login avatar button disabled
           <Link href="/login" legacyBehavior>
             <button className="site-header__btn-avatar">
               <i className="icon-avatar" />
             </button>
           </Link>
+          */}
           <button
             onClick={() => setMenuOpen(true)}
             className="site-header__btn-menu"
