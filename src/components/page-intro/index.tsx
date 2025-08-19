@@ -73,35 +73,6 @@ const PageIntro = () => {
         </Swiper>
       )}
 
-      <div className="shop-data">
-        <div className="container">
-          <ul className="shop-data__items">
-            <li>
-              <i className="icon-shipping" />
-              <div className="data-item__content">
-                <h4>Free Shipping</h4>
-                <p>On purchases over ₹5,000</p>
-              </div>
-            </li>
-
-            <li>
-              <i className="icon-shipping" />
-              <div className="data-item__content">
-                <h4>99% Satisfied Customers</h4>
-                <p>Our clients&apos; opinions speak for themselves</p>
-              </div>
-            </li>
-
-            <li>
-              <i className="icon-cash" />
-              <div className="data-item__content">
-                <h4>Originality Guaranteed</h4>
-                <p>30 days warranty for each product from our store</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
     </section>
   );
 };

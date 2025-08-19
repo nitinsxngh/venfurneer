@@ -1,13 +1,23 @@
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import Footer from "@/components/footer";
 import PageIntro from "@/components/page-intro";
 import ProductsFeatured from "@/components/products-featured";
 import Subscribe from "@/components/subscribe";
+import LuxuryDiffuser from "@/components/luxury-diffuser";
 
 import Layout from "../layouts/Main";
 import type { ProductType } from "../types";
+interface Category {
+  id: string;
+  name: string;
+  description?: string;
+  slug: string;
+  image?: string;
+  sortOrder?: number;
+}
 
 type IndexPageType = {
   products?: ProductType[];
@@ -39,105 +49,78 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 };
 
 const IndexPage = ({ products }: IndexPageType) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        console.log('Fetching categories...');
+        const response = await fetch('/api/categories');
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Categories fetched:', data);
+          // Sort by sortOrder and take max 5
+          const sortedCategories = data
+            .sort((a: Category, b: Category) => (a.sortOrder || 0) - (b.sortOrder || 0))
+            .slice(0, 5);
+          console.log('Sorted categories:', sortedCategories);
+          setCategories(sortedCategories);
+        } else {
+          console.error('Failed to fetch categories:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <Layout>
       <PageIntro />
 
       <section className="featured">
-        <div className="container">
-          <article
-            style={{ backgroundImage: "url(/images/featured-1.jpg)" }}
-            className="featured-item featured-item-large"
-          >
-            <div className="featured-item__content">
-              <h3>New Fragrances Arrived!</h3>
-              <Link href="/products" className="btn btn--rounded">
-                Explore Collection
-              </Link>
+        <div className="circular-categories-wrapper">
+          <div className="categories-header">
+            <h4 className="categories-subtitle">SHOP BY CATEGORIES</h4>
+            <h2 className="categories-title">Luxury Scent Diffusers For Your Home And Office</h2>
+          </div>
+
+          {loading ? (
+            <div className="categories-loading">
+              <div className="categories-loading__spinner"></div>
+              <p>Loading categories...</p>
             </div>
-          </article>
-
-          <article
-            style={{ backgroundImage: "url(/images/featured-2.png)" }}
-            className="featured-item featured-item-small-first"
-          >
-            <div className="featured-item__content">
-              <h3>Royal Oud Perfume ₹6,299</h3>
-              <Link href="/products" className="btn btn--rounded">
-                Shop Now
-              </Link>
+          ) : (
+            <div className="circular-categories">
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/products?category=${category.slug || category.id}`}
+                  className="circular-category"
+                >
+                  <div className="circular-category__image">
+                    <img
+                      src={category.image || "/images/featured-1.jpg"}
+                      alt={category.name}
+                    />
+                  </div>
+                  <div className="circular-category__text">
+                    <h3>{category.name}</h3>
+                  </div>
+                </Link>
+              ))}
             </div>
-          </article>
-
-          <article
-            style={{ backgroundImage: "url(/images/featured-3.png)" }}
-            className="featured-item featured-item-small"
-          >
-            <div className="featured-item__content">
-              <h3>Summer Sale - Up to 30% Off</h3>
-              <Link href="/products" className="btn btn--rounded">
-                VIEW ALL
-              </Link>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <header className="section__intro">
-            <h4>Why choose VENFURNER perfumes?</h4>
-          </header>
-
-          <ul className="shop-data-items">
-            <li>
-              <i className="icon-shipping" />
-              <div className="data-item__content">
-                <h4>Free Shipping</h4>
-                <p>
-                  All purchases over ₹5,000 are eligible for free shipping
-                  across India.
-                </p>
-              </div>
-            </li>
-
-            <li>
-              <i className="icon-payment" />
-              <div className="data-item__content">
-                <h4>Secure Payments</h4>
-                <p>
-                  All payments are processed securely with multiple payment
-                  options available.
-                </p>
-              </div>
-            </li>
-
-            <li>
-              <i className="icon-cash" />
-              <div className="data-item__content">
-                <h4>30-Day Return</h4>
-                <p>
-                  If you&apos;re not satisfied with your fragrance, return it within
-                  30 days for a full refund.
-                </p>
-              </div>
-            </li>
-
-            <li>
-              <i className="icon-materials" />
-              <div className="data-item__content">
-                <h4>Premium Fragrances</h4>
-                <p>
-                  Each perfume is crafted with the finest natural ingredients
-                  and authentic fragrances.
-                </p>
-              </div>
-            </li>
-          </ul>
+          )}
         </div>
       </section>
 
       <ProductsFeatured products={products} />
+      <LuxuryDiffuser />
       <Subscribe />
       <Footer />
     </Layout>
