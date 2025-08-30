@@ -1,0 +1,95 @@
+:root {
+  // Typography System - Luxury Perfume Brand
+  --main-font: 'Lato', sans-serif;
+  --heading-font: 'Playfair Display', serif;
+  --accent-font: 'Lato', sans-serif;
+
+  // Font Weights
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  // VENFURNER Brand Colors - Premium Luxury Theme
+  --color-primary: #1a1a1a; // Deep Black - main brand color
+  --color-primary-light: #2d2d2d; // Charcoal - lighter variant
+  --color-primary-dark: #0f0f0f; // Pure Black - darker variant
+
+  --color-secondary: #d4af37; // Premium Gold - accent color
+  --color-secondary-light: #f4e4a6; // Light Gold - light accent
+  --color-secondary-dark: #b8941f; // Dark Gold - dark accent
+
+  --color-accent: #c0c0c0; // Silver - highlight color
+  --color-accent-light: #e8e8e8; // Light Silver - very light accent
+  --color-accent-dark: #a8a8a8; // Dark Silver - dark highlight
+
+  --color-gold: #d4af37; // Premium Gold - main gold
+  --color-gold-light: #f4e4a6; // Light Gold - light gold
+  --color-gold-dark: #b8941f; // Dark Gold - dark gold
+
+  // Neutral Colors
+  --color-black: #2F2F2F; // Deep Charcoal
+  --color-text: #5D5D5D; // Warm Gray
+  --color-text-light: #8A8A8A; // Light Gray
+  --color-white: #FFFFFF;
+  --color-gray: #E8E8E8; // Light Gray
+  --color-gray-dark: #B8B8B8; // Medium Gray
+
+  // Status Colors
+  --color-success: #228B22; // Forest Green
+  --color-error: #DC143C; // Crimson
+  --color-warning: #FF8C00; // Dark Orange
+  --color-info: #4682B4; // Steel Blue
+
+  // Background Colors
+  --color-bg-primary: #FAFAFA; // Off White
+  --color-bg-secondary: #F5F5F5; // Light Gray
+  --color-bg-accent: #FFF8DC; // Cornsilk
+}
+
+@mixin inputPlaceholder() {
+  $selector: '';
+  $prefixes: (
+    moz: "::-moz",
+    webkit: "::-webkit",
+    ie: ":-ms"
+  );
+
+@each $prop, $value in $prefixes {
+  @if $prop !="moz" {
+    $selector: #{$value}-input-placeholder;
+  }
+
+  @else {
+    $selector: #{$value}-placeholder;
+  }
+
+  @if & {
+    &#{$selector} {
+      @content;
+    }
+  }
+
+  @else {
+    #{$selector} {
+      @content;
+    }
+  }
+}
+
+&::placeholder {
+  @content;
+}
+}
+
+
+@keyframes skeleton {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
