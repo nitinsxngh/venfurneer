@@ -23,28 +23,13 @@ const Footer = () => {
             </p>
             <ul className="site-footer__social-networks">
               <li>
-                <a href="#">
+                <a href="https://www.facebook.com/61565767013358/about/?_rdr" target="_blank" rel="noopener noreferrer">
                   <i className="icon-facebook" />
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <i className="icon-twitter" />
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="icon-linkedin" />
-                </a>
-              </li>
-              <li>
-                <a href="#">
+                <a href="https://www.instagram.com/venfurneeraroma/?igsh=d3d0cTAzNjNrNjlm&utm_source=qr#" target="_blank" rel="noopener noreferrer">
                   <i className="icon-instagram" />
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i className="icon-youtube-play" />
                 </a>
               </li>
             </ul>

@@ -134,7 +134,14 @@ const Header = ({ isErrorPage }: HeaderType) => {
             ref={searchRef}
             className={`search-form-wrapper ${searchOpen ? "search-form--active" : ""}`}
           >
-            <form className="search-form">
+            <form className="search-form" onSubmit={(e) => {
+              e.preventDefault();
+              const searchTerm = e.currentTarget.search.value;
+              if (searchTerm.trim()) {
+                router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+                setSearchOpen(false);
+              }
+            }}>
               <i
                 className="icon-cancel"
                 onClick={() => setSearchOpen(!searchOpen)}

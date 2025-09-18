@@ -1,11 +1,13 @@
+import Link from "next/link";
+
 const Breadcrumb = () => (
   <section className="breadcrumb">
     <div className="container">
       <ul className="breadcrumb-list">
         <li>
-          <a href="#">
+          <Link href="/">
             <i className="icon-home" />
-          </a>
+          </Link>
         </li>
         <li>All Products</li>
       </ul>

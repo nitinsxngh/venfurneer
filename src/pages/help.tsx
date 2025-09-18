@@ -240,6 +240,11 @@ const HelpPage = () => {
                             </Link>
                         </div>
                     </div>
+
+                    <div className="help-cta">
+                        <h3>Last Updated</h3>
+                        <p>This Help & Support page was last updated on August 16, 2025.</p>
+                    </div>
                 </div>
             </section>
 

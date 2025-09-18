@@ -206,7 +206,7 @@ const TermsPage = () => {
 
                     <div className="terms-cta">
                         <h3>Last Updated</h3>
-                        <p>These Terms & Conditions were last updated on January 15, 2025.</p>
+                        <p>These Terms & Conditions were last updated on August 16, 2025.</p>
                     </div>
                 </div>
             </section>
