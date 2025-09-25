@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import CheckoutItems from "@/components/checkout/items";
 import CheckoutStatus from "@/components/checkout-status";
+import RazorpayPayment from "@/components/razorpay-payment";
 import type { RootState } from "@/store";
 import type { ProductStoreType } from "@/types";
 import { clearCart } from "@/store/reducers/cart";
@@ -18,6 +19,9 @@ const CheckoutPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [orderCreated, setOrderCreated] = useState(false);
+  const [orderNumber, setOrderNumber] = useState("");
+  const [paymentError, setPaymentError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     address: "",
@@ -74,7 +78,7 @@ const CheckoutPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handlePlaceOrder = async () => {
+  const handleCreateOrder = async () => {
     if (!validateForm()) {
       return;
     }
@@ -85,6 +89,7 @@ const CheckoutPage = () => {
     }
 
     setLoading(true);
+    setPaymentError("");
 
     try {
       const orderData = {
@@ -105,20 +110,30 @@ const CheckoutPage = () => {
 
       if (response.ok) {
         const order = await response.json();
-        // Clear cart after successful order
-        dispatch(clearCart());
-        // Redirect to order confirmation
-        router.push(`/order-confirmation?orderId=${order.id}`);
+        setOrderNumber(order.id);
+        setOrderCreated(true);
       } else {
         const errorData = await response.json();
-        alert(errorData.message || "Failed to place order. Please try again.");
+        setPaymentError(errorData.message || "Failed to create order. Please try again.");
       }
     } catch (error) {
-      console.error("Order placement error:", error);
-      alert("An error occurred while placing your order. Please try again.");
+      console.error("Order creation error:", error);
+      setPaymentError("An error occurred while creating your order. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePaymentSuccess = () => {
+    // Clear cart after successful payment
+    dispatch(clearCart());
+    // Redirect to order confirmation
+    router.push(`/order-confirmation?orderId=${orderNumber}`);
+  };
+
+  const handlePaymentError = (error: string) => {
+    setPaymentError(error);
+    setLoading(false);
   };
 
   return (
@@ -132,132 +147,168 @@ const CheckoutPage = () => {
 
           <div className="checkout-content">
             <div className="checkout__col-6">
-              {/* <div className="checkout__btns">
-                <button className="btn btn--rounded btn--yellow">Log in</button>
-                <button className="btn btn--rounded btn--border">
-                  Sign up
-                </button>
-              </div> */}
-
-              <div className="block">
-                <h3 className="block__title">Shipping information</h3>
-                <form className="form">
-                  <div className="form__input-row form__input-row--two">
-                    <div className="form__col">
-                      <input
-                        className={`form__input form__input--sm ${errors.email ? 'form__input--error' : ''}`}
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.email && <span className="form__error">{errors.email}</span>}
-                    </div>
-
-                    <div className="form__col">
-                      <input
-                        className={`form__input form__input--sm ${errors.address ? 'form__input--error' : ''}`}
-                        type="text"
-                        name="address"
-                        placeholder="Address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.address && <span className="form__error">{errors.address}</span>}
-                    </div>
-                  </div>
-
-                  <div className="form__input-row form__input-row--two">
-                    <div className="form__col">
-                      <input
-                        className={`form__input form__input--sm ${errors.firstName ? 'form__input--error' : ''}`}
-                        type="text"
-                        name="firstName"
-                        placeholder="First name"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.firstName && <span className="form__error">{errors.firstName}</span>}
-                    </div>
-
-                    <div className="form__col">
-                      <input
-                        className={`form__input form__input--sm ${errors.city ? 'form__input--error' : ''}`}
-                        type="text"
-                        name="city"
-                        placeholder="City"
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.city && <span className="form__error">{errors.city}</span>}
-                    </div>
-                  </div>
-
-                  <div className="form__input-row form__input-row--two">
-                    <div className="form__col">
-                      <input
-                        className={`form__input form__input--sm ${errors.lastName ? 'form__input--error' : ''}`}
-                        type="text"
-                        name="lastName"
-                        placeholder="Last name"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.lastName && <span className="form__error">{errors.lastName}</span>}
-                    </div>
-
-                    <div className="form__col">
-                      <input
-                        className={`form__input form__input--sm ${errors.postalCode ? 'form__input--error' : ''}`}
-                        type="text"
-                        name="postalCode"
-                        placeholder="Postal code / ZIP"
-                        value={formData.postalCode}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.postalCode && <span className="form__error">{errors.postalCode}</span>}
-                    </div>
-                  </div>
-
-                  <div className="form__input-row form__input-row--two">
-                    <div className="form__col">
-                      <input
-                        className={`form__input form__input--sm ${errors.phoneNumber ? 'form__input--error' : ''}`}
-                        type="tel"
-                        name="phoneNumber"
-                        placeholder="Phone number"
-                        value={formData.phoneNumber}
-                        onChange={handleInputChange}
-                        required
-                      />
-                      {errors.phoneNumber && <span className="form__error">{errors.phoneNumber}</span>}
-                    </div>
-
-                    <div className="form__col">
-                      <div className="select-wrapper select-form">
-                        <select
-                          name="country"
-                          value={formData.country}
+              {!orderCreated ? (
+                <div className="block">
+                  <h3 className="block__title">Shipping information</h3>
+                  <form className="form">
+                    <div className="form__input-row form__input-row--two">
+                      <div className="form__col">
+                        <input
+                          className={`form__input form__input--sm ${errors.email ? 'form__input--error' : ''}`}
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+                          value={formData.email}
                           onChange={handleInputChange}
-                          className={errors.country ? 'form__input--error' : ''}
                           required
-                        >
-                          <option value="">Country</option>
-                          <option value="India">India</option>
-                        </select>
-                        {errors.country && <span className="form__error">{errors.country}</span>}
+                        />
+                        {errors.email && <span className="form__error">{errors.email}</span>}
+                      </div>
+
+                      <div className="form__col">
+                        <input
+                          className={`form__input form__input--sm ${errors.address ? 'form__input--error' : ''}`}
+                          type="text"
+                          name="address"
+                          placeholder="Address"
+                          value={formData.address}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.address && <span className="form__error">{errors.address}</span>}
                       </div>
                     </div>
+
+                    <div className="form__input-row form__input-row--two">
+                      <div className="form__col">
+                        <input
+                          className={`form__input form__input--sm ${errors.firstName ? 'form__input--error' : ''}`}
+                          type="text"
+                          name="firstName"
+                          placeholder="First name"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.firstName && <span className="form__error">{errors.firstName}</span>}
+                      </div>
+
+                      <div className="form__col">
+                        <input
+                          className={`form__input form__input--sm ${errors.city ? 'form__input--error' : ''}`}
+                          type="text"
+                          name="city"
+                          placeholder="City"
+                          value={formData.city}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.city && <span className="form__error">{errors.city}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form__input-row form__input-row--two">
+                      <div className="form__col">
+                        <input
+                          className={`form__input form__input--sm ${errors.lastName ? 'form__input--error' : ''}`}
+                          type="text"
+                          name="lastName"
+                          placeholder="Last name"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.lastName && <span className="form__error">{errors.lastName}</span>}
+                      </div>
+
+                      <div className="form__col">
+                        <input
+                          className={`form__input form__input--sm ${errors.postalCode ? 'form__input--error' : ''}`}
+                          type="text"
+                          name="postalCode"
+                          placeholder="Postal code / ZIP"
+                          value={formData.postalCode}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.postalCode && <span className="form__error">{errors.postalCode}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form__input-row form__input-row--two">
+                      <div className="form__col">
+                        <input
+                          className={`form__input form__input--sm ${errors.phoneNumber ? 'form__input--error' : ''}`}
+                          type="tel"
+                          name="phoneNumber"
+                          placeholder="Phone number"
+                          value={formData.phoneNumber}
+                          onChange={handleInputChange}
+                          required
+                        />
+                        {errors.phoneNumber && <span className="form__error">{errors.phoneNumber}</span>}
+                      </div>
+
+                      <div className="form__col">
+                        <div className="select-wrapper select-form">
+                          <select
+                            name="country"
+                            value={formData.country}
+                            onChange={handleInputChange}
+                            className={errors.country ? 'form__input--error' : ''}
+                            required
+                          >
+                            <option value="">Country</option>
+                            <option value="India">India</option>
+                          </select>
+                          {errors.country && <span className="form__error">{errors.country}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              ) : (
+                <div className="block">
+                  <h3 className="block__title">Payment Information</h3>
+                  <div className="order-summary">
+                    <p><strong>Order Number:</strong> {orderNumber}</p>
+                    <p><strong>Total Amount:</strong> ₹{priceTotal}</p>
                   </div>
-                </form>
-              </div>
+
+                  {paymentError && (
+                    <div className="payment-error">
+                      <p>{paymentError}</p>
+                    </div>
+                  )}
+
+                  <RazorpayPayment
+                    orderData={{
+                      customerInfo: formData,
+                      items: cartItems,
+                      total: priceTotal,
+                      orderNumber: orderNumber
+                    }}
+                    onPaymentSuccess={handlePaymentSuccess}
+                    onPaymentError={handlePaymentError}
+                    loading={loading}
+                    setLoading={setLoading}
+                  />
+
+                  <div className="payment-options">
+                    <button
+                      type="button"
+                      className="btn btn--rounded btn--border"
+                      onClick={() => {
+                        setOrderCreated(false);
+                        setOrderNumber("");
+                        setPaymentError("");
+                      }}
+                    >
+                      Back to Shipping
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="checkout__col-2">
@@ -277,19 +328,21 @@ const CheckoutPage = () => {
             <Link href="/cart" className="cart__btn-back">
               <i className="icon-left" /> Back
             </Link>
-            <div className="cart-actions__items-wrapper">
-              <button type="button" className="btn btn--rounded btn--border">
-                Continue shopping
-              </button>
-              <button
-                type="button"
-                className="btn btn--rounded btn--yellow"
-                onClick={handlePlaceOrder}
-                disabled={loading || cartItems.length === 0}
-              >
-                {loading ? "Processing..." : "Place Order"}
-              </button>
-            </div>
+            {!orderCreated && (
+              <div className="cart-actions__items-wrapper">
+                <button type="button" className="btn btn--rounded btn--border">
+                  Continue shopping
+                </button>
+                <button
+                  type="button"
+                  className="btn btn--rounded btn--yellow"
+                  onClick={handleCreateOrder}
+                  disabled={loading || cartItems.length === 0}
+                >
+                  {loading ? "Creating Order..." : "Proceed to Payment"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>

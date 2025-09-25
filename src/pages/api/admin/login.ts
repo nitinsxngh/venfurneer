@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 
-// Use consistent JWT_SECRET (in production, this should be an environment variable)
-const JWT_SECRET = "sdfkjhsfjkbfjfbrejfbrejbe";
+// Use environment variables with fallbacks
+const JWT_SECRET = process.env.JWT_SECRET || "sdfkjhsfjkbfjfbrejfbrejbe";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@venfurner.com";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 

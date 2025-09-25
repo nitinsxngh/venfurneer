@@ -61,9 +61,7 @@ export default async function handler(
                 }
             },
             items: items.map(item => ({
-                product: mongoose.Types.ObjectId.isValid(item.id)
-                    ? new mongoose.Types.ObjectId(item.id)
-                    : new mongoose.Types.ObjectId(), // Generate a new ObjectId if invalid
+                product: new mongoose.Types.ObjectId(), // Generate a new ObjectId for now
                 name: item.name,
                 price: item.price,
                 quantity: item.count,
@@ -102,6 +100,15 @@ export default async function handler(
 
     } catch (error) {
         console.error("Order creation error:", error);
+
+        // Check if it's a MongoDB connection error
+        if (error instanceof Error && error.message.includes('MongoNetworkError')) {
+            return res.status(500).json({
+                message: "Database connection failed. Please try again later.",
+                error: "Database connection error"
+            });
+        }
+
         res.status(500).json({
             message: "Failed to create order. Please try again.",
             error: error instanceof Error ? error.message : "Unknown error"

@@ -23,6 +23,16 @@ interface Customer {
   };
 }
 
+interface PaymentDetails {
+  method?: string;
+  transactionId?: string;
+  razorpayOrderId?: string;
+  status?: string;
+  amount?: number;
+  currency?: string;
+  paidAt?: string;
+}
+
 interface Order {
   id: string;
   orderNumber: string;
@@ -32,8 +42,9 @@ interface Order {
   shipping: number;
   tax: number;
   total: number;
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  status: "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
   paymentStatus: "pending" | "paid" | "failed" | "refunded";
+  payment?: PaymentDetails;
   paymentMethod?: string;
   shippingMethod?: string;
   trackingNumber?: string;
@@ -61,6 +72,8 @@ const OrderList = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("createdAt");
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [showOrderModal, setShowOrderModal] = useState(false);
 
   const filteredOrders = orders
     .filter((order) => {
@@ -123,6 +136,18 @@ const OrderList = ({
       default:
         return "gray";
     }
+  };
+
+  const handleOrderClick = (order: Order) => {
+    console.log('Selected order data:', order);
+    console.log('Customer address:', order.customer.address);
+    setSelectedOrder(order);
+    setShowOrderModal(true);
+  };
+
+  const closeOrderModal = () => {
+    setSelectedOrder(null);
+    setShowOrderModal(false);
   };
 
   if (loading) {
@@ -190,6 +215,7 @@ const OrderList = ({
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Date</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -263,21 +289,36 @@ const OrderList = ({
                     </select>
                   </td>
                   <td>
-                    <select
-                      value={order.paymentStatus}
-                      onChange={(e) =>
-                        onPaymentStatusUpdate(
-                          order.id,
-                          e.target.value as Order["paymentStatus"],
-                        )
-                      }
-                      className={`admin-form__select admin-form__select--${getPaymentStatusColor(order.paymentStatus)}`}
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="paid">Paid</option>
-                      <option value="failed">Failed</option>
-                      <option value="refunded">Refunded</option>
-                    </select>
+                    <div className="admin-table__payment-info">
+                      <select
+                        value={order.paymentStatus}
+                        onChange={(e) =>
+                          onPaymentStatusUpdate(
+                            order.id,
+                            e.target.value as Order["paymentStatus"],
+                          )
+                        }
+                        className={`admin-form__select admin-form__select--${getPaymentStatusColor(order.paymentStatus)}`}
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
+                        <option value="failed">Failed</option>
+                        <option value="refunded">Refunded</option>
+                      </select>
+                      {order.payment && (
+                        <div className="admin-table__payment-details">
+                          {order.payment.method && (
+                            <small>Method: {order.payment.method}</small>
+                          )}
+                          {order.payment.transactionId && (
+                            <small>Txn ID: {order.payment.transactionId}</small>
+                          )}
+                          {order.payment.paidAt && (
+                            <small>Paid: {new Date(order.payment.paidAt).toLocaleDateString()}</small>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </td>
                   <td>
                     <div className="admin-table__order-date">
@@ -289,11 +330,238 @@ const OrderList = ({
                       </small>
                     </div>
                   </td>
-
+                  <td>
+                    <button
+                      className="btn btn--sm btn--yellow"
+                      onClick={() => handleOrderClick(order)}
+                    >
+                      View Details
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Order Details Modal */}
+      {showOrderModal && selectedOrder && (
+        <div className="admin-modal-overlay" onClick={closeOrderModal}>
+          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal__header">
+              <h2>Order Details - {selectedOrder.orderNumber}</h2>
+              <button className="admin-modal__close" onClick={closeOrderModal}>
+                ×
+              </button>
+            </div>
+
+            <div className="admin-modal__content">
+              {/* Customer Information */}
+              <div className="admin-modal__section">
+                <h3>Customer Information</h3>
+                <div className="admin-modal__info-grid">
+                  <div>
+                    <strong>Name:</strong> {selectedOrder.customer.name}
+                  </div>
+                  <div>
+                    <strong>Email:</strong> {selectedOrder.customer.email}
+                  </div>
+                  {selectedOrder.customer.phone && (
+                    <div>
+                      <strong>Phone:</strong> {selectedOrder.customer.phone}
+                    </div>
+                  )}
+                  <div>
+                    <strong>Address:</strong>
+                    <div className="admin-modal__address">
+                      {selectedOrder.customer.address && (
+                        selectedOrder.customer.address.street ||
+                          selectedOrder.customer.address.city ||
+                          selectedOrder.customer.address.state ||
+                          selectedOrder.customer.address.zipCode ||
+                          selectedOrder.customer.address.country ? (
+                          <>
+                            {selectedOrder.customer.address.street && (
+                              <div><strong>Street:</strong> {selectedOrder.customer.address.street}</div>
+                            )}
+                            {selectedOrder.customer.address.city && (
+                              <div><strong>City:</strong> {selectedOrder.customer.address.city}</div>
+                            )}
+                            {selectedOrder.customer.address.state && (
+                              <div><strong>State:</strong> {selectedOrder.customer.address.state}</div>
+                            )}
+                            {selectedOrder.customer.address.zipCode && (
+                              <div><strong>ZIP Code:</strong> {selectedOrder.customer.address.zipCode}</div>
+                            )}
+                            {selectedOrder.customer.address.country && (
+                              <div><strong>Country:</strong> {selectedOrder.customer.address.country}</div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="admin-modal__no-data">No address provided</div>
+                        )
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Complete Address Summary */}
+                  {selectedOrder.customer.address && (
+                    selectedOrder.customer.address.street ||
+                    selectedOrder.customer.address.city ||
+                    selectedOrder.customer.address.state ||
+                    selectedOrder.customer.address.zipCode ||
+                    selectedOrder.customer.address.country
+                  ) && (
+                      <div>
+                        <strong>Complete Address:</strong>
+                        <div className="admin-modal__complete-address">
+                          {[
+                            selectedOrder.customer.address.street,
+                            selectedOrder.customer.address.city,
+                            selectedOrder.customer.address.state,
+                            selectedOrder.customer.address.zipCode,
+                            selectedOrder.customer.address.country
+                          ].filter(Boolean).join(', ')}
+                        </div>
+                      </div>
+                    )}
+                </div>
+              </div>
+
+              {/* Order Items */}
+              <div className="admin-modal__section">
+                <h3>Order Items</h3>
+                <div className="admin-modal__items">
+                  {selectedOrder.items.map((item, index) => (
+                    <div key={index} className="admin-modal__item">
+                      <div className="admin-modal__item-image">
+                        {item.image && (
+                          <img src={item.image} alt={item.name} />
+                        )}
+                      </div>
+                      <div className="admin-modal__item-details">
+                        <div className="admin-modal__item-name">{item.name}</div>
+                        <div className="admin-modal__item-specs">
+                          {item.size && <span>Size: {item.size}</span>}
+                          {item.color && <span>Color: {item.color}</span>}
+                        </div>
+                        <div className="admin-modal__item-price">
+                          ₹{item.price.toLocaleString()} × {item.quantity} = ₹{(item.price * item.quantity).toLocaleString()}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Payment Information */}
+              <div className="admin-modal__section">
+                <h3>Payment Information</h3>
+                <div className="admin-modal__info-grid">
+                  <div>
+                    <strong>Payment Status:</strong>
+                    <span className={`admin-status admin-status--${getPaymentStatusColor(selectedOrder.paymentStatus)}`}>
+                      {selectedOrder.paymentStatus.toUpperCase()}
+                    </span>
+                  </div>
+                  {selectedOrder.payment && (
+                    <>
+                      {selectedOrder.payment.method && (
+                        <div>
+                          <strong>Payment Method:</strong> {selectedOrder.payment.method}
+                        </div>
+                      )}
+                      {selectedOrder.payment.transactionId && (
+                        <div>
+                          <strong>Transaction ID:</strong> {selectedOrder.payment.transactionId}
+                        </div>
+                      )}
+                      {selectedOrder.payment.razorpayOrderId && (
+                        <div>
+                          <strong>Razorpay Order ID:</strong> {selectedOrder.payment.razorpayOrderId}
+                        </div>
+                      )}
+                      {selectedOrder.payment.paidAt && (
+                        <div>
+                          <strong>Payment Date:</strong> {new Date(selectedOrder.payment.paidAt).toLocaleString()}
+                        </div>
+                      )}
+                      {selectedOrder.payment.amount && (
+                        <div>
+                          <strong>Amount Paid:</strong> ₹{selectedOrder.payment.amount.toLocaleString()} {selectedOrder.payment.currency}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className="admin-modal__section">
+                <h3>Order Summary</h3>
+                <div className="admin-modal__summary">
+                  <div className="admin-modal__summary-row">
+                    <span>Subtotal:</span>
+                    <span>₹{selectedOrder.subtotal.toLocaleString()}</span>
+                  </div>
+                  <div className="admin-modal__summary-row">
+                    <span>Shipping:</span>
+                    <span>₹{selectedOrder.shipping.toLocaleString()}</span>
+                  </div>
+                  <div className="admin-modal__summary-row">
+                    <span>Tax:</span>
+                    <span>₹{selectedOrder.tax.toLocaleString()}</span>
+                  </div>
+                  <div className="admin-modal__summary-row admin-modal__summary-row--total">
+                    <span>Total:</span>
+                    <span>₹{selectedOrder.total.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Order Status Controls */}
+              <div className="admin-modal__section">
+                <h3>Order Management</h3>
+                <div className="admin-modal__controls">
+                  <div className="admin-modal__control-group">
+                    <label>Order Status:</label>
+                    <select
+                      value={selectedOrder.status}
+                      onChange={(e) => {
+                        onStatusUpdate(selectedOrder.id, e.target.value as Order["status"]);
+                        setSelectedOrder({ ...selectedOrder, status: e.target.value as Order["status"] });
+                      }}
+                      className={`admin-form__select admin-form__select--${getStatusColor(selectedOrder.status)}`}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="confirmed">Confirmed</option>
+                      <option value="processing">Processing</option>
+                      <option value="shipped">Shipped</option>
+                      <option value="delivered">Delivered</option>
+                      <option value="cancelled">Cancelled</option>
+                    </select>
+                  </div>
+                  <div className="admin-modal__control-group">
+                    <label>Payment Status:</label>
+                    <select
+                      value={selectedOrder.paymentStatus}
+                      onChange={(e) => {
+                        onPaymentStatusUpdate(selectedOrder.id, e.target.value as Order["paymentStatus"]);
+                        setSelectedOrder({ ...selectedOrder, paymentStatus: e.target.value as Order["paymentStatus"] });
+                      }}
+                      className={`admin-form__select admin-form__select--${getPaymentStatusColor(selectedOrder.paymentStatus)}`}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="paid">Paid</option>
+                      <option value="failed">Failed</option>
+                      <option value="refunded">Refunded</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

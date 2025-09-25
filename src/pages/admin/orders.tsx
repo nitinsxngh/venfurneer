@@ -27,6 +27,16 @@ interface Customer {
   };
 }
 
+interface PaymentDetails {
+  method?: string;
+  transactionId?: string;
+  razorpayOrderId?: string;
+  status?: string;
+  amount?: number;
+  currency?: string;
+  paidAt?: string;
+}
+
 interface Order {
   id: string;
   orderNumber: string;
@@ -36,8 +46,9 @@ interface Order {
   shipping: number;
   tax: number;
   total: number;
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  status: "pending" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
   paymentStatus: "pending" | "paid" | "failed" | "refunded";
+  payment?: PaymentDetails;
   paymentMethod?: string;
   shippingMethod?: string;
   trackingNumber?: string;

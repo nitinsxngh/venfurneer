@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI =
+const MONGODB_URI = process.env.MONGODB_URI ||
   "mongodb+srv://gomaterial:gomaterial%40123@admin-gomaterial.r3p4ezm.mongodb.net/venfurner?retryWrites=true&w=majority&appName=Admin-Gomaterial";
 
 if (!MONGODB_URI) {
