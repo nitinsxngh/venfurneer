@@ -26,27 +26,29 @@ export default async function handler(
         products = await Product.find({}).sort({ createdAt: -1 });
       }
 
-      // Transform MongoDB _id to id for frontend compatibility
-      const transformedProducts = products.map((product) => {
-        const productObj = product.toObject();
+      // Transform MongoDB _id to id for frontend compatibility and filter out invalid products
+      const transformedProducts = products
+        .filter((product) => product && product.name) // Filter out products with null/undefined names
+        .map((product) => {
+          const productObj = product.toObject();
 
-        // Handle cases where category might not be populated
-        let category = productObj.category;
-        if (category && typeof category === "object" && category._id) {
-          category = {
-            id: category._id.toString(),
-            name: category.name || "Unknown Category",
-            slug: category.slug || "unknown-category",
+          // Handle cases where category might not be populated
+          let category = productObj.category;
+          if (category && typeof category === "object" && category._id) {
+            category = {
+              id: category._id.toString(),
+              name: category.name || "Unknown Category",
+              slug: category.slug || "unknown-category",
+            };
+          }
+
+          return {
+            ...productObj,
+            id: productObj._id.toString(),
+            _id: undefined,
+            category: category,
           };
-        }
-
-        return {
-          ...productObj,
-          id: productObj._id.toString(),
-          _id: undefined,
-          category: category,
-        };
-      });
+        });
 
       res.status(200).json(transformedProducts);
     } catch {

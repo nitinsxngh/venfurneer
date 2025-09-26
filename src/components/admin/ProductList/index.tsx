@@ -31,15 +31,17 @@ const ProductList = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("name");
 
-  // Ensure products is always an array
-  const safeProducts = Array.isArray(products) ? products : [];
+  // Ensure products is always an array and filter out invalid products
+  const safeProducts = Array.isArray(products)
+    ? products.filter(product => product && product.id) // Filter out null/undefined products
+    : [];
 
   const filteredProducts = safeProducts.filter(
     (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (product.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
       (typeof product.category === "string"
         ? product.category
-        : product.category.name
+        : product.category?.name || ""
       )
         .toLowerCase()
         .includes(searchTerm.toLowerCase()),
@@ -48,14 +50,14 @@ const ProductList = ({
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
       case "name":
-        return a.name.localeCompare(b.name);
+        return (a.name || "").localeCompare(b.name || "");
       case "price":
         return Number(a.currentPrice) - Number(b.currentPrice);
       case "category": {
         const categoryA =
-          typeof a.category === "string" ? a.category : a.category.name;
+          typeof a.category === "string" ? a.category : a.category?.name || "";
         const categoryB =
-          typeof b.category === "string" ? b.category : b.category.name;
+          typeof b.category === "string" ? b.category : b.category?.name || "";
         return categoryA.localeCompare(categoryB);
       }
       default:
@@ -68,6 +70,14 @@ const ProductList = ({
       <div className="admin-loading">
         <div className="admin-loading__spinner"></div>
         <p>Loading products...</p>
+      </div>
+    );
+  }
+
+  if (safeProducts.length === 0) {
+    return (
+      <div className="admin-no-products">
+        <p>No products found. Add some products to get started.</p>
       </div>
     );
   }
@@ -127,7 +137,7 @@ const ProductList = ({
                 </td>
                 <td>
                   <div className="admin-product-info">
-                    <h4 className="admin-product-name">{product.name}</h4>
+                    <h4 className="admin-product-name">{product.name || "Unnamed Product"}</h4>
                     {product.discount && Number(product.discount) > 0 && (
                       <span className="admin-product-discount">
                         {product.discount}% OFF
@@ -139,7 +149,7 @@ const ProductList = ({
                   <span className="admin-product-category">
                     {typeof product.category === "string"
                       ? product.category
-                      : product.category.name}
+                      : product.category?.name || "Unknown Category"}
                   </span>
                 </td>
                 <td>
