@@ -10,7 +10,7 @@ type LayoutType = {
 
 const MainLayout = ({
   children,
-  title = "VENFURNER - Premium Perfumes",
+  title = "venfurneer - Premium Perfumes",
 }: LayoutType) => {
   const router = useRouter();
   const pathname = router.pathname;

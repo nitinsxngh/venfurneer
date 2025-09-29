@@ -31,7 +31,27 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const baseUrl = `${protocol}://${host}`;
 
     const res = await fetch(`${baseUrl}/api/products`);
+
+    if (!res.ok) {
+      console.error("API response not ok:", res.status);
+      return {
+        props: {
+          products: [],
+        },
+      };
+    }
+
     const products = await res.json();
+
+    // Ensure products is always an array
+    if (!Array.isArray(products)) {
+      console.error("Products is not an array:", products);
+      return {
+        props: {
+          products: [],
+        },
+      };
+    }
 
     return {
       props: {

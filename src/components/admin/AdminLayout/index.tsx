@@ -125,7 +125,7 @@ const AdminLayout = ({ children, title }: AdminLayoutProps) => {
               </svg>
             </div>
             <div className="admin-sidebar__logo-text">
-              <h2>VENFURNER</h2>
+              <h2>venfurneer</h2>
               <span>Admin Panel</span>
             </div>
           </div>
@@ -216,7 +216,7 @@ const AdminLayout = ({ children, title }: AdminLayoutProps) => {
               </svg>
             </button>
             <div className="admin-top-header__breadcrumb">
-              <span className="admin-top-header__brand">VENFURNER</span>
+              <span className="admin-top-header__brand">venfurneer</span>
               <span className="admin-top-header__separator">/</span>
               <span className="admin-top-header__page">{title}</span>
             </div>

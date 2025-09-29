@@ -88,7 +88,7 @@ const RazorpayPayment: React.FC<RazorpayPaymentProps> = ({
                 key: 'rzp_live_RLQCo5zT8hGnCO',
                 amount: order.amount,
                 currency: order.currency,
-                name: 'VENFURNER',
+                name: 'venfurneer',
                 description: `Order #${orderData.orderNumber}`,
                 image: '/logo-venfurneer.png',
                 order_id: order.id,

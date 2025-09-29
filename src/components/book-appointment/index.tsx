@@ -117,7 +117,7 @@ const BookAppointment = () => {
                         />
                         <span className="checkmark"></span>
                         <span className="terms-text">
-                            By clicking on Book Appointment, you authorize <strong>VENFURNER</strong> to contact you via email, SMS, RCS or any other channel even if registered under DND/NDNC and agree to receive important communications via WhatsApp.
+                            By clicking on Book Appointment, you authorize <strong>venfurneer</strong> to contact you via email, SMS, RCS or any other channel even if registered under DND/NDNC and agree to receive important communications via WhatsApp.
                         </span>
                     </label>
                     {errors.terms && <span className="error-message">{errors.terms}</span>}

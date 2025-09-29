@@ -6,9 +6,9 @@ import Layout from "../layouts/Main";
 
 const HelpPage = () => {
     return (
-        <Layout title="Help & Support - VENFURNER">
+        <Layout title="Help & Support - venfurneer">
             <Head>
-                <meta name="description" content="Get help with your VENFURNER orders, shipping, returns, payments, and contact information. Find answers to frequently asked questions." />
+                <meta name="description" content="Get help with your venfurneer orders, shipping, returns, payments, and contact information. Find answers to frequently asked questions." />
             </Head>
 
             <section className="page-intro page-intro--help">
@@ -62,7 +62,7 @@ const HelpPage = () => {
                             <div className="help-content-block">
                                 <h3>Shipping Information</h3>
                                 <p>
-                                    We offer fast and reliable shipping to ensure your VENFURNER products arrive safely and on time.
+                                    We offer fast and reliable shipping to ensure your venfurneer products arrive safely and on time.
                                 </p>
 
                                 <h4>Shipping Options:</h4>
@@ -91,7 +91,7 @@ const HelpPage = () => {
                                 <div className="policy-notice">
                                     <h3>⚠️ IMPORTANT: NO RETURN POLICY</h3>
                                     <p>
-                                        <strong>VENFURNER operates a strict NO RETURN POLICY for all products.</strong> Due to the nature of fragrance products and hygiene considerations, we do not accept returns, exchanges, or refunds for any reason once an order has been placed and processed.
+                                        <strong>venfurneer operates a strict NO RETURN POLICY for all products.</strong> Due to the nature of fragrance products and hygiene considerations, we do not accept returns, exchanges, or refunds for any reason once an order has been placed and processed.
                                     </p>
                                 </div>
 
@@ -218,7 +218,7 @@ const HelpPage = () => {
 
                                 <h4>Business Address:</h4>
                                 <p>
-                                    VENFURNER Inc.<br />
+                                    venfurneer Inc.<br />
                                     123 Luxury Lane<br />
                                     Naya Raipur, Chhattisgarh, India 492001
                                 </p>

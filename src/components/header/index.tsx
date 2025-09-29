@@ -91,10 +91,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
             <div className="site-logo__graphic">
               <img
                 src="/logo-venfurneer.png"
-                alt="VENFURNER Logo"
+                alt="venfurneer Logo"
                 className="site-logo__image"
               />
-              <span className="site-logo__text">VENFURNEER</span>
             </div>
           </h1>
         </Link>

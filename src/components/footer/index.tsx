@@ -11,13 +11,13 @@ const Footer = () => {
             <h6>
               <img
                 src="/logo-venfurneer.png"
-                alt="VENFURNEER Logo"
+                alt="venfurneer Logo"
                 className="footer-logo"
               />
-              <span>VENFURNEER</span>
+              <span>venfurneer</span>
             </h6>
             <p>
-              VENFURNEER offers premium perfumes, fragrance oils, and luxury
+              venfurneer offers premium perfumes, fragrance oils, and luxury
               scents for discerning customers. Discover our exclusive collection
               of fine fragrances that define elegance and sophistication.
             </p>
@@ -81,7 +81,7 @@ const Footer = () => {
 
       <div className="site-footer__bottom">
         <div className="container">
-          <p>© 2025 VENFURNEER. ALL RIGHTS RESERVED.</p>
+          <p>© 2025 venfurneer. ALL RIGHTS RESERVED.</p>
         </div>
       </div>
     </footer>

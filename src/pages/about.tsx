@@ -6,15 +6,15 @@ import Layout from "../layouts/Main";
 
 const AboutPage = () => {
     return (
-        <Layout title="About Us - VENFURNER">
+        <Layout title="About Us - venfurneer">
             <Head>
-                <meta name="description" content="Learn about VENFURNER - Premium luxury scent diffusers for your home and office. Discover our story, mission, and commitment to quality." />
+                <meta name="description" content="Learn about venfurneer - Premium luxury scent diffusers for your home and office. Discover our story, mission, and commitment to quality." />
             </Head>
 
             <section className="page-intro page-intro--about">
                 <div className="container">
                     <div className="page-intro__content">
-                        <h1 className="page-intro__title">About VENFURNER</h1>
+                        <h1 className="page-intro__title">About venfurneer</h1>
                         <p className="page-intro__subtitle">Crafting Luxury Scent Experiences Since 2020</p>
                     </div>
                 </div>
@@ -26,7 +26,7 @@ const AboutPage = () => {
                         <div className="about-section">
                             <h2>Our Story</h2>
                             <p>
-                                VENFURNER was born from a passion for creating exceptional sensory experiences
+                                venfurneer was born from a passion for creating exceptional sensory experiences
                                 that transform ordinary spaces into extraordinary sanctuaries. We believe that
                                 the right fragrance has the power to elevate moods, create memories, and
                                 enhance the ambiance of any environment.
@@ -47,7 +47,7 @@ const AboutPage = () => {
                                 long-lasting fragrance experiences.
                             </p>
                             <p>
-                                Every VENFURNER product is designed with attention to detail, ensuring
+                                Every venfurneer product is designed with attention to detail, ensuring
                                 that form meets function in perfect harmony.
                             </p>
                         </div>
@@ -69,7 +69,7 @@ const AboutPage = () => {
                         <div className="about-section">
                             <h2>Our Commitment</h2>
                             <p>
-                                At VENFURNER, we&apos;re committed to sustainability and responsible business
+                                At venfurneer, we&apos;re committed to sustainability and responsible business
                                 practices. We continuously work to reduce our environmental impact while
                                 maintaining the highest standards of quality and luxury.
                             </p>
@@ -81,7 +81,7 @@ const AboutPage = () => {
                     </div>
 
                     <div className="about-cta">
-                        <h3>Experience the VENFURNER Difference</h3>
+                        <h3>Experience the venfurneer Difference</h3>
                         <p>Discover our collection of luxury scent diffusers and transform your space today.</p>
                         <Link href="/products" className="btn-shop">
                             <i className="icon-right" />

@@ -152,7 +152,7 @@ const AdminDashboard = () => {
               <div className="admin-page__header-left">
                 <h1>Dashboard</h1>
                 <p>
-                  Welcome to your VENFURNER admin panel. Here&apos;s an overview of
+                  Welcome to your venfurneer admin panel. Here&apos;s an overview of
                   your store performance.
                 </p>
               </div>

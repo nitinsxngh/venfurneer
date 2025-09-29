@@ -5,9 +5,9 @@ import Layout from "../layouts/Main";
 
 const TermsPage = () => {
     return (
-        <Layout title="Terms & Conditions - VENFURNER">
+        <Layout title="Terms & Conditions - venfurneer">
             <Head>
-                <meta name="description" content="Read VENFURNER's terms and conditions for using our website and purchasing our luxury scent diffusers." />
+                <meta name="description" content="Read venfurneer's terms and conditions for using our website and purchasing our luxury scent diffusers." />
             </Head>
 
             <section className="page-intro page-intro--terms">
@@ -27,11 +27,11 @@ const TermsPage = () => {
                             <div className="terms-content-block">
                                 <div className="policy-notice">
                                     <p>
-                                        <strong>⚠️ NO RETURN POLICY: VENFURNER operates a strict NO RETURN POLICY for all products.</strong> Due to the nature of fragrance products and hygiene considerations, we do not accept returns, exchanges, or refunds for any reason once an order has been placed and processed.
+                                        <strong>⚠️ NO RETURN POLICY: venfurneer operates a strict NO RETURN POLICY for all products.</strong> Due to the nature of fragrance products and hygiene considerations, we do not accept returns, exchanges, or refunds for any reason once an order has been placed and processed.
                                     </p>
                                 </div>
                                 <p>
-                                    <strong>VENFURNER reserves the right to withhold or decline any sale transaction at our sole discretion. All sales are final.</strong>
+                                    <strong>venfurneer reserves the right to withhold or decline any sale transaction at our sole discretion. All sales are final.</strong>
                                 </p>
                                 <p>
                                     <strong>Payment Processing:</strong> All payments are processed through Razorpay, a PCI DSS compliant payment gateway. By making a purchase, you agree to Razorpay&apos;s terms of service and privacy policy.
@@ -40,7 +40,7 @@ const TermsPage = () => {
                         </div>
 
                         <div className="terms-section">
-                            <h2>Welcome to VENFURNER!</h2>
+                            <h2>Welcome to venfurneer!</h2>
                             <div className="terms-content-block">
                                 <p>
                                     All disputes shall be resolved in accordance with Indian laws. These terms and conditions govern your use of our website and services. By accessing and using our website, you agree to comply with and be bound by the following terms and conditions:
@@ -62,8 +62,8 @@ const TermsPage = () => {
                             <h2>Website Content</h2>
                             <div className="terms-content-block">
                                 <ul>
-                                    <li>All content provided on our website, including text, images, graphics, logos, and videos, is the property of VENFURNER and protected by applicable copyright laws.</li>
-                                    <li>You may not reproduce, distribute, modify, or use any content from our website without obtaining prior written consent from VENFURNER.</li>
+                                    <li>All content provided on our website, including text, images, graphics, logos, and videos, is the property of venfurneer and protected by applicable copyright laws.</li>
+                                    <li>You may not reproduce, distribute, modify, or use any content from our website without obtaining prior written consent from venfurneer.</li>
                                 </ul>
                             </div>
                         </div>
@@ -109,7 +109,7 @@ const TermsPage = () => {
                                 <div className="policy-notice">
                                     <h3>⚠️ NO RETURN POLICY - ALL SALES FINAL</h3>
                                     <p>
-                                        <strong>VENFURNER does not accept returns, exchanges, or refunds for any products under any circumstances.</strong> This policy applies to all purchases made through our website.
+                                        <strong>venfurneer does not accept returns, exchanges, or refunds for any products under any circumstances.</strong> This policy applies to all purchases made through our website.
                                     </p>
                                 </div>
 
@@ -168,7 +168,7 @@ const TermsPage = () => {
                             <h2>Limitation of Liability</h2>
                             <div className="terms-content-block">
                                 <p>
-                                    VENFURNER shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of or in connection with your use of our website or services.
+                                    venfurneer shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising out of or in connection with your use of our website or services.
                                 </p>
                             </div>
                         </div>
@@ -177,7 +177,7 @@ const TermsPage = () => {
                             <h2>Modification of Terms</h2>
                             <div className="terms-content-block">
                                 <p>
-                                    VENFURNER reserves the right to modify, update, or change these terms and conditions at any time without prior notice. Any changes will be effective immediately upon posting on our website.
+                                    venfurneer reserves the right to modify, update, or change these terms and conditions at any time without prior notice. Any changes will be effective immediately upon posting on our website.
                                 </p>
                                 <p>
                                     By using our website, you acknowledge and agree to review these terms and conditions periodically to stay informed of any updates or changes. If you continue to use our website after any modifications, it will constitute your acceptance of the revised terms and conditions.
@@ -194,7 +194,7 @@ const TermsPage = () => {
                                 <p>
                                     <strong>Email:</strong> info@venfurneer.com<br />
                                     <strong>Phone:</strong> +91 96300 83631<br />
-                                    <strong>Address:</strong> VENFURNER Inc., 123 Luxury Lane, Naya Raipur, Chhattisgarh, India 492001
+                                    <strong>Address:</strong> venfurneer Inc., 123 Luxury Lane, Naya Raipur, Chhattisgarh, India 492001
                                 </p>
                                 <p>
                                     <strong>Business Hours:</strong> Monday - Friday: 9:00 AM - 6:00 PM IST<br />

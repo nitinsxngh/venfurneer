@@ -5,9 +5,9 @@ import Layout from "../layouts/Main";
 
 const PrivacyPage = () => {
     return (
-        <Layout title="Privacy Policy - VENFURNER">
+        <Layout title="Privacy Policy - venfurneer">
             <Head>
-                <meta name="description" content="Learn how VENFURNER collects, uses, and protects your personal information in our privacy policy." />
+                <meta name="description" content="Learn how venfurneer collects, uses, and protects your personal information in our privacy policy." />
             </Head>
 
             <section className="page-intro page-intro--privacy">
@@ -238,7 +238,7 @@ const PrivacyPage = () => {
                                 <p>
                                     <strong>Email:</strong> privacy@venfurneer.com<br />
                                     <strong>Phone:</strong> +91 96300 83631<br />
-                                    <strong>Address:</strong> VENFURNER Inc., 123 Luxury Lane, Naya Raipur, Chhattisgarh, India 492001
+                                    <strong>Address:</strong> venfurneer Inc., 123 Luxury Lane, Naya Raipur, Chhattisgarh, India 492001
                                 </p>
                                 <p>
                                     We will respond to your inquiry within 30 days.

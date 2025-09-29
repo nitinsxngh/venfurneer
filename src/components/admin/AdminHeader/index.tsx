@@ -6,7 +6,7 @@ const AdminHeader = () => {
       <div className="container">
         <div className="admin-header__content">
           <Link href="/admin" className="admin-header__logo">
-            <h2>VENFURNER Admin</h2>
+            <h2>venfurneer Admin</h2>
           </Link>
 
           <nav className="admin-header__nav">

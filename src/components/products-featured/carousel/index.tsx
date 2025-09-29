@@ -31,7 +31,7 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
     }
   }, []);
 
-  if (!products || products.length === 0) return <div>Loading</div>;
+  if (!products || !Array.isArray(products) || products.length === 0) return <div>Loading</div>;
 
   if (!isClient) return <div>Loading...</div>;
 
@@ -45,7 +45,7 @@ const ProductsCarousel = ({ products }: ProductsCarouselType) => {
         slidesPerView={slidesPerView}
         className="swiper-wrapper"
       >
-        {products.map((item) => (
+        {products && Array.isArray(products) && products.map((item) => (
           <SwiperSlide key={item.id}>
             <ProductItem
               id={item.id}

@@ -39,15 +39,27 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
       };
     }
 
+    if (!productsRes.ok) {
+      return {
+        props: {
+          product: null,
+          products: [],
+        },
+      };
+    }
+
     const [product, products] = await Promise.all([
       productRes.json(),
       productsRes.json(),
     ]);
 
+    // Ensure products is always an array
+    const safeProducts = Array.isArray(products) ? products : [];
+
     return {
       props: {
         product,
-        products,
+        products: safeProducts,
       },
     };
   } catch (error) {

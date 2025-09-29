@@ -1,4 +1,4 @@
-# VENFURNER - Luxury Furniture E-commerce
+# venfurneer - Luxury Furniture E-commerce
 
 A modern, responsive e-commerce platform built with Next.js, featuring luxury furniture products with integrated payment processing, admin dashboard, and comprehensive order management.
 
@@ -61,7 +61,7 @@ A modern, responsive e-commerce platform built with Next.js, featuring luxury fu
    RAZORPAY_KEY_SECRET=your_razorpay_key_secret
    
    # Admin Authentication
-   ADMIN_EMAIL=admin@venfurner.com
+   ADMIN_EMAIL=admin@venfurneer.com
    ADMIN_PASSWORD=your_secure_password
    JWT_SECRET=your_jwt_secret_key
    
@@ -123,7 +123,7 @@ The backend uses Next.js API routes located in `src/pages/api/`:
 ## 🔐 Admin Access
 
 Default admin credentials:
-- **Email**: admin@venfurner.com
+- **Email**: admin@venfurneer.com
 - **Password**: admin123
 
 *Change these credentials in your `.env.local` file for security.*

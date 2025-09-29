@@ -930,6 +930,25 @@ h5 {
       }
     }
 
+    &.page-intro__slide--image {
+      height: 600px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      @include breakpoint(phone) {
+        height: 700px;
+      }
+
+      @include breakpoint(tablet-lg) {
+        height: 800px;
+      }
+
+      @include breakpoint(desktop-lg) {
+        height: 900px;
+      }
+    }
+
     @include breakpoint(phone) {
       height: 90vh;
     }
@@ -977,6 +996,21 @@ h5 {
         opacity: 0;
         transition: opacity 0.8s ease;
       }
+
+      &:before {
+        z-index: 2;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .container {
+        z-index: 3;
+      }
+    }
+
+    // Image background styles
+    &.page-intro__slide--image {
+      overflow: hidden;
+      position: relative;
 
       &:before {
         z-index: 2;
@@ -4348,7 +4382,7 @@ h5 {
     img {
       width: 100%;
       height: 100%;
-      object-position: top center;
+      object-position: center;
       object-fit: cover;
     }
   }
@@ -4365,8 +4399,8 @@ h5 {
     img {
       width: 100%;
       height: 100%;
-      object-position: top center;
-      object-fit: cover;
+      object-position: center;
+      object-fit: contain;
     }
   }
 

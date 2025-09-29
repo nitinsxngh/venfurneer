@@ -9,6 +9,9 @@ type ProductsFeaturedType = {
 };
 
 const ProductsFeatured = ({ products }: ProductsFeaturedType) => {
+  // Ensure products is always an array
+  const safeProducts = Array.isArray(products) ? products : [];
+
   return (
     <section className="section section-products-featured">
       <div className="container">
@@ -19,7 +22,7 @@ const ProductsFeatured = ({ products }: ProductsFeaturedType) => {
           </Link>
         </header>
 
-        <ProductsCarousel products={products} />
+        <ProductsCarousel products={safeProducts} />
       </div>
     </section>
   );
