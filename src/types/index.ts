@@ -16,6 +16,12 @@ export type ReviewType = {
   punctuation: number;
 };
 
+export type SizePriceType = {
+  size: string;
+  price: number;
+  currentPrice: number;
+};
+
 export type ProductType = {
   id: string;
   _id?: string;
@@ -26,6 +32,7 @@ export type ProductType = {
   category: string;
   images: string[];
   sizes: string[];
+  sizePrices?: SizePriceType[];
   colors: string[];
   quantityAvailable: number;
   punctuation: PunctuationType;

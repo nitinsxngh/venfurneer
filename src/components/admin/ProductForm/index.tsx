@@ -6,6 +6,12 @@ interface Category {
   slug: string;
 }
 
+interface SizePrice {
+  size: string;
+  price: number | string;
+  currentPrice: number | string;
+}
+
 interface Product {
   id: string;
   name: string;
@@ -15,6 +21,7 @@ interface Product {
   category: string | { id: string; name: string; slug: string };
   images: string[];
   sizes: string[];
+  sizePrices?: SizePrice[];
   colors: string[];
   quantityAvailable: number;
   punctuation?: {
@@ -44,6 +51,7 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
     category: "",
     images: ["https://example.com/placeholder.jpg"],
     sizes: ["50ml"],
+    sizePrices: [{ size: "50ml", price: "", currentPrice: "" }],
     colors: ["#8B4513"],
     quantityAvailable: 10,
   });
@@ -68,6 +76,13 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
             : product.category.id,
         images: product.images.length > 0 ? product.images : [""],
         sizes: product.sizes.length > 0 ? product.sizes : ["50ml"],
+        sizePrices: product.sizePrices && product.sizePrices.length > 0 
+          ? product.sizePrices.map(sp => ({
+              size: sp.size,
+              price: sp.price.toString(),
+              currentPrice: sp.currentPrice.toString()
+            }))
+          : [{ size: "50ml", price: product.price.toString(), currentPrice: product.currentPrice?.toString() || product.price.toString() }],
         colors: product.colors.length > 0 ? product.colors : ["#8B4513"],
         quantityAvailable: product.quantityAvailable,
       });
@@ -138,6 +153,9 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
     console.log("Form submitted, current formData:", formData); // Debug log
 
     if (validateForm()) {
+      // Sync sizes with size prices before submission
+      syncSizesWithPrices();
+      
       const productData = {
         ...formData,
         price: Number(formData.price),
@@ -145,6 +163,13 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
         currentPrice: 0, // Will be calculated below
         images: formData.images.filter((img) => img.trim() !== ""),
         sizes: formData.sizes.filter((size) => size.trim() !== ""),
+        sizePrices: formData.sizePrices
+          .filter((sp) => sp.size.trim() !== "" && sp.price !== "")
+          .map((sp) => ({
+            size: sp.size,
+            price: Number(sp.price),
+            currentPrice: sp.currentPrice !== "" ? Number(sp.currentPrice) : Number(sp.price),
+          })),
         colors: formData.colors.filter((color) => color.trim() !== ""),
       };
 
@@ -199,6 +224,39 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
       ...prev,
       [field]: prev[field].map((item, i) => (i === index ? value : item)),
     }));
+  };
+
+  const updateSizePrice = (index: number, field: 'size' | 'price' | 'currentPrice', value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      sizePrices: prev.sizePrices.map((sp, i) => 
+        i === index ? { ...sp, [field]: value } : sp
+      ),
+    }));
+  };
+
+  const addSizePrice = () => {
+    setFormData((prev) => ({
+      ...prev,
+      sizePrices: [...prev.sizePrices, { size: "", price: "", currentPrice: "" }],
+    }));
+  };
+
+  const removeSizePrice = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      sizePrices: prev.sizePrices.filter((_, i) => i !== index),
+    }));
+  };
+
+  const syncSizesWithPrices = () => {
+    setFormData((prev) => {
+      const newSizes = prev.sizePrices.map(sp => sp.size).filter(size => size.trim() !== "");
+      return {
+        ...prev,
+        sizes: newSizes.length > 0 ? newSizes : prev.sizes
+      };
+    });
   };
 
   return (
@@ -410,38 +468,72 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
         </div>
 
         <div className="admin-form__section">
-          <h3>Available Sizes</h3>
-          {formData.sizes.map((size, index) => (
-            <div key={index} className="admin-form__field">
-              <label>Size {index + 1}</label>
-              <div className="admin-form__input-group">
-                <input
-                  type="text"
-                  value={size}
-                  onChange={(e) =>
-                    updateArrayItem("sizes", index, e.target.value)
-                  }
-                  className="admin-input"
-                  placeholder="50ml"
-                />
-                {formData.sizes.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeArrayItem("sizes", index)}
-                    className="btn btn--sm btn--danger"
-                  >
-                    Remove
-                  </button>
-                )}
+          <h3>Size & Pricing</h3>
+          <p className="admin-form__help-text">
+            Set different prices for each size. The size will be automatically added to the sizes list.
+          </p>
+          {formData.sizePrices.map((sizePrice, index) => (
+            <div key={index} className="admin-form__size-price-group">
+              <div className="admin-form__row">
+                <div className="admin-form__field">
+                  <label>Size {index + 1}</label>
+                  <input
+                    type="text"
+                    value={sizePrice.size}
+                    onChange={(e) =>
+                      updateSizePrice(index, "size", e.target.value)
+                    }
+                    className="admin-input"
+                    placeholder="50ml"
+                  />
+                </div>
+                <div className="admin-form__field">
+                  <label>Original Price (₹)</label>
+                  <input
+                    type="number"
+                    value={sizePrice.price}
+                    onChange={(e) =>
+                      updateSizePrice(index, "price", e.target.value)
+                    }
+                    className="admin-input"
+                    placeholder="8999"
+                    min="0"
+                  />
+                </div>
+                <div className="admin-form__field">
+                  <label>Current Price (₹)</label>
+                  <input
+                    type="number"
+                    value={sizePrice.currentPrice}
+                    onChange={(e) =>
+                      updateSizePrice(index, "currentPrice", e.target.value)
+                    }
+                    className="admin-input"
+                    placeholder="6299"
+                    min="0"
+                  />
+                </div>
+                <div className="admin-form__field admin-form__field--actions">
+                  <label>&nbsp;</label>
+                  {formData.sizePrices.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeSizePrice(index)}
+                      className="btn btn--sm btn--danger"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))}
           <button
             type="button"
-            onClick={() => addArrayItem("sizes")}
+            onClick={addSizePrice}
             className="btn btn--sm btn--border"
           >
-            Add Size
+            Add Size & Price
           </button>
         </div>
 

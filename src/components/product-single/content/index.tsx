@@ -23,6 +23,7 @@ const Content = ({ product }: ProductContent) => {
   const [itemSize, setItemSize] = useState<string>("");
   const [itemColor, setItemColor] = useState<string>("");
   const [category, setCategory] = useState<CategoryType | null>(null);
+  const [selectedPrice, setSelectedPrice] = useState<number>(product.currentPrice);
 
   const { favProducts } = useSelector((state: RootState) => state.user);
   const isFavourite = some(
@@ -58,6 +59,21 @@ const Content = ({ product }: ProductContent) => {
     );
   };
 
+  const handleSizeSelection = (size: string) => {
+    setItemSize(size);
+    
+    // Update price based on selected size
+    if (product.sizePrices && product.sizePrices.length > 0) {
+      const sizePrice = product.sizePrices.find(sp => sp.size === size);
+      if (sizePrice) {
+        setSelectedPrice(sizePrice.currentPrice);
+      }
+    } else {
+      // Fallback to default price if no size-specific pricing
+      setSelectedPrice(product.currentPrice);
+    }
+  };
+
   const addToCart = () => {
     // Check if size is required but not selected
     if (product.sizes && product.sizes.length > 0 && !itemSize) {
@@ -75,7 +91,7 @@ const Content = ({ product }: ProductContent) => {
       id: product._id || product.id,
       name: product.name,
       thumb: product.images ? product.images[0] : "",
-      price: product.currentPrice,
+      price: selectedPrice,
       count,
       color: itemColor,
       size: itemSize,
@@ -128,9 +144,14 @@ const Content = ({ product }: ProductContent) => {
 
       <div className="product-content__pricing">
         <h3 className="product__price">
-          ₹{product.currentPrice.toLocaleString()}
+          ₹{selectedPrice.toLocaleString()}
         </h3>
         <p className="product__tax">Tax included</p>
+        {product.sizePrices && product.sizePrices.length > 0 && itemSize && (
+          <div className="product__size-price-info">
+            <span className="product__size-selected">Price for {itemSize}</span>
+          </div>
+        )}
         {product.discount && Number(product.discount) > 0 && (
           <div className="product__discount-info">
             <span className="product__original-price">
@@ -153,7 +174,7 @@ const Content = ({ product }: ProductContent) => {
                 <button
                   key={index}
                   type="button"
-                  onClick={() => setItemSize(size)}
+                  onClick={() => handleSizeSelection(size)}
                   className={`size-option ${itemSize === size ? "size-option--active" : ""}`}
                 >
                   {size}

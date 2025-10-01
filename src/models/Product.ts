@@ -40,6 +40,24 @@ const productSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    sizePrices: [
+      {
+        size: {
+          type: String,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+        currentPrice: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+      },
+    ],
     colors: [
       {
         type: String,

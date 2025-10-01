@@ -4183,6 +4183,16 @@ h5 {
         text-transform: uppercase;
       }
     }
+
+    .product__size-price-info {
+      margin-top: 8px;
+
+      .product__size-selected {
+        color: var(--color-text-light);
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
   }
 
   &__options {
@@ -6545,6 +6555,31 @@ h5 {
   .admin-input {
     flex: 1;
   }
+}
+
+.admin-form__size-price-group {
+  border: 1px solid var(--color-gray);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #fafafa;
+
+  .admin-form__row {
+    margin-bottom: 0;
+  }
+
+  .admin-form__field--actions {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+}
+
+.admin-form__help-text {
+  color: var(--color-text-light);
+  font-size: 14px;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
 .admin-input {
