@@ -76,12 +76,12 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
             : product.category.id,
         images: product.images.length > 0 ? product.images : [""],
         sizes: product.sizes.length > 0 ? product.sizes : ["50ml"],
-        sizePrices: product.sizePrices && product.sizePrices.length > 0 
+        sizePrices: product.sizePrices && product.sizePrices.length > 0
           ? product.sizePrices.map(sp => ({
-              size: sp.size,
-              price: sp.price.toString(),
-              currentPrice: sp.currentPrice.toString()
-            }))
+            size: sp.size,
+            price: sp.price.toString(),
+            currentPrice: sp.currentPrice.toString()
+          }))
           : [{ size: "50ml", price: product.price.toString(), currentPrice: product.currentPrice?.toString() || product.price.toString() }],
         colors: product.colors.length > 0 ? product.colors : ["#8B4513"],
         quantityAvailable: product.quantityAvailable,
@@ -153,16 +153,18 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
     console.log("Form submitted, current formData:", formData); // Debug log
 
     if (validateForm()) {
-      // Sync sizes with size prices before submission
-      syncSizesWithPrices();
-      
+      // Extract sizes directly from sizePrices for the product data
+      const sizesFromPrices = formData.sizePrices
+        .map(sp => sp.size)
+        .filter(size => size.trim() !== "");
+
       const productData = {
         ...formData,
         price: Number(formData.price),
         discount: formData.discount === "" ? 0 : Number(formData.discount),
         currentPrice: 0, // Will be calculated below
         images: formData.images.filter((img) => img.trim() !== ""),
-        sizes: formData.sizes.filter((size) => size.trim() !== ""),
+        sizes: sizesFromPrices.length > 0 ? sizesFromPrices : formData.sizes.filter((size) => size.trim() !== ""),
         sizePrices: formData.sizePrices
           .filter((sp) => sp.size.trim() !== "" && sp.price !== "")
           .map((sp) => ({
@@ -229,7 +231,7 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
   const updateSizePrice = (index: number, field: 'size' | 'price' | 'currentPrice', value: string) => {
     setFormData((prev) => ({
       ...prev,
-      sizePrices: prev.sizePrices.map((sp, i) => 
+      sizePrices: prev.sizePrices.map((sp, i) =>
         i === index ? { ...sp, [field]: value } : sp
       ),
     }));
@@ -247,16 +249,6 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
       ...prev,
       sizePrices: prev.sizePrices.filter((_, i) => i !== index),
     }));
-  };
-
-  const syncSizesWithPrices = () => {
-    setFormData((prev) => {
-      const newSizes = prev.sizePrices.map(sp => sp.size).filter(size => size.trim() !== "");
-      return {
-        ...prev,
-        sizes: newSizes.length > 0 ? newSizes : prev.sizes
-      };
-    });
   };
 
   return (
@@ -348,7 +340,7 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
                     ₹
                     {Math.round(
                       Number(formData.price) *
-                        (1 - Number(formData.discount) / 100),
+                      (1 - Number(formData.discount) / 100),
                     )}
                   </span>
                 ) : formData.price ? (

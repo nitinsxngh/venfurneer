@@ -31,6 +31,23 @@ const Content = ({ product }: ProductContent) => {
     (productId) => productId === product.id,
   );
 
+  // Initialize with first size and its price if sizePrices exist
+  useEffect(() => {
+    if (product.sizePrices && product.sizePrices.length > 0) {
+      const firstSize = product.sizePrices[0];
+      setItemSize(firstSize.size);
+      setSelectedPrice(Number(firstSize.currentPrice));
+    } else if (product.sizes && product.sizes.length > 0) {
+      // Fallback: set first size without price change
+      setItemSize(product.sizes[0]);
+    }
+
+    // Auto-select first color if available
+    if (product.colors && product.colors.length > 0) {
+      setItemColor(product.colors[0]);
+    }
+  }, [product.sizePrices, product.sizes, product.colors]);
+
   // Fetch category information if product has a category
   useEffect(() => {
     const fetchCategory = async () => {
@@ -45,6 +62,8 @@ const Content = ({ product }: ProductContent) => {
         } catch (error) {
           console.error('Error fetching category:', error);
         }
+      } else if (product.category && typeof product.category === 'object') {
+        setCategory(product.category as CategoryType);
       }
     };
 
@@ -61,16 +80,16 @@ const Content = ({ product }: ProductContent) => {
 
   const handleSizeSelection = (size: string) => {
     setItemSize(size);
-    
+
     // Update price based on selected size
     if (product.sizePrices && product.sizePrices.length > 0) {
       const sizePrice = product.sizePrices.find(sp => sp.size === size);
       if (sizePrice) {
-        setSelectedPrice(sizePrice.currentPrice);
+        setSelectedPrice(Number(sizePrice.currentPrice));
       }
     } else {
       // Fallback to default price if no size-specific pricing
-      setSelectedPrice(product.currentPrice);
+      setSelectedPrice(Number(product.currentPrice));
     }
   };
 
