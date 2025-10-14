@@ -130,7 +130,9 @@ const IndexPage = ({ products }: IndexPageType) => {
                     />
                   </div>
                   <div className="circular-category__text">
-                    <h3>{category.name}</h3>
+                    <h3>{category.name.split(' ').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                    ).join(' ')}</h3>
                   </div>
                 </Link>
               ))}

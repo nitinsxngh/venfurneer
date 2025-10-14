@@ -39,10 +39,10 @@ const Footer = () => {
             <ul>
               <li>Shopping online</li>
               <li>
-                <Link href="/help#order-status">Order Status</Link>
+                <Link href="/help#order-status">Order status</Link>
               </li>
               <li>
-                <Link href="/help#shipping-delivery">Shipping and Delivery</Link>
+                <Link href="/help#shipping-delivery">Shipping and delivery</Link>
               </li>
               <li>
                 <Link href="/help#returns">Returns</Link>
@@ -51,19 +51,19 @@ const Footer = () => {
                 <Link href="/help#payment-options">Payment options</Link>
               </li>
               <li>
-                <Link href="/help#contact-us">Contact Us</Link>
+                <Link href="/help#contact-us">Contact us</Link>
               </li>
             </ul>
             <ul>
               <li>Information</li>
               <li>
-                <Link href="/help">Help & Support</Link>
+                <Link href="/help">Help & support</Link>
               </li>
               <li>
-                <Link href="/terms">Terms & Conditions</Link>
+                <Link href="/terms">Terms & conditions</Link>
               </li>
               <li>
-                <Link href="/privacy">Privacy Policy</Link>
+                <Link href="/privacy">Privacy policy</Link>
               </li>
             </ul>
             <ul>
@@ -81,7 +81,7 @@ const Footer = () => {
 
       <div className="site-footer__bottom">
         <div className="container">
-          <p>© 2025 venfurneer. ALL RIGHTS RESERVED.</p>
+          <p>© 2025 Get digital tech. ALL RIGHTS RESERVED.</p>
         </div>
       </div>
     </footer>

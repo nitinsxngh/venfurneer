@@ -111,7 +111,9 @@ const Header = ({ isErrorPage }: HeaderType) => {
               {/* Maximum 3 categories in between */}
               {categories.slice(0, 3).map((category) => (
                 <Link key={category.id} href={`/products?category=${category.slug}`}>
-                  {category.name}
+                  {category.name.split(' ').map(word =>
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                  ).join(' ')}
                 </Link>
               ))}
 

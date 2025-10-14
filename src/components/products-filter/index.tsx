@@ -144,7 +144,9 @@ const ProductsFilter = ({ onFiltersChange, initialCategory }: ProductsFilterProp
               <Checkbox
                 key={category.id}
                 name="product-category"
-                label={category.name}
+                label={category.name.split(' ').map(word =>
+                  word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                ).join(' ')}
                 checked={filters.categories.includes(category.id)}
                 onChange={(checked) => handleCategoryChange(category.id, checked)}
               />
@@ -169,18 +171,36 @@ const ProductsFilter = ({ onFiltersChange, initialCategory }: ProductsFilterProp
         </div>
 
         <div className="products-filter__block">
-          <button type="button">Size</button>
-          <div className="products-filter__block__content checkbox-square-wrapper">
-            {filterOptions.sizes.map((size) => (
-              <Checkbox
-                type="square"
-                key={size}
-                name="product-size"
-                label={size}
-                checked={filters.sizes.includes(size)}
-                onChange={(checked) => handleSizeChange(size, checked)}
-              />
-            ))}
+          <button type="button">Size ({filterOptions.sizes.length})</button>
+          <div className="products-filter__block__content checkbox-square-wrapper sizes-container">
+            <div className="sizes-flex-wrapper">
+              {filterOptions.sizes.map((size) => (
+                <Checkbox
+                  type="square"
+                  key={size}
+                  name="product-size"
+                  label={size.charAt(0).toUpperCase() + size.slice(1)}
+                  checked={filters.sizes.includes(size)}
+                  onChange={(checked) => handleSizeChange(size, checked)}
+                />
+              ))}
+            </div>
+            {filterOptions.sizes.length > 12 && (
+              <div className="sizes-show-more">
+                <button
+                  type="button"
+                  className="btn-show-more"
+                  onClick={() => {
+                    const container = document.querySelector('.sizes-flex-wrapper');
+                    if (container) {
+                      container.classList.toggle('expanded');
+                    }
+                  }}
+                >
+                  Show {document.querySelector('.sizes-flex-wrapper')?.classList.contains('expanded') ? 'Less' : 'More'} Sizes
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

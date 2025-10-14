@@ -157,7 +157,9 @@ const Content = ({ product }: ProductContent) => {
       {/* Category Information */}
       {category && (
         <div className="product-content__category">
-          <span className="product__category">Category: {category.name}</span>
+          <span className="product__category">Category: {category.name.split(' ').map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          ).join(' ')}</span>
         </div>
       )}
 
@@ -168,7 +170,7 @@ const Content = ({ product }: ProductContent) => {
         <p className="product__tax">Tax included</p>
         {product.sizePrices && product.sizePrices.length > 0 && itemSize && (
           <div className="product__size-price-info">
-            <span className="product__size-selected">Price for {itemSize}</span>
+            <span className="product__size-selected">Price for {itemSize.charAt(0).toUpperCase() + itemSize.slice(1)}</span>
           </div>
         )}
         {product.discount && Number(product.discount) > 0 && (
@@ -187,18 +189,36 @@ const Content = ({ product }: ProductContent) => {
         {/* Size Selection */}
         {product.sizes && product.sizes.length > 0 && (
           <div className="product-option">
-            <h5>Size:</h5>
-            <div className="size-options">
-              {product.sizes.map((size, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => handleSizeSelection(size)}
-                  className={`size-option ${itemSize === size ? "size-option--active" : ""}`}
-                >
-                  {size}
-                </button>
-              ))}
+            <h5>Size ({product.sizes.length}):</h5>
+            <div className="size-options-container">
+              <div className="size-options-flex">
+                {product.sizes.map((size, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleSizeSelection(size)}
+                    className={`size-option ${itemSize === size ? "size-option--active" : ""}`}
+                  >
+                    {size.charAt(0).toUpperCase() + size.slice(1)}
+                  </button>
+                ))}
+              </div>
+              {product.sizes.length > 8 && (
+                <div className="size-show-more">
+                  <button
+                    type="button"
+                    className="btn-show-more-sizes"
+                    onClick={() => {
+                      const container = document.querySelector('.size-options-flex');
+                      if (container) {
+                        container.classList.toggle('expanded');
+                      }
+                    }}
+                  >
+                    Show {document.querySelector('.size-options-flex')?.classList.contains('expanded') ? 'Less' : 'More'} Sizes
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

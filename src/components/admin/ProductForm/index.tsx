@@ -229,10 +229,21 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
   };
 
   const updateSizePrice = (index: number, field: 'size' | 'price' | 'currentPrice', value: string) => {
+    let normalizedValue = value;
+
+    // Normalize size input
+    if (field === 'size') {
+      normalizedValue = value.trim().toLowerCase();
+      // Fix common issues: "10m" -> "10ml", add "ml" if missing
+      if (normalizedValue.match(/^\d+m$/) && !normalizedValue.endsWith('ml')) {
+        normalizedValue = normalizedValue + 'l';
+      }
+    }
+
     setFormData((prev) => ({
       ...prev,
       sizePrices: prev.sizePrices.map((sp, i) =>
-        i === index ? { ...sp, [field]: value } : sp
+        i === index ? { ...sp, [field]: normalizedValue } : sp
       ),
     }));
   };
@@ -289,7 +300,9 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
                 <option value="">Select a category</option>
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
-                    {category.name}
+                    {category.name.split(' ').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                    ).join(' ')}
                   </option>
                 ))}
               </select>

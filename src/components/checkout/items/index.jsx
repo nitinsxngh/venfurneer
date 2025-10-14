@@ -72,7 +72,7 @@ const CheckoutItems = () => {
               <div className="product-options">
                 {item.size && (
                   <span className="option-tag option-tag--size">
-                    Size: {item.size}
+                    Size: {item.size.charAt(0).toUpperCase() + item.size.slice(1)}
                   </span>
                 )}
                 {item.color && (

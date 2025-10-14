@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import SwiperCore, { EffectFade, Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import BookAppointment from "../book-appointment";
 
 const PageIntro = () => {
   const [isClient, setIsClient] = useState(false);
@@ -29,9 +28,6 @@ const PageIntro = () => {
                         Shop now
                       </Link>
                     </div>
-                    <div className="hero-form">
-                      <BookAppointment />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -49,9 +45,6 @@ const PageIntro = () => {
                         <i className="icon-right" />
                         Shop now
                       </Link>
-                    </div>
-                    <div className="hero-form">
-                      <BookAppointment />
                     </div>
                   </div>
                 </div>

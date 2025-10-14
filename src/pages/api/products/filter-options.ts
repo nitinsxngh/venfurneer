@@ -36,19 +36,43 @@ export default async function handler(
             }
         });
 
-        // Extract unique sizes
+        // Extract unique sizes - properly deduplicate and clean
         const allSizes = new Set<string>();
         products.forEach(product => {
-            if (product.sizes) {
-                product.sizes.forEach((size: string) => allSizes.add(size));
+            if (product.sizes && Array.isArray(product.sizes)) {
+                product.sizes.forEach((size: string) => {
+                    if (size && typeof size === 'string' && size.trim()) {
+                        // Normalize size format: remove extra spaces, convert to lowercase
+                        let normalizedSize = size.trim().toLowerCase();
+
+                        // Skip empty or invalid sizes
+                        if (normalizedSize === '' || normalizedSize === '0' || normalizedSize === '0ml') {
+                            return;
+                        }
+
+                        // Fix common issues: "10m" -> "10ml", add "ml" if missing
+                        if (normalizedSize.match(/^\d+m$/) && !normalizedSize.endsWith('ml')) {
+                            normalizedSize = normalizedSize + 'l';
+                        }
+
+                        // Only add valid sizes
+                        if (normalizedSize.match(/^\d+ml$/)) {
+                            allSizes.add(normalizedSize);
+                        }
+                    }
+                });
             }
         });
 
-        // Extract unique colors
+        // Extract unique colors - properly deduplicate and clean
         const allColors = new Set<string>();
         products.forEach(product => {
-            if (product.colors) {
-                product.colors.forEach((color: string) => allColors.add(color));
+            if (product.colors && Array.isArray(product.colors)) {
+                product.colors.forEach((color: string) => {
+                    if (color && typeof color === 'string' && color.trim()) {
+                        allColors.add(color.trim());
+                    }
+                });
             }
         });
 
@@ -80,9 +104,16 @@ export default async function handler(
             }));
         }
 
+        // Sort sizes numerically by extracting the number and sorting
+        const sortedSizes = Array.from(allSizes).sort((a, b) => {
+            const numA = parseInt(a.replace(/\D/g, '')) || 0;
+            const numB = parseInt(b.replace(/\D/g, '')) || 0;
+            return numA - numB;
+        });
+
         const filterOptions = {
             categories: transformedCategories,
-            sizes: Array.from(allSizes).sort(),
+            sizes: sortedSizes,
             colors: Array.from(allColors).sort(),
             priceRange: {
                 min: minPrice,
@@ -91,6 +122,8 @@ export default async function handler(
         };
 
         console.log('Filter options being returned:', filterOptions);
+        console.log('Sizes found:', Array.from(allSizes));
+        console.log('Sorted sizes:', sortedSizes);
 
         res.status(200).json(filterOptions);
     } catch (error) {

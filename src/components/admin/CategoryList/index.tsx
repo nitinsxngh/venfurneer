@@ -113,7 +113,9 @@ const CategoryList = ({
                 </td>
                 <td>
                   <div className="admin-category-info">
-                    <h4 className="admin-category-name">{category.name}</h4>
+                    <h4 className="admin-category-name">{category.name.split(' ').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                    ).join(' ')}</h4>
                     {category.description && (
                       <p className="admin-category-description">
                         {category.description}

@@ -106,7 +106,7 @@ const ShoppingCart = ({
   // Format size display
   const formatSize = (sizeValue: string) => {
     if (!sizeValue) return "Not selected";
-    return sizeValue;
+    return sizeValue.charAt(0).toUpperCase() + sizeValue.slice(1);
   };
 
   return (
