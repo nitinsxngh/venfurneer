@@ -90,6 +90,29 @@ const LuxuryDiffuser = () => {
                                 </Link>
                             </div>
                         </div>
+
+                        <div className="scenting-category">
+                            <div className="scenting-category__image">
+                                <img
+                                    src="poster-3.jpeg"
+                                    alt="Kitchen Scenting"
+                                    className="category-image"
+                                />
+                                <div className="category-overlay">
+                                    <h3>Kitchen Scenting</h3>
+                                </div>
+                            </div>
+                            <div className="scenting-category__content">
+                                <h3 className="category-title">Kitchen Scenting</h3>
+                                <p className="category-description">
+                                    Transform your kitchen into a fragrant haven with our specialized kitchen scenting solutions. Eliminate cooking odors, enhance food aromas, and create an inviting atmosphere that makes every meal preparation a delightful experience.
+                                </p>
+
+                                <Link href="/products?category=kitchen" className="category-cta">
+                                    <span>Explore Kitchen Solutions</span>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

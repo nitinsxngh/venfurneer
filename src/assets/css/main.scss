@@ -932,23 +932,20 @@ h5 {
 
     &.page-intro__slide--image {
       height: 600px;
-      background-size: contain;
+      background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
 
       @include breakpoint(phone) {
         height: 700px;
-        background-size: cover;
       }
 
       @include breakpoint(tablet-lg) {
         height: 800px;
-        background-size: cover;
       }
 
       @include breakpoint(desktop-lg) {
         height: 900px;
-        background-size: cover;
       }
     }
 
@@ -2465,7 +2462,7 @@ h5 {
   .circular-categories-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 2px;
     width: 100%;
     box-sizing: border-box;
   }
