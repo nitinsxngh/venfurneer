@@ -932,20 +932,23 @@ h5 {
 
     &.page-intro__slide--image {
       height: 600px;
-      background-size: cover;
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
 
       @include breakpoint(phone) {
         height: 700px;
+        background-size: cover;
       }
 
       @include breakpoint(tablet-lg) {
         height: 800px;
+        background-size: cover;
       }
 
       @include breakpoint(desktop-lg) {
         height: 900px;
+        background-size: cover;
       }
     }
 

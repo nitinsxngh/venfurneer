@@ -8,7 +8,7 @@ const LuxuryDiffuser = () => {
                     <div className="luxury-diffuser__content">
                         <div className="luxury-diffuser__image">
                             <img
-                                src="https://aromasphere.co/cdn/shop/files/1500x1500px_image_1.jpg?v=1715017270&width=1500"
+                                src="poster-1.jpeg"
                                 alt="Luxury Essential Oil Diffuser Collection"
                                 className="diffuser-image"
                             />
@@ -48,7 +48,7 @@ const LuxuryDiffuser = () => {
                         <div className="scenting-category">
                             <div className="scenting-category__image">
                                 <img
-                                    src="https://aromasphere.co/cdn/shop/files/Snapinsta.app_419934190_17898697781937431_5249582330785875774_n_1080.jpg?v=1706943291&width=1066"
+                                    src="poster-2.jpeg"
                                     alt="Home Scenting"
                                     className="category-image"
                                 />
@@ -71,7 +71,7 @@ const LuxuryDiffuser = () => {
                         <div className="scenting-category">
                             <div className="scenting-category__image">
                                 <img
-                                    src="https://aromasphere.co/cdn/shop/files/Snapinsta.app_381380726_344702704575742_935696019850237877_n_1080.jpg?v=1703674600&width=1066"
+                                    src="poster-4.jpeg"
                                     alt="Business Scenting"
                                     className="category-image"
                                 />

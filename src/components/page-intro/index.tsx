@@ -22,7 +22,7 @@ const PageIntro = () => {
                 <div className="page-intro__slide__content">
                   <div className="hero-content">
                     <div className="hero-text">
-                      <h2>Sale of the summer collection</h2>
+                      <h2>Diwali Special Collection Sale</h2>
                       <Link href="/products" className="btn-shop">
                         <i className="icon-right" />
                         Shop now
