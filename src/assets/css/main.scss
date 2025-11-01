@@ -966,24 +966,7 @@ h5 {
     // Video background styles
     &.page-intro__slide--video {
       overflow: hidden;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      transition: all 0.5s ease;
-
-      &.video-loading {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-
-        .page-intro__video {
-          opacity: 0;
-        }
-      }
-
-      &.video-loaded {
-        background: none;
-
-        .page-intro__video {
-          opacity: 1;
-        }
-      }
+      position: relative;
 
       .page-intro__video {
         position: absolute;
@@ -993,8 +976,6 @@ h5 {
         height: 100%;
         object-fit: cover;
         z-index: 1;
-        opacity: 0;
-        transition: opacity 0.8s ease;
       }
 
       &:before {

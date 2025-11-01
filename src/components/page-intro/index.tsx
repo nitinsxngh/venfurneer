@@ -17,12 +17,21 @@ const PageIntro = () => {
       {isClient && (
         <Swiper navigation effect="fade" className="swiper-wrapper">
           <SwiperSlide>
-            <div className="page-intro__slide page-intro__slide--image" style={{ backgroundImage: 'url(/hero.jpeg)' }}>
+            <div className="page-intro__slide page-intro__slide--video">
+              <video
+                className="page-intro__video"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="/poster.mp4" type="video/mp4" />
+              </video>
               <div className="container">
                 <div className="page-intro__slide__content">
                   <div className="hero-content">
                     <div className="hero-text">
-                      <h2>Diwali Special Collection Sale</h2>
+                      <h2>Luxury Fragrances That Transform Your Space</h2>
                       <Link href="/products" className="btn-shop">
                         <i className="icon-right" />
                         Shop now
@@ -35,7 +44,16 @@ const PageIntro = () => {
           </SwiperSlide>
 
           <SwiperSlide>
-            <div className="page-intro__slide page-intro__slide--image" style={{ backgroundImage: 'url(/hero.jpeg)' }}>
+            <div className="page-intro__slide page-intro__slide--video">
+              <video
+                className="page-intro__video"
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src="/poster.mp4" type="video/mp4" />
+              </video>
               <div className="container">
                 <div className="page-intro__slide__content">
                   <div className="hero-content">
