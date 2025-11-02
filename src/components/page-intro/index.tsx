@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import SwiperCore, { EffectFade, Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -27,19 +26,6 @@ const PageIntro = () => {
               >
                 <source src="/poster.mp4" type="video/mp4" />
               </video>
-              <div className="container">
-                <div className="page-intro__slide__content">
-                  <div className="hero-content">
-                    <div className="hero-text">
-                      <h2>Luxury Fragrances That Transform Your Space</h2>
-                      <Link href="/products" className="btn-shop">
-                        <i className="icon-right" />
-                        Shop now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </SwiperSlide>
 
@@ -54,19 +40,6 @@ const PageIntro = () => {
               >
                 <source src="/poster.mp4" type="video/mp4" />
               </video>
-              <div className="container">
-                <div className="page-intro__slide__content">
-                  <div className="hero-content">
-                    <div className="hero-text">
-                      <h2>Make your house into a home</h2>
-                      <Link href="/products" className="btn-shop">
-                        <i className="icon-right" />
-                        Shop now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </SwiperSlide>
         </Swiper>

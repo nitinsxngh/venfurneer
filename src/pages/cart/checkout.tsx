@@ -22,6 +22,9 @@ const CheckoutPage = () => {
   const [orderCreated, setOrderCreated] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
   const [paymentError, setPaymentError] = useState("");
+  const [promoCode, setPromoCode] = useState("");
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoError, setPromoError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     address: "",
@@ -44,6 +47,31 @@ const CheckoutPage = () => {
 
     return totalPrice;
   });
+
+  const subtotal = priceTotal;
+  const discount = promoApplied ? 10 : 0;
+  const discountAmount = discount > 0 ? (subtotal * discount) / 100 : 0;
+  const finalTotal = subtotal - discountAmount;
+
+  const handlePromoCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPromoCode(e.target.value.toUpperCase());
+    setPromoError("");
+  };
+
+  const handleApplyPromo = () => {
+    if (!promoCode.trim()) {
+      setPromoError("Please enter a promo code");
+      return;
+    }
+
+    if (promoCode.toUpperCase() === "VEN10") {
+      setPromoApplied(true);
+      setPromoError("");
+    } else {
+      setPromoError("Invalid promo code");
+      setPromoApplied(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -95,7 +123,10 @@ const CheckoutPage = () => {
       const orderData = {
         customerInfo: formData,
         items: cartItems,
-        total: priceTotal,
+        subtotal: subtotal,
+        discount: discountAmount,
+        promoCode: promoApplied ? promoCode : null,
+        total: finalTotal,
         status: "pending",
         orderDate: new Date().toISOString()
       };
@@ -272,7 +303,11 @@ const CheckoutPage = () => {
                   <h3 className="block__title">Payment Information</h3>
                   <div className="order-summary">
                     <p><strong>Order Number:</strong> {orderNumber}</p>
-                    <p><strong>Total Amount:</strong> ₹{priceTotal}</p>
+                    <p><strong>Subtotal:</strong> ₹{subtotal.toFixed(2)}</p>
+                    {discountAmount > 0 && (
+                      <p><strong>Discount (10%):</strong> -₹{discountAmount.toFixed(2)}</p>
+                    )}
+                    <p><strong>Total Amount:</strong> ₹{finalTotal.toFixed(2)}</p>
                   </div>
 
                   {paymentError && (
@@ -285,7 +320,10 @@ const CheckoutPage = () => {
                     orderData={{
                       customerInfo: formData,
                       items: cartItems,
-                      total: priceTotal,
+                      subtotal: subtotal,
+                      discount: discountAmount,
+                      promoCode: promoApplied ? promoCode : null,
+                      total: finalTotal,
                       orderNumber: orderNumber
                     }}
                     onPaymentSuccess={handlePaymentSuccess}
@@ -316,9 +354,83 @@ const CheckoutPage = () => {
                 <h3 className="block__title">Your cart</h3>
                 <CheckoutItems />
 
-                <div className="checkout-total">
-                  <p>Total cost</p>
-                  <h3>₹{priceTotal}</h3>
+                {/* Promo Code Section */}
+                <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid #e0e0e0" }}>
+                  <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
+                    <input
+                      type="text"
+                      placeholder="Enter promo code"
+                      className="form__input form__input--sm"
+                      value={promoCode}
+                      onChange={handlePromoCodeChange}
+                      disabled={promoApplied}
+                      style={{ flex: 1, fontSize: "14px", padding: "8px 12px" }}
+                    />
+                    {promoApplied ? (
+                      <button
+                        type="button"
+                        className="btn btn--rounded btn--border"
+                        onClick={() => {
+                          setPromoApplied(false);
+                          setPromoCode("");
+                          setPromoError("");
+                        }}
+                        style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px" }}
+                      >
+                        Remove
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn--rounded btn--border"
+                        onClick={handleApplyPromo}
+                        style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px" }}
+                      >
+                        Apply
+                      </button>
+                    )}
+                  </div>
+                  {promoError && (
+                    <div style={{ color: "#dc3545", fontSize: "12px", marginTop: "4px" }}>
+                      {promoError}
+                    </div>
+                  )}
+                  {promoApplied && (
+                    <div style={{
+                      color: "#28a745",
+                      fontSize: "13px",
+                      marginTop: "8px",
+                      padding: "6px 8px",
+                      backgroundColor: "#f0f9f4",
+                      borderRadius: "4px"
+                    }}>
+                      ✓ Promo code {promoCode} applied - 10% discount
+                    </div>
+                  )}
+                </div>
+
+                {/* Price Summary */}
+                <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid #e0e0e0" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                    <span style={{ fontSize: "14px", color: "#666" }}>Subtotal</span>
+                    <span style={{ fontSize: "14px", fontWeight: "500" }}>₹{subtotal.toFixed(2)}</span>
+                  </div>
+                  {discountAmount > 0 && (
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                      <span style={{ fontSize: "14px", color: "#28a745" }}>Discount (10%)</span>
+                      <span style={{ fontSize: "14px", color: "#28a745", fontWeight: "500" }}>-₹{discountAmount.toFixed(2)}</span>
+                    </div>
+                  )}
+                  <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingTop: "16px",
+                    borderTop: "2px solid #e0e0e0",
+                    marginTop: "8px"
+                  }}>
+                    <span style={{ fontSize: "16px", fontWeight: "600" }}>Total</span>
+                    <span style={{ fontSize: "20px", fontWeight: "700" }}>₹{finalTotal.toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -5,6 +5,9 @@ interface RazorpayPaymentProps {
         customerInfo: any;
         items: any[];
         total: number;
+        subtotal?: number;
+        discount?: number;
+        promoCode?: string | null;
         orderNumber: string;
     };
     onPaymentSuccess: (paymentData: any) => void;
