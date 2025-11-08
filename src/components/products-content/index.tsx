@@ -16,7 +16,7 @@ const ProductsContent = ({ products = [], loading = false }: ProductsContentType
     <section className="products-content">
       <div className="products-content__intro">
         <h2>
-          Premium Perfumes <span>({products.length})</span>
+          Premium Products <span>({products.length})</span>
         </h2>
         <button
           type="button"
