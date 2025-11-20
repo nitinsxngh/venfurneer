@@ -17,9 +17,8 @@ const Footer = () => {
               <span>venfurneer</span>
             </h6>
             <p>
-              venfurneer offers premium perfumes, fragrance oils, and luxury
-              scents for discerning customers. Discover our exclusive collection
-              of fine fragrances that define elegance and sophistication.
+              Venfurneer offers premium diffusers and fragrance oils designed to elevate any environment from offices to homes.
+              Explore our exclusive collection of luxury scents crafted to bring elegance, comfort, and sophistication to your spaces.
             </p>
             <ul className="site-footer__social-networks">
               <li>

@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import Footer from "@/components/footer";
 import PageIntro from "@/components/page-intro";
 import ProductsFeatured from "@/components/products-featured";
-import Subscribe from "@/components/subscribe";
 import LuxuryDiffuser from "@/components/luxury-diffuser";
+import Testimonials from "@/components/testimonials";
 
 import Layout from "../layouts/Main";
 import type { ProductType } from "../types";
@@ -143,7 +143,7 @@ const IndexPage = ({ products }: IndexPageType) => {
 
       <ProductsFeatured products={products} />
       <LuxuryDiffuser />
-      <Subscribe />
+      <Testimonials />
       <Footer />
     </Layout>
   );

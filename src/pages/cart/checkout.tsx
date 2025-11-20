@@ -12,6 +12,11 @@ import { clearCart } from "@/store/reducers/cart";
 
 import Layout from "../../layouts/Main";
 
+const PROMO_CODES: Record<string, number> = {
+  VEN10: 10,
+  BLACKFRIDAY25: 25
+};
+
 const CheckoutPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -25,6 +30,7 @@ const CheckoutPage = () => {
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState("");
+  const [promoDiscount, setPromoDiscount] = useState(0);
   const [formData, setFormData] = useState({
     email: "",
     address: "",
@@ -49,7 +55,7 @@ const CheckoutPage = () => {
   });
 
   const subtotal = priceTotal;
-  const discount = promoApplied ? 10 : 0;
+  const discount = promoDiscount;
   const discountAmount = discount > 0 ? (subtotal * discount) / 100 : 0;
   const finalTotal = subtotal - discountAmount;
 
@@ -64,13 +70,19 @@ const CheckoutPage = () => {
       return;
     }
 
-    if (promoCode.toUpperCase() === "VEN10") {
-      setPromoApplied(true);
-      setPromoError("");
-    } else {
+    const normalizedCode = promoCode.toUpperCase();
+    const discountValue = PROMO_CODES[normalizedCode];
+
+    if (!discountValue) {
       setPromoError("Invalid promo code");
       setPromoApplied(false);
+      setPromoDiscount(0);
+      return;
     }
+
+    setPromoApplied(true);
+    setPromoDiscount(discountValue);
+    setPromoError("");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -305,7 +317,7 @@ const CheckoutPage = () => {
                     <p><strong>Order Number:</strong> {orderNumber}</p>
                     <p><strong>Subtotal:</strong> ₹{subtotal.toFixed(2)}</p>
                     {discountAmount > 0 && (
-                      <p><strong>Discount (10%):</strong> -₹{discountAmount.toFixed(2)}</p>
+                      <p><strong>Discount ({promoDiscount}%):</strong> -₹{discountAmount.toFixed(2)}</p>
                     )}
                     <p><strong>Total Amount:</strong> ₹{finalTotal.toFixed(2)}</p>
                   </div>
@@ -373,6 +385,7 @@ const CheckoutPage = () => {
                         onClick={() => {
                           setPromoApplied(false);
                           setPromoCode("");
+                          setPromoDiscount(0);
                           setPromoError("");
                         }}
                         style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px" }}
@@ -404,7 +417,7 @@ const CheckoutPage = () => {
                       backgroundColor: "#f0f9f4",
                       borderRadius: "4px"
                     }}>
-                      ✓ Promo code {promoCode} applied - 10% discount
+                      ✓ Promo code {promoCode} applied - {promoDiscount}% discount
                     </div>
                   )}
                 </div>
@@ -417,7 +430,7 @@ const CheckoutPage = () => {
                   </div>
                   {discountAmount > 0 && (
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                      <span style={{ fontSize: "14px", color: "#28a745" }}>Discount (10%)</span>
+                      <span style={{ fontSize: "14px", color: "#28a745" }}>Discount ({promoDiscount}%)</span>
                       <span style={{ fontSize: "14px", color: "#28a745", fontWeight: "500" }}>-₹{discountAmount.toFixed(2)}</span>
                     </div>
                   )}

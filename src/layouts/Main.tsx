@@ -10,7 +10,7 @@ type LayoutType = {
 
 const MainLayout = ({
   children,
-  title = "venfurneer - Premium Perfumes",
+  title = "venfurneer - Premium Scent Diffusers & Oils for Home & Office",
 }: LayoutType) => {
   const router = useRouter();
   const pathname = router.pathname;
