@@ -50,6 +50,24 @@ const testimonials: Testimonial[] = [
     image: "/testimonial/6.jpeg",
     sector: "Luxury Residences",
   },
+  {
+    id: 7,
+    client: "Freddie Burger",
+    image: "/testimonial/7.jpeg",
+    sector: "Restaurant & Dining",
+  },
+  {
+    id: 8,
+    client: "Mika Decor",
+    image: "/testimonial/8.jpeg",
+    sector: "Interior Design",
+  },
+  {
+    id: 9,
+    client: "Sonu - Glass Window & Railing",
+    image: "/testimonial/9.jpeg",
+    sector: "Architectural Solutions",
+  },
 ];
 
 const Testimonials = () => {
