@@ -31,6 +31,7 @@ const CheckoutPage = () => {
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState("");
   const [promoDiscount, setPromoDiscount] = useState(0);
+  const [showPromoModal, setShowPromoModal] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     address: "",
@@ -64,13 +65,15 @@ const CheckoutPage = () => {
     setPromoError("");
   };
 
-  const handleApplyPromo = () => {
-    if (!promoCode.trim()) {
+  const handleApplyPromo = (code?: string) => {
+    const codeToApply = code || promoCode;
+    
+    if (!codeToApply.trim()) {
       setPromoError("Please enter a promo code");
       return;
     }
 
-    const normalizedCode = promoCode.toUpperCase();
+    const normalizedCode = codeToApply.toUpperCase();
     const discountValue = PROMO_CODES[normalizedCode];
 
     if (!discountValue) {
@@ -80,9 +83,15 @@ const CheckoutPage = () => {
       return;
     }
 
+    setPromoCode(normalizedCode);
     setPromoApplied(true);
     setPromoDiscount(discountValue);
     setPromoError("");
+    
+    // Close modal if opened from modal
+    if (code) {
+      setShowPromoModal(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -368,7 +377,7 @@ const CheckoutPage = () => {
 
                 {/* Promo Code Section */}
                 <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid #e0e0e0" }}>
-                  <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
+                  <div style={{ display: "flex", gap: "8px", marginBottom: "8px", alignItems: "center" }}>
                     <input
                       type="text"
                       placeholder="Enter promo code"
@@ -393,14 +402,24 @@ const CheckoutPage = () => {
                         Remove
                       </button>
                     ) : (
-                      <button
-                        type="button"
-                        className="btn btn--rounded btn--border"
-                        onClick={handleApplyPromo}
-                        style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px" }}
-                      >
-                        Apply
-                      </button>
+                      <>
+                        <button
+                          type="button"
+                          className="btn btn--rounded btn--border"
+                          onClick={() => handleApplyPromo()}
+                          style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px" }}
+                        >
+                          Apply
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn--rounded btn--border"
+                          onClick={() => setShowPromoModal(true)}
+                          style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px", background: "#f8f9fa", borderColor: "#dee2e6" }}
+                        >
+                          View Codes
+                        </button>
+                      </>
                     )}
                   </div>
                   {promoError && (
@@ -471,6 +490,55 @@ const CheckoutPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Promo Code Modal */}
+      {showPromoModal && (
+        <div 
+          className="promo-modal-overlay" 
+          onClick={() => setShowPromoModal(false)}
+        >
+          <div className="promo-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="promo-modal__header">
+              <h3 className="promo-modal__title">Available Promo Codes</h3>
+              <button 
+                className="promo-modal__close" 
+                onClick={() => setShowPromoModal(false)}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+            <div className="promo-modal__content">
+              <p className="promo-modal__description">
+                Click on any promo code below to apply it automatically
+              </p>
+              <div className="promo-modal__codes">
+                {Object.entries(PROMO_CODES).map(([code, discount]) => (
+                  <div 
+                    key={code} 
+                    className="promo-modal__code-item"
+                    onClick={() => handleApplyPromo(code)}
+                  >
+                    <div className="promo-modal__code-info">
+                      <span className="promo-modal__code-name">{code}</span>
+                      <span className="promo-modal__code-discount">{discount}% OFF</span>
+                    </div>
+                    <button 
+                      className="promo-modal__code-apply"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleApplyPromo(code);
+                      }}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };

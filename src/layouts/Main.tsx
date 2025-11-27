@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import Header from "@/components/header";
+import HeaderStrip from "@/components/header-strip";
 
 type LayoutType = {
   title?: string;
@@ -21,6 +22,7 @@ const MainLayout = ({
         <title>{title}</title>
       </Head>
 
+      <HeaderStrip />
       <Header />
 
       <main className={pathname !== "/" ? "main-page" : ""}>{children}</main>

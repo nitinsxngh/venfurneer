@@ -678,10 +678,10 @@ h5 {
 }
 
 .main-page {
-  padding-top: 65px;
+  padding-top: 101px;
 
   @include breakpoint(phone) {
-    padding-top: 100px;
+    padding-top: 140px;
   }
 }
 
@@ -831,10 +831,75 @@ h5 {
   }
 }
 
+.header-strip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #ffffff;
+  overflow: hidden;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+
+  @include breakpoint(phone) {
+    height: 40px;
+  }
+
+  &__content {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 24px;
+    animation: scroll 40s linear infinite;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    will-change: transform;
+
+    @include breakpoint(phone) {
+      font-size: 14px;
+      gap: 32px;
+      padding: 0 32px;
+    }
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    color: #ffffff;
+    white-space: nowrap;
+
+    @include breakpoint(phone) {
+      gap: 32px;
+    }
+  }
+
+  &__separator {
+    color: rgba(255, 255, 255, 0.4);
+    margin: 0 8px;
+    font-weight: 300;
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 .site-header {
   position: fixed;
   width: 100%;
-  top: 0;
+  top: 36px;
   left: 0;
   z-index: 999;
   height: 50px;
@@ -843,6 +908,10 @@ h5 {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   transition: all .3s ease;
   border-bottom: 1px solid #f0f0f0;
+
+  @include breakpoint(phone) {
+    top: 40px;
+  }
 
   // Smooth transition for scroll effects
   &.site-header--fixed {
@@ -8450,4 +8519,223 @@ h5 {
 .payment-options {
   margin-top: 20px;
   text-align: center;
+}
+
+// Promo Code Modal
+.promo-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.promo-modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @include breakpoint(phone) {
+    max-width: 90vw;
+  }
+}
+
+.promo-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+
+  @include breakpoint(phone) {
+    padding: 18px;
+  }
+}
+
+.promo-modal__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  font-family: var(--heading-font);
+
+  @include breakpoint(phone) {
+    font-size: 20px;
+  }
+}
+
+.promo-modal__close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  line-height: 1;
+
+  &:hover {
+    color: #1a1a1a;
+    background: #f0f0f0;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.promo-modal__content {
+  padding: 20px;
+
+  @include breakpoint(phone) {
+    padding: 18px;
+  }
+}
+
+.promo-modal__description {
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  line-height: 1.5;
+
+  @include breakpoint(phone) {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+}
+
+.promo-modal__codes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.promo-modal__code-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 12px;
+
+  &:hover {
+    border-color: #1a1a1a;
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @include breakpoint(phone) {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+}
+
+.promo-modal__code-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.promo-modal__code-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 1px;
+  font-family: var(--heading-font);
+
+  @include breakpoint(phone) {
+    font-size: 16px;
+  }
+}
+
+.promo-modal__code-discount {
+  font-size: 14px;
+  font-weight: 600;
+  color: #28a745;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  @include breakpoint(phone) {
+    font-size: 13px;
+  }
+}
+
+.promo-modal__code-apply {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+
+  &:hover {
+    background: #333;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @include breakpoint(phone) {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
 }
