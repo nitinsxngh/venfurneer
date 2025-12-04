@@ -1,26 +1,26 @@
 import { useState, useEffect, useRef } from "react";
 
-// Spin-to-win coupons (not shown in regular promo codes)
+// Spin-to-win coupons (not shown in regular promo codes) - 5%, 7.5%, 10%, 12.5%, and 15%
 const SPIN_COUPONS = [
-  { code: "SPIN10", discount: 10, probability: 0.35, color: "#FF6B6B", textColor: "#FFFFFF" }, // 35% chance
-  { code: "SPIN15", discount: 15, probability: 0.25, color: "#4ECDC4", textColor: "#FFFFFF" }, // 25% chance
-  { code: "SPIN20", discount: 20, probability: 0.2, color: "#95E1D3", textColor: "#1A1A1A" }, // 20% chance
-  { code: "SPIN25", discount: 25, probability: 0.15, color: "#F38181", textColor: "#FFFFFF" }, // 15% chance
-  { code: "SPIN30", discount: 30, probability: 0.05, color: "#FFD93D", textColor: "#1A1A1A" }, // 5% chance (rare)
+  { code: "SPIN5", discount: 5, probability: 0.30, color: "#E8E8E8", textColor: "#1A1A1A" }, // 30% chance
+  { code: "SPIN75", discount: 7.5, probability: 0.25, color: "#D3D3D3", textColor: "#1A1A1A" }, // 25% chance
+  { code: "SPIN10", discount: 10, probability: 0.20, color: "#FF6B6B", textColor: "#FFFFFF" }, // 20% chance
+  { code: "SPIN125", discount: 12.5, probability: 0.15, color: "#4ECDC4", textColor: "#FFFFFF" }, // 15% chance
+  { code: "SPIN15", discount: 15, probability: 0.10, color: "#FFD93D", textColor: "#1A1A1A" }, // 10% chance (rare)
 ];
 
 // Helper function to create SVG path for pie slice
 const createPieSlice = (startAngle: number, endAngle: number, radius: number, centerX: number, centerY: number) => {
   const startAngleRad = (startAngle - 90) * (Math.PI / 180);
   const endAngleRad = (endAngle - 90) * (Math.PI / 180);
-  
+
   const x1 = centerX + radius * Math.cos(startAngleRad);
   const y1 = centerY + radius * Math.sin(startAngleRad);
   const x2 = centerX + radius * Math.cos(endAngleRad);
   const y2 = centerY + radius * Math.sin(endAngleRad);
-  
+
   const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
-  
+
   return `M ${centerX} ${centerY} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2} Z`;
 };
 
@@ -48,7 +48,7 @@ const SpinToWin = () => {
     // Check if user has already spun today
     const lastSpinDate = localStorage.getItem("spinLastDate");
     const today = new Date().toDateString();
-    
+
     if (lastSpinDate === today) {
       const savedCoupon = localStorage.getItem("spinWonCoupon");
       if (savedCoupon) {
@@ -68,14 +68,14 @@ const SpinToWin = () => {
   const selectWinner = () => {
     const random = Math.random();
     let cumulative = 0;
-    
+
     for (const coupon of SPIN_COUPONS) {
       cumulative += coupon.probability;
       if (random <= cumulative) {
         return coupon;
       }
     }
-    
+
     // Fallback to first coupon
     return SPIN_COUPONS[0];
   };
@@ -91,7 +91,7 @@ const SpinToWin = () => {
     const selectedCoupon = selectWinner();
     const segmentAngle = 360 / SPIN_COUPONS.length;
     const couponIndex = SPIN_COUPONS.findIndex(c => c.code === selectedCoupon.code);
-    
+
     // Pointer is at top (0 degrees), calculate angle to align segment midpoint with pointer
     const segmentMidAngle = couponIndex * segmentAngle + segmentAngle / 2;
     // Rotate so that segment midpoint aligns with pointer (top = 0 degrees)
@@ -178,13 +178,13 @@ const SpinToWin = () => {
                 const centerX = 200;
                 const centerY = 200;
                 const radius = 190;
-                
+
                 return (
                   <svg
                     className="spin-to-win__wheel-svg"
                     viewBox="0 0 400 400"
                     ref={wheelRef}
-                    style={{ 
+                    style={{
                       transform: `rotate(${rotation}deg)`,
                     }}
                   >
@@ -200,7 +200,7 @@ const SpinToWin = () => {
                         const endAngle = (index + 1) * segmentAngle;
                         const midAngle = startAngle + segmentAngle / 2;
                         const textPos = getTextPosition(midAngle, radius, centerX, centerY);
-                      
+
                         return (
                           <g key={coupon.code}>
                             <path
