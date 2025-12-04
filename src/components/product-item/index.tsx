@@ -52,7 +52,11 @@ const ProductItem = ({
         </button>
 
         <Link href={`/product/${id}`}>
-          <img src={images ? images[0] : ""} alt="product" />
+          <img 
+            src={images ? images[0] : ""} 
+            alt={`${name} - Premium luxury scent diffuser from venfurneer`}
+            loading="lazy"
+          />
           {discount && discount > 0 && <span className="product__discount">{discount}%</span>}
         </Link>
       </div>

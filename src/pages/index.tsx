@@ -7,6 +7,8 @@ import PageIntro from "@/components/page-intro";
 import ProductsFeatured from "@/components/products-featured";
 import LuxuryDiffuser from "@/components/luxury-diffuser";
 import Testimonials from "@/components/testimonials";
+import SpinToWin from "@/components/spin-to-win";
+import { getItemListSchema } from "@/utils/seo";
 
 import Layout from "../layouts/Main";
 import type { ProductType } from "../types";
@@ -99,8 +101,38 @@ const IndexPage = ({ products }: IndexPageType) => {
     fetchCategories();
   }, []);
 
+  // Generate structured data for homepage product listing
+  const itemListSchema = products && products.length > 0 
+    ? getItemListSchema(
+        products.slice(0, 20).map((product) => ({
+          name: product.name,
+          url: `/product/${product.id}`,
+          image: product.images?.[0],
+          description: `Premium ${product.name} - Luxury scent diffuser for your home`,
+        })),
+        'Featured Products'
+      )
+    : undefined;
+
   return (
-    <Layout>
+    <Layout
+      title="Premium Luxury Scent Diffusers & Essential Oils for Home & Office"
+      description="Discover venfurneer's exclusive collection of luxury scent diffusers, essential oils, and aromatherapy products. Transform your home and office with premium fragrances designed for modern living. Free shipping across India."
+      keywords={[
+        'luxury diffusers',
+        'premium scent diffusers',
+        'home fragrance diffusers',
+        'office diffusers',
+        'essential oils',
+        'aromatherapy products',
+        'reed diffusers',
+        'ultrasonic diffusers',
+        'home scents',
+        'room fragrances',
+      ]}
+      canonical="/"
+      structuredData={itemListSchema}
+    >
       <PageIntro />
 
       <section className="featured">
@@ -145,6 +177,7 @@ const IndexPage = ({ products }: IndexPageType) => {
       <LuxuryDiffuser />
       <Testimonials />
       <Footer />
+      <SpinToWin />
     </Layout>
   );
 };

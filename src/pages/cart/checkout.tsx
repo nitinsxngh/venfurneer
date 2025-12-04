@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import CheckoutItems from "@/components/checkout/items";
@@ -15,6 +15,14 @@ import Layout from "../../layouts/Main";
 const PROMO_CODES: Record<string, number> = {
   VEN10: 10,
   BLACKFRIDAY25: 25
+};
+
+// Spin-to-win coupons (not shown in modal, but can be applied)
+const SPIN_COUPONS: Record<string, number> = {
+  SPIN10: 10,
+  SPIN15: 15,
+  SPIN20: 20,
+  SPIN25: 25
 };
 
 const CheckoutPage = () => {
@@ -74,7 +82,8 @@ const CheckoutPage = () => {
     }
 
     const normalizedCode = codeToApply.toUpperCase();
-    const discountValue = PROMO_CODES[normalizedCode];
+    // Check both regular promo codes and spin-to-win coupons
+    const discountValue = PROMO_CODES[normalizedCode] || SPIN_COUPONS[normalizedCode];
 
     if (!discountValue) {
       setPromoError("Invalid promo code");
@@ -93,6 +102,22 @@ const CheckoutPage = () => {
       setShowPromoModal(false);
     }
   };
+
+  // Load spin-to-win coupon from localStorage on mount
+  useEffect(() => {
+    const savedCoupon = localStorage.getItem("spinWonCoupon");
+    if (savedCoupon) {
+      try {
+        const coupon = JSON.parse(savedCoupon);
+        if (coupon.code && SPIN_COUPONS[coupon.code]) {
+          // Auto-fill the coupon code but don't auto-apply
+          setPromoCode(coupon.code);
+        }
+      } catch (e) {
+        console.error("Error parsing saved coupon:", e);
+      }
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

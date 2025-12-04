@@ -3,7 +3,7 @@ const HeaderStrip = () => {
     "Black Friday Sale",
     "Get 10-15% Off",
     "Get Free Delivery",
-    "PAN Indian Shipping",
+    "PAN India Shipping",
     "Limited Offer"
   ];
 

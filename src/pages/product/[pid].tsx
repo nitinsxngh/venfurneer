@@ -1,11 +1,13 @@
 import type { GetServerSideProps } from "next";
 import Link from "next/link";
 
+import { useMemo } from "react";
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
 import Gallery from "@/components/product-single/gallery";
 import Content from "@/components/product-single/content";
 import ProductsFeatured from "@/components/products-featured";
+import { getProductSchema, getBreadcrumbSchema } from "@/utils/seo";
 // types
 import type { ProductType } from "@/types";
 
@@ -74,10 +76,108 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
 };
 
 const Product = ({ product, products }: ProductPageType) => {
+  // Generate SEO-optimized product description
+  const productDescription = useMemo(() => {
+    if (!product) return '';
+    
+    const categoryName = (product.category && typeof product.category === 'object' && 'name' in product.category)
+      ? (product.category as any).name || 'Premium Diffuser'
+      : (typeof product.category === 'string' ? product.category : 'Premium Diffuser');
+    
+    return `${product.name} - Premium ${categoryName} from venfurneer. Transform your space with luxury fragrances and essential oils. Available in multiple sizes. Free shipping across India. Perfect for home and office aromatherapy.`;
+  }, [product]);
+
+  // Generate keywords for the product
+  const keywords = useMemo(() => {
+    if (!product) return [];
+    
+    const baseKeywords = [
+      product.name.toLowerCase(),
+      'luxury diffuser',
+      'premium scent diffuser',
+      'home fragrance',
+      'essential oils',
+      'aromatherapy',
+    ];
+    
+    if (product.category && typeof product.category === 'object' && 'name' in product.category) {
+      baseKeywords.push((product.category as any).name.toLowerCase());
+    } else if (typeof product.category === 'string') {
+      baseKeywords.push(product.category.toLowerCase());
+    }
+    
+    return baseKeywords;
+  }, [product]);
+
+  // Generate product schema
+  const productSchema = useMemo(() => {
+    if (!product) return null;
+    
+    const categoryName = (product.category && typeof product.category === 'object' && 'name' in product.category)
+      ? (product.category as any).name || 'Home Fragrance'
+      : (typeof product.category === 'string' ? product.category : 'Home Fragrance');
+
+    return getProductSchema(
+      {
+        name: product.name,
+        description: productDescription,
+        image: product.images || [],
+        price: product.currentPrice,
+        currency: 'INR',
+        availability: product.quantityAvailable > 0 
+          ? 'https://schema.org/InStock' 
+          : 'https://schema.org/OutOfStock',
+        brand: 'venfurneer',
+        sku: product.id || product._id,
+        category: categoryName,
+        aggregateRating: product.punctuation?.countOpinions 
+          ? {
+              ratingValue: product.punctuation.punctuation || 0,
+              reviewCount: product.punctuation.countOpinions,
+            }
+          : undefined,
+        offers: {
+          price: product.currentPrice,
+          priceCurrency: 'INR',
+          availability: product.quantityAvailable > 0 
+            ? 'https://schema.org/InStock' 
+            : 'https://schema.org/OutOfStock',
+          url: `/product/${product.id || product._id}`,
+          priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        },
+      },
+      `/product/${product.id || product._id}`
+    );
+  }, [product, productDescription]);
+
+  // Generate breadcrumb schema
+  const breadcrumbSchema = useMemo(() => {
+    if (!product) return null;
+    
+    const categoryName = (product.category && typeof product.category === 'object' && 'name' in product.category)
+      ? (product.category as any).name || 'Products'
+      : (typeof product.category === 'string' ? product.category : 'Products');
+    
+    const categorySlug = (product.category && typeof product.category === 'object' && 'slug' in product.category)
+      ? (product.category as any).slug || 'products'
+      : 'products';
+
+    return getBreadcrumbSchema([
+      { name: 'Home', url: '/' },
+      { name: 'Products', url: '/products' },
+      { name: categoryName, url: `/products?category=${categorySlug}` },
+      { name: product.name, url: `/product/${product.id || product._id}` },
+    ]);
+  }, [product]);
+
   // Handle case when product is not found or undefined
   if (!product) {
     return (
-      <Layout>
+      <Layout
+        title="Product Not Found"
+        description="The product you're looking for doesn't exist or has been removed."
+        noindex={true}
+      >
         <Breadcrumb />
         <section className="product-single">
           <div className="container">
@@ -99,7 +199,15 @@ const Product = ({ product, products }: ProductPageType) => {
   }
 
   return (
-    <Layout>
+    <Layout
+      title={`${product.name} - Premium Luxury Scent Diffuser`}
+      description={productDescription}
+      canonical={`/product/${product.id || product._id}`}
+      ogImage={product.images?.[0]}
+      ogType="product"
+      keywords={keywords}
+      structuredData={[productSchema, breadcrumbSchema].filter(Boolean)}
+    >
       <Breadcrumb />
 
       <section className="product-single">

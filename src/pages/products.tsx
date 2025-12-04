@@ -1,11 +1,11 @@
 import type { GetServerSideProps } from "next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-
 import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
 import ProductsContent from "@/components/products-content";
 import ProductsFilter from "@/components/products-filter";
+import { getItemListSchema, getBreadcrumbSchema, getCollectionPageSchema } from "@/utils/seo";
 import type { ProductType } from "@/types";
 
 import Layout from "../layouts/Main";
@@ -71,8 +71,69 @@ const Products = ({ initialProducts }: ProductsPageType) => {
     }
   };
 
+  // Generate SEO metadata based on category filter
+  const categoryName = initialCategory 
+    ? initialCategory.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+    : 'All Products';
+
+  const pageTitle = initialCategory 
+    ? `${categoryName} - Premium Luxury Diffusers & Home Fragrances`
+    : 'Premium Luxury Scent Diffusers & Essential Oils - Shop Now';
+
+  const pageDescription = initialCategory
+    ? `Browse our exclusive collection of ${categoryName.toLowerCase()} diffusers and home fragrances. Premium quality, luxury scents for your home and office. Free shipping across India.`
+    : 'Discover our complete collection of premium luxury scent diffusers, essential oils, and aromatherapy products. Transform your space with exclusive fragrances from venfurneer. Shop now with free delivery.';
+
+  // Generate structured data
+  const itemListSchema = useMemo(() => {
+    if (products.length === 0) return undefined;
+    
+    return getItemListSchema(
+      products.slice(0, 20).map((product) => ({
+        name: product.name,
+        url: `/product/${product.id}`,
+        image: product.images?.[0],
+        description: `Premium ${product.name} - Luxury scent diffuser`,
+      })),
+      categoryName
+    );
+  }, [products, categoryName]);
+
+  const breadcrumbSchema = useMemo(() => {
+    const items = [
+      { name: 'Home', url: '/' },
+      { name: categoryName, url: initialCategory ? `/products?category=${initialCategory}` : '/products' },
+    ];
+    return getBreadcrumbSchema(items);
+  }, [categoryName, initialCategory]);
+
+  const collectionSchema = useMemo(() => {
+    if (!initialCategory || products.length === 0) return undefined;
+    return getCollectionPageSchema(categoryName, products);
+  }, [initialCategory, categoryName, products]);
+
+  const structuredData = useMemo(() => {
+    const schemas: any[] = [breadcrumbSchema];
+    if (itemListSchema) schemas.push(itemListSchema);
+    if (collectionSchema) schemas.push(collectionSchema);
+    return schemas.length > 1 ? schemas : schemas[0];
+  }, [breadcrumbSchema, itemListSchema, collectionSchema]);
+
   return (
-    <Layout>
+    <Layout
+      title={pageTitle}
+      description={pageDescription}
+      canonical={initialCategory ? `/products?category=${initialCategory}` : '/products'}
+      keywords={[
+        categoryName.toLowerCase(),
+        'luxury diffusers',
+        'premium home fragrances',
+        'aromatherapy products',
+        'essential oils',
+        'scent diffusers India',
+      ]}
+      structuredData={structuredData}
+    >
       <Breadcrumb />
       <section className="products-page">
         <div className="container">
