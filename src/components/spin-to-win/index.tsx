@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 
-// Spin-to-win coupons (not shown in regular promo codes) - 5%, 7.5%, 10%, 12.5%, and 15%
+// Spin-to-win coupons (not shown in regular promo codes) - 5%, 10%, 15%, 20%, and 25%
 const SPIN_COUPONS = [
   { code: "SPIN5", discount: 5, probability: 0.30, color: "#E8E8E8", textColor: "#1A1A1A" }, // 30% chance
-  { code: "SPIN75", discount: 7.5, probability: 0.25, color: "#D3D3D3", textColor: "#1A1A1A" }, // 25% chance
-  { code: "SPIN10", discount: 10, probability: 0.20, color: "#FF6B6B", textColor: "#FFFFFF" }, // 20% chance
-  { code: "SPIN125", discount: 12.5, probability: 0.15, color: "#4ECDC4", textColor: "#FFFFFF" }, // 15% chance
-  { code: "SPIN15", discount: 15, probability: 0.10, color: "#FFD93D", textColor: "#1A1A1A" }, // 10% chance (rare)
+  { code: "SPIN10", discount: 10, probability: 0.25, color: "#FF6B6B", textColor: "#FFFFFF" }, // 25% chance
+  { code: "SPIN15", discount: 15, probability: 0.20, color: "#4ECDC4", textColor: "#FFFFFF" }, // 20% chance
+  { code: "SPIN20", discount: 20, probability: 0.15, color: "#95E1D3", textColor: "#1A1A1A" }, // 15% chance
+  { code: "SPIN25", discount: 25, probability: 0.10, color: "#FFD93D", textColor: "#1A1A1A" }, // 10% chance (rare)
 ];
 
 // Helper function to create SVG path for pie slice
@@ -86,20 +86,28 @@ const SpinToWin = () => {
     setIsSpinning(true);
     setShowResult(false);
 
-    // Calculate random rotation (multiple full spins + final position)
-    const fullSpins = 5 + Math.random() * 3; // 5-8 full spins
+    // Select winner
     const selectedCoupon = selectWinner();
-    const segmentAngle = 360 / SPIN_COUPONS.length;
     const couponIndex = SPIN_COUPONS.findIndex(c => c.code === selectedCoupon.code);
 
-    // Pointer is at top (0 degrees), calculate angle to align segment midpoint with pointer
-    const segmentMidAngle = couponIndex * segmentAngle + segmentAngle / 2;
-    // Rotate so that segment midpoint aligns with pointer (top = 0 degrees)
-    const finalAngle = 360 - segmentMidAngle;
+    // Simple lookup table: rotation angles to align each segment with pointer
+    // Adjust these values if pointer alignment is off:
+    // - Increase value = rotate more clockwise = segment moves left
+    // - Decrease value = rotate less clockwise = segment moves right
+    const segmentRotations = [
+      324, // SPIN5 (5%) - Segment 0
+      252, // SPIN10 (10%) - Segment 1  
+      180, // SPIN15 (15%) - Segment 2
+      108, // SPIN20 (20%) - Segment 3
+      36   // SPIN25 (25%) - Segment 4
+    ];
+
+    const finalAngle = segmentRotations[couponIndex];
+    const fullSpins = 5 + Math.random() * 3;
     const totalRotation = fullSpins * 360 + finalAngle;
 
     // Update rotation state - CSS transition will handle animation
-    setRotation(prev => prev + totalRotation);
+    setRotation(totalRotation);
 
     // Show result after animation
     setTimeout(() => {

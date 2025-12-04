@@ -19,6 +19,7 @@ const PROMO_CODES: Record<string, number> = {
 
 // Spin-to-win coupons (not shown in modal, but can be applied)
 const SPIN_COUPONS: Record<string, number> = {
+  SPIN5: 5,
   SPIN10: 10,
   SPIN15: 15,
   SPIN20: 20,
@@ -75,7 +76,7 @@ const CheckoutPage = () => {
 
   const handleApplyPromo = (code?: string) => {
     const codeToApply = code || promoCode;
-    
+
     if (!codeToApply.trim()) {
       setPromoError("Please enter a promo code");
       return;
@@ -96,7 +97,7 @@ const CheckoutPage = () => {
     setPromoApplied(true);
     setPromoDiscount(discountValue);
     setPromoError("");
-    
+
     // Close modal if opened from modal
     if (code) {
       setShowPromoModal(false);
@@ -518,15 +519,15 @@ const CheckoutPage = () => {
 
       {/* Promo Code Modal */}
       {showPromoModal && (
-        <div 
-          className="promo-modal-overlay" 
+        <div
+          className="promo-modal-overlay"
           onClick={() => setShowPromoModal(false)}
         >
           <div className="promo-modal" onClick={(e) => e.stopPropagation()}>
             <div className="promo-modal__header">
               <h3 className="promo-modal__title">Available Promo Codes</h3>
-              <button 
-                className="promo-modal__close" 
+              <button
+                className="promo-modal__close"
                 onClick={() => setShowPromoModal(false)}
                 aria-label="Close"
               >
@@ -539,8 +540,8 @@ const CheckoutPage = () => {
               </p>
               <div className="promo-modal__codes">
                 {Object.entries(PROMO_CODES).map(([code, discount]) => (
-                  <div 
-                    key={code} 
+                  <div
+                    key={code}
                     className="promo-modal__code-item"
                     onClick={() => handleApplyPromo(code)}
                   >
@@ -548,7 +549,7 @@ const CheckoutPage = () => {
                       <span className="promo-modal__code-name">{code}</span>
                       <span className="promo-modal__code-discount">{discount}% OFF</span>
                     </div>
-                    <button 
+                    <button
                       className="promo-modal__code-apply"
                       onClick={(e) => {
                         e.stopPropagation();
