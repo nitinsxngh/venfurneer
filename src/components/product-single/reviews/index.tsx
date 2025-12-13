@@ -14,11 +14,16 @@ const Reviews = ({ show, product }: ReviewsProductType) => {
     display: show ? "block" : "none",
   };
 
+  // Safely get punctuation and reviews with defaults
+  const punctuation = product.punctuation?.punctuation || 0;
+  const countOpinions = product.punctuation?.countOpinions || 0;
+  const reviews = product.reviews || [];
+
   return (
     <section style={style} className="product-single__reviews">
       <Punctuation
-        punctuation={product.punctuation.punctuation}
-        countOpinions={product.punctuation.countOpinions}
+        punctuation={punctuation}
+        countOpinions={countOpinions}
       />
       
       <div className="product-single__reviews-content">
@@ -26,7 +31,7 @@ const Reviews = ({ show, product }: ReviewsProductType) => {
           productId={product.id || product._id || ""}
         />
         
-        <ReviewsList reviews={product.reviews} />
+        <ReviewsList reviews={reviews} />
       </div>
     </section>
   );

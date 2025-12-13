@@ -222,16 +222,18 @@ const Product = ({ product, products }: ProductPageType) => {
           <hr className="product-single__separator" />
           
           {/* Product Description below image */}
-          {product.description && (
-            <div className="product-single__description-section">
-              <div className="container">
-                <div className="product-description">
-                  <h3>Product Description</h3>
+          <div className="product-single__description-section">
+            <div className="container">
+              <div className="product-description">
+                <h3>Product Description</h3>
+                {product.description ? (
                   <p>{product.description}</p>
-                </div>
+                ) : (
+                  <p>No description available for this product.</p>
+                )}
               </div>
             </div>
-          )}
+          </div>
           
           {/* Horizontal separator above reviews */}
           <hr className="product-single__separator" />
