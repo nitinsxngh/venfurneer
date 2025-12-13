@@ -8,7 +8,7 @@ import "react-rater/lib/react-rater.css";
 import type { AppProps } from "next/app";
 import { Poppins } from "next/font/google";
 import Router from "next/router";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { SWRConfig } from "swr";
 
 import { wrapper } from "../store";
