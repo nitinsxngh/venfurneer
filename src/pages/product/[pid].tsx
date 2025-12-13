@@ -226,7 +226,7 @@ const Product = ({ product, products }: ProductPageType) => {
             <div className="container">
               <div className="product-description">
                 <h3>Product Description</h3>
-                {product.description ? (
+                {product?.description ? (
                   <p>{product.description}</p>
                 ) : (
                   <p>No description available for this product.</p>
@@ -239,11 +239,13 @@ const Product = ({ product, products }: ProductPageType) => {
           <hr className="product-single__separator" />
           
           {/* Product Reviews Section */}
-          <div className="product-single__reviews-section">
-            <div className="container">
-              <Reviews show={true} product={product} />
+          {product && (
+            <div className="product-single__reviews-section">
+              <div className="container">
+                <Reviews show={true} product={product} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
