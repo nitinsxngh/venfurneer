@@ -15,6 +15,7 @@ interface SizePrice {
 interface Product {
   id: string;
   name: string;
+  description?: string;
   price: number | string;
   currentPrice?: number | string;
   discount?: number | string;
@@ -46,6 +47,7 @@ interface ProductFormProps {
 const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
   const [formData, setFormData] = useState({
     name: "",
+    description: "",
     price: "",
     discount: "",
     category: "",
@@ -68,6 +70,7 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
     if (product) {
       setFormData({
         name: product.name,
+        description: product.description || "",
         price: product.price.toString(),
         discount: product.discount?.toString() || "",
         category:
@@ -288,6 +291,20 @@ const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) => {
               )}
             </div>
 
+            <div className="admin-form__field">
+              <label htmlFor="description">Description</label>
+              <textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => handleInputChange("description", e.target.value)}
+                className="admin-input"
+                placeholder="Enter product description..."
+                rows={4}
+              />
+            </div>
+          </div>
+
+          <div className="admin-form__row">
             <div className="admin-form__field">
               <label htmlFor="category">Category</label>
               <select

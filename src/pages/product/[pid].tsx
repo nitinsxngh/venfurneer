@@ -6,6 +6,7 @@ import Breadcrumb from "@/components/breadcrumb";
 import Footer from "@/components/footer";
 import Gallery from "@/components/product-single/gallery";
 import Content from "@/components/product-single/content";
+import Reviews from "@/components/product-single/reviews";
 import ProductsFeatured from "@/components/products-featured";
 import { getProductSchema, getBreadcrumbSchema } from "@/utils/seo";
 // types
@@ -215,6 +216,31 @@ const Product = ({ product, products }: ProductPageType) => {
           <div className="product-single__content">
             <Gallery images={product.images} />
             <Content product={product} />
+          </div>
+          
+          {/* Horizontal separator */}
+          <hr className="product-single__separator" />
+          
+          {/* Product Description below image */}
+          {product.description && (
+            <div className="product-single__description-section">
+              <div className="container">
+                <div className="product-description">
+                  <h3>Product Description</h3>
+                  <p>{product.description}</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Horizontal separator above reviews */}
+          <hr className="product-single__separator" />
+          
+          {/* Product Reviews Section */}
+          <div className="product-single__reviews-section">
+            <div className="container">
+              <Reviews show={true} product={product} />
+            </div>
           </div>
         </div>
       </section>

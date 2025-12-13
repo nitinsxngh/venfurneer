@@ -2,6 +2,7 @@ import type { ProductType } from "@/types";
 
 import Punctuation from "./punctuation";
 import ReviewsList from "./reviews-list";
+import ReviewForm from "./review-form";
 
 type ReviewsProductType = {
   show: boolean;
@@ -10,7 +11,7 @@ type ReviewsProductType = {
 
 const Reviews = ({ show, product }: ReviewsProductType) => {
   const style = {
-    display: show ? "flex" : "none",
+    display: show ? "block" : "none",
   };
 
   return (
@@ -18,9 +19,15 @@ const Reviews = ({ show, product }: ReviewsProductType) => {
       <Punctuation
         punctuation={product.punctuation.punctuation}
         countOpinions={product.punctuation.countOpinions}
-        votes={product.punctuation.votes}
       />
-      <ReviewsList reviews={product.reviews} />
+      
+      <div className="product-single__reviews-content">
+        <ReviewForm 
+          productId={product.id || product._id || ""}
+        />
+        
+        <ReviewsList reviews={product.reviews} />
+      </div>
     </section>
   );
 };

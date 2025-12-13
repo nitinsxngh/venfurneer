@@ -1,50 +1,28 @@
 import Rater from "react-rater";
 
-import type { PunctuationType } from "@/types";
+type PunctuationProps = {
+  punctuation: number;
+  countOpinions: number;
+};
 
 const Punctuation = ({
-  votes,
   punctuation,
   countOpinions,
-}: PunctuationType) => {
-  const percentageBar = (count: number) => {
-    return (count * 100) / countOpinions;
-  };
-
+}: PunctuationProps) => {
   return (
-    <section className="product-punctuation">
-      <div className="product-punctuation__values">
-        <h3>{punctuation}</h3>
+    <div className="product-punctuation-simple">
+      <div className="product-punctuation-simple__rating">
         <Rater total={5} interactive={false} rating={punctuation} />
-        <p>
-          <i className="icon-avatar" />
-          {countOpinions} all opinions
+        <span className="product-punctuation-simple__value">
+          {punctuation.toFixed(1)} out of 5
+        </span>
+      </div>
+      {countOpinions > 0 && (
+        <p className="product-punctuation-simple__count">
+          Based on {countOpinions} {countOpinions === 1 ? 'review' : 'reviews'}
         </p>
-      </div>
-
-      <div className="product-punctuation__rates">
-        <ul className="punctuations-lists">
-          {votes.map((vote) => (
-            <li key={vote.count} className="punctuation-item">
-              <Rater total={1} interactive={false} rating={1} />
-              <span>{vote.value}</span>
-              <div className="punctuation-item__bar">
-                <div
-                  style={{ width: `${percentageBar(vote.count)}%` }}
-                  className="punctuation-item__bar__current"
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="punctuation-btn-wrapper">
-        <button type="button" className="btn btn--rounded btn--yellow">
-          Add opinion
-        </button>
-      </div>
-    </section>
+      )}
+    </div>
   );
 };
 
