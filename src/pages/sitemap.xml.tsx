@@ -33,6 +33,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     '/help',
     '/privacy',
     '/terms',
+    '/blog',
+    '/how-to-choose-perfect-home-fragrance',
+    '/benefits-of-smart-scent-diffusers',
+    '/scenting-for-every-room',
+    '/how-premium-diffusers-affect-mood-productivity',
   ];
 
   // Generate product URLs
@@ -48,18 +53,33 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 ${allPages
-  .map((url) => {
-    const priority = url === '' ? '1.0' : url.startsWith('/product/') ? '0.8' : '0.7';
-    const changeFreq = url === '' ? 'daily' : url.startsWith('/product/') ? 'weekly' : 'monthly';
-    
-    return `  <url>
+      .map((url) => {
+        // Determine priority based on page type
+        let priority = '0.7';
+        let changeFreq = 'monthly';
+
+        if (url === '') {
+          priority = '1.0';
+          changeFreq = 'daily';
+        } else if (url.startsWith('/product/')) {
+          priority = '0.8';
+          changeFreq = 'weekly';
+        } else if (url === '/blog' || url.startsWith('/how-') || url.startsWith('/benefits-') || url.startsWith('/scenting-')) {
+          priority = '0.8';
+          changeFreq = 'monthly';
+        } else if (url === '/products') {
+          priority = '0.9';
+          changeFreq = 'weekly';
+        }
+
+        return `  <url>
     <loc>${baseUrl}${url}</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
     <changefreq>${changeFreq}</changefreq>
     <priority>${priority}</priority>
   </url>`;
-  })
-  .join('\n')}
+      })
+      .join('\n')}
 </urlset>`;
 
   res.setHeader('Content-Type', 'text/xml');
