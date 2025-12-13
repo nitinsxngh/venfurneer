@@ -131,12 +131,12 @@ const Product = ({ product, products }: ProductPageType) => {
         brand: 'venfurneer',
         sku: product.id || product._id,
         category: categoryName,
-        aggregateRating: product.punctuation?.countOpinions 
-          ? {
-              ratingValue: product.punctuation.punctuation || 0,
-              reviewCount: product.punctuation.countOpinions,
-            }
-          : undefined,
+            aggregateRating: product.punctuation?.countOpinions 
+              ? {
+                  ratingValue: product.punctuation?.punctuation || 0,
+                  reviewCount: product.punctuation?.countOpinions || 0,
+                }
+              : undefined,
         offers: {
           price: product.currentPrice,
           priceCurrency: 'INR',
@@ -239,13 +239,11 @@ const Product = ({ product, products }: ProductPageType) => {
           <hr className="product-single__separator" />
           
           {/* Product Reviews Section */}
-          {product && (
-            <div className="product-single__reviews-section">
-              <div className="container">
-                <Reviews show={true} product={product} />
-              </div>
+          <div className="product-single__reviews-section">
+            <div className="container">
+              <Reviews show={true} product={product} />
             </div>
-          )}
+          </div>
         </div>
       </section>
 
