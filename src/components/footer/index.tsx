@@ -14,7 +14,7 @@ const Footer = () => {
                 alt="venfurneer Logo"
                 className="footer-logo"
               />
-              <span>venfurneer</span>
+              <span>Venfurneer</span>
             </h6>
             <p>
               Venfurneer offers premium diffusers and fragrance oils designed to elevate any environment from offices to homes.

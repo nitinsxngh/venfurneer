@@ -6,7 +6,7 @@ import Layout from "../layouts/Main";
 
 const AboutPage = () => {
     return (
-        <Layout title="About Us - venfurneer">
+        <Layout title="About Us - Venfurneer">
             <Head>
                 <meta name="description" content="Learn about venfurneer - Premium luxury scent diffusers for your home and office. Discover our story, mission, and commitment to quality." />
             </Head>
