@@ -93,6 +93,17 @@ const PageIntro = () => {
             ))}
           </Swiper>
 
+          <img
+            src="/christmas-1.png"
+            alt="Christmas decoration"
+            className="page-intro__christmas page-intro__christmas--bottom-right"
+          />
+          <img
+            src="/christmas-2.png"
+            alt="Christmas decoration"
+            className="page-intro__christmas page-intro__christmas--top-left"
+          />
+
           <button
             type="button"
             className="page-intro__audio-toggle"
