@@ -1,7 +1,6 @@
 const HeaderStrip = () => {
   const messages = [
-    "Black Friday Sale",
-    "Get 10-15% Off",
+    "Republic Day Sale",
     "Get Free Delivery",
     "PAN India Shipping",
     "Limited Offer"

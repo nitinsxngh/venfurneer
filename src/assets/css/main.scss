@@ -1277,42 +1277,6 @@ h5 {
 .page-intro {
   position: relative;
 
-  .page-intro__christmas {
-    position: fixed;
-    z-index: 1001;
-    pointer-events: none;
-    max-width: 150px;
-    width: auto;
-    height: auto;
-    display: block;
-
-    @include breakpoint(phone) {
-      max-width: 200px;
-    }
-
-    @include breakpoint(tablet-lg) {
-      max-width: 250px;
-    }
-
-    @include breakpoint(desktop-lg) {
-      max-width: 300px;
-    }
-
-    &--bottom-right {
-      bottom: 0;
-      right: 0;
-    }
-
-    &--top-left {
-      top: 86px;
-      left: 0;
-
-      @include breakpoint(phone) {
-        top: 100px;
-      }
-    }
-  }
-
   .swiper-button-prev,
   .swiper-button-next {
     bottom: 20px;

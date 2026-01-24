@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 
 import CheckoutItems from "@/components/checkout/items";
@@ -12,19 +12,20 @@ import { clearCart } from "@/store/reducers/cart";
 
 import Layout from "../../layouts/Main";
 
-const PROMO_CODES: Record<string, number> = {
-  VEN10: 10,
-  BLACKFRIDAY25: 25
-};
+// Promo codes are currently disabled
+// const PROMO_CODES: Record<string, number> = {
+//   VEN10: 10,
+//   BLACKFRIDAY25: 25
+// };
 
-// Spin-to-win coupons (not shown in modal, but can be applied)
-const SPIN_COUPONS: Record<string, number> = {
-  SPIN5: 5,
-  SPIN10: 10,
-  SPIN15: 15,
-  SPIN20: 20,
-  SPIN25: 25
-};
+// Spin-to-win coupons (not shown in modal, but can be applied) - Currently Disabled
+// const SPIN_COUPONS: Record<string, number> = {
+//   SPIN5: 5,
+//   SPIN10: 10,
+//   SPIN15: 15,
+//   SPIN20: 20,
+//   SPIN25: 25
+// };
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -37,9 +38,9 @@ const CheckoutPage = () => {
   const [orderNumber, setOrderNumber] = useState("");
   const [paymentError, setPaymentError] = useState("");
   const [promoCode, setPromoCode] = useState("");
-  const [promoApplied, setPromoApplied] = useState(false);
+  const [_promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState("");
-  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [_promoDiscount, setPromoDiscount] = useState(0);
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -65,60 +66,25 @@ const CheckoutPage = () => {
   });
 
   const subtotal = priceTotal;
-  const discount = promoDiscount;
-  const discountAmount = discount > 0 ? (subtotal * discount) / 100 : 0;
-  const finalTotal = subtotal - discountAmount;
+  // Promo codes are disabled, so discount is always 0
+  const discountAmount = 0;
+  const finalTotal = subtotal;
 
   const handlePromoCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPromoCode(e.target.value.toUpperCase());
     setPromoError("");
   };
 
-  const handleApplyPromo = (code?: string) => {
-    const codeToApply = code || promoCode;
-
-    if (!codeToApply.trim()) {
-      setPromoError("Please enter a promo code");
-      return;
-    }
-
-    const normalizedCode = codeToApply.toUpperCase();
-    // Check both regular promo codes and spin-to-win coupons
-    const discountValue = PROMO_CODES[normalizedCode] || SPIN_COUPONS[normalizedCode];
-
-    if (!discountValue) {
-      setPromoError("Invalid promo code");
-      setPromoApplied(false);
-      setPromoDiscount(0);
-      return;
-    }
-
-    setPromoCode(normalizedCode);
-    setPromoApplied(true);
-    setPromoDiscount(discountValue);
-    setPromoError("");
-
-    // Close modal if opened from modal
-    if (code) {
+  const handleApplyPromo = (_code?: string) => {
+    // Promo codes are currently disabled
+    setPromoError("Promo codes are currently disabled");
+    setPromoApplied(false);
+    setPromoDiscount(0);
+    if (showPromoModal) {
       setShowPromoModal(false);
     }
+    return;
   };
-
-  // Load spin-to-win coupon from localStorage on mount
-  useEffect(() => {
-    const savedCoupon = localStorage.getItem("spinWonCoupon");
-    if (savedCoupon) {
-      try {
-        const coupon = JSON.parse(savedCoupon);
-        if (coupon.code && SPIN_COUPONS[coupon.code]) {
-          // Auto-fill the coupon code but don't auto-apply
-          setPromoCode(coupon.code);
-        }
-      } catch (e) {
-        console.error("Error parsing saved coupon:", e);
-      }
-    }
-  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -172,7 +138,7 @@ const CheckoutPage = () => {
         items: cartItems,
         subtotal: subtotal,
         discount: discountAmount,
-        promoCode: promoApplied ? promoCode : null,
+        promoCode: null,
         total: finalTotal,
         status: "pending",
         orderDate: new Date().toISOString()
@@ -351,9 +317,6 @@ const CheckoutPage = () => {
                   <div className="order-summary">
                     <p><strong>Order Number:</strong> {orderNumber}</p>
                     <p><strong>Subtotal:</strong> ₹{subtotal.toFixed(2)}</p>
-                    {discountAmount > 0 && (
-                      <p><strong>Discount ({promoDiscount}%):</strong> -₹{discountAmount.toFixed(2)}</p>
-                    )}
                     <p><strong>Total Amount:</strong> ₹{finalTotal.toFixed(2)}</p>
                   </div>
 
@@ -369,7 +332,7 @@ const CheckoutPage = () => {
                       items: cartItems,
                       subtotal: subtotal,
                       discount: discountAmount,
-                      promoCode: promoApplied ? promoCode : null,
+                      promoCode: null,
                       total: finalTotal,
                       orderNumber: orderNumber
                     }}
@@ -401,7 +364,7 @@ const CheckoutPage = () => {
                 <h3 className="block__title">Your cart</h3>
                 <CheckoutItems />
 
-                {/* Promo Code Section */}
+                {/* Promo Code Section - Currently Disabled */}
                 <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid #e0e0e0" }}>
                   <div style={{ display: "flex", gap: "8px", marginBottom: "8px", alignItems: "center" }}>
                     <input
@@ -410,61 +373,27 @@ const CheckoutPage = () => {
                       className="form__input form__input--sm"
                       value={promoCode}
                       onChange={handlePromoCodeChange}
-                      disabled={promoApplied}
-                      style={{ flex: 1, fontSize: "14px", padding: "8px 12px" }}
+                      disabled={true}
+                      style={{ flex: 1, fontSize: "14px", padding: "8px 12px", opacity: 0.6, cursor: "not-allowed" }}
                     />
-                    {promoApplied ? (
-                      <button
-                        type="button"
-                        className="btn btn--rounded btn--border"
-                        onClick={() => {
-                          setPromoApplied(false);
-                          setPromoCode("");
-                          setPromoDiscount(0);
-                          setPromoError("");
-                        }}
-                        style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px" }}
-                      >
-                        Remove
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          type="button"
-                          className="btn btn--rounded btn--border"
-                          onClick={() => handleApplyPromo()}
-                          style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px" }}
-                        >
-                          Apply
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn--rounded btn--border"
-                          onClick={() => setShowPromoModal(true)}
-                          style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px", background: "#f8f9fa", borderColor: "#dee2e6" }}
-                        >
-                          View Codes
-                        </button>
-                      </>
-                    )}
+                    <button
+                      type="button"
+                      className="btn btn--rounded btn--border"
+                      onClick={() => handleApplyPromo()}
+                      disabled={true}
+                      style={{ whiteSpace: "nowrap", fontSize: "14px", padding: "8px 16px", opacity: 0.6, cursor: "not-allowed" }}
+                    >
+                      Apply
+                    </button>
                   </div>
                   {promoError && (
                     <div style={{ color: "#dc3545", fontSize: "12px", marginTop: "4px" }}>
                       {promoError}
                     </div>
                   )}
-                  {promoApplied && (
-                    <div style={{
-                      color: "#28a745",
-                      fontSize: "13px",
-                      marginTop: "8px",
-                      padding: "6px 8px",
-                      backgroundColor: "#f0f9f4",
-                      borderRadius: "4px"
-                    }}>
-                      ✓ Promo code {promoCode} applied - {promoDiscount}% discount
-                    </div>
-                  )}
+                  <div style={{ color: "#666", fontSize: "12px", marginTop: "8px", fontStyle: "italic" }}>
+                    Promo codes are currently disabled
+                  </div>
                 </div>
 
                 {/* Price Summary */}
@@ -473,12 +402,6 @@ const CheckoutPage = () => {
                     <span style={{ fontSize: "14px", color: "#666" }}>Subtotal</span>
                     <span style={{ fontSize: "14px", fontWeight: "500" }}>₹{subtotal.toFixed(2)}</span>
                   </div>
-                  {discountAmount > 0 && (
-                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
-                      <span style={{ fontSize: "14px", color: "#28a745" }}>Discount ({promoDiscount}%)</span>
-                      <span style={{ fontSize: "14px", color: "#28a745", fontWeight: "500" }}>-₹{discountAmount.toFixed(2)}</span>
-                    </div>
-                  )}
                   <div style={{
                     display: "flex",
                     justifyContent: "space-between",
@@ -517,54 +440,6 @@ const CheckoutPage = () => {
         </div>
       </section>
 
-      {/* Promo Code Modal */}
-      {showPromoModal && (
-        <div
-          className="promo-modal-overlay"
-          onClick={() => setShowPromoModal(false)}
-        >
-          <div className="promo-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="promo-modal__header">
-              <h3 className="promo-modal__title">Available Promo Codes</h3>
-              <button
-                className="promo-modal__close"
-                onClick={() => setShowPromoModal(false)}
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-            <div className="promo-modal__content">
-              <p className="promo-modal__description">
-                Click on any promo code below to apply it automatically
-              </p>
-              <div className="promo-modal__codes">
-                {Object.entries(PROMO_CODES).map(([code, discount]) => (
-                  <div
-                    key={code}
-                    className="promo-modal__code-item"
-                    onClick={() => handleApplyPromo(code)}
-                  >
-                    <div className="promo-modal__code-info">
-                      <span className="promo-modal__code-name">{code}</span>
-                      <span className="promo-modal__code-discount">{discount}% OFF</span>
-                    </div>
-                    <button
-                      className="promo-modal__code-apply"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleApplyPromo(code);
-                      }}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </Layout>
   );
 };
