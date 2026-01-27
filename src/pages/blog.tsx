@@ -43,6 +43,20 @@ const blogPosts: BlogPost[] = [
     excerpt: "Your brain reacts to scent faster than it reacts to sound or visuals. That's why a single whiff can change your mood instantly.",
     category: "Wellness",
   },
+  {
+    slug: "/ultimate-guide-aroma-diffuser-machine-luxury-scenting",
+    title: "Luxury Scenting: Fragrance Purifier For Room | Venfurneer",
+    description: "Discover how a premium aroma diffuser machine from Venfurneer can transform your home or office. Explore our range of electric diffusers and pure essential oils today.",
+    excerpt: "In the world of interior design, we often focus on what we see and touch. However, the most powerful element of an environment is often invisible. It is the scent.",
+    category: "Luxury Scenting",
+  },
+  {
+    slug: "/luxury-scenting-high-end-aroma-diffuser-machine-guide",
+    title: "The Ultimate Guide to Luxury Scenting: Why Every Modern Space Needs a High-End Aroma Diffuser Machine",
+    description: "Discover the evolution of aroma diffuser machines from candles to nano-mist technology. Learn why Venfurneer's electric diffusers are the gold standard for luxury scenting.",
+    excerpt: "In the world of premium interior design, scent is often the 'forgotten' dimension. However, it is the most powerful. Discover how Venfurneer redefines luxury scenting.",
+    category: "Technology Guide",
+  },
 ];
 
 const Blog = () => {

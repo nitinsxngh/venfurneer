@@ -38,6 +38,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     '/benefits-of-smart-scent-diffusers',
     '/scenting-for-every-room',
     '/how-premium-diffusers-affect-mood-productivity',
+    '/ultimate-guide-aroma-diffuser-machine-luxury-scenting',
+    '/luxury-scenting-high-end-aroma-diffuser-machine-guide',
   ];
 
   // Generate product URLs
@@ -64,7 +66,7 @@ ${allPages
         } else if (url.startsWith('/product/')) {
           priority = '0.8';
           changeFreq = 'weekly';
-        } else if (url === '/blog' || url.startsWith('/how-') || url.startsWith('/benefits-') || url.startsWith('/scenting-')) {
+        } else if (url === '/blog' || url.startsWith('/how-') || url.startsWith('/benefits-') || url.startsWith('/scenting-') || url.startsWith('/ultimate-guide-') || url.startsWith('/luxury-scenting-')) {
           priority = '0.8';
           changeFreq = 'monthly';
         } else if (url === '/products') {
